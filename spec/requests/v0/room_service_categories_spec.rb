@@ -15,10 +15,10 @@ describe 'GET /v0/room-service/categories/' do
                                      {
                                        'title' => category1.title,
                                        'description' => category1.description,
-                                       'images' => {
-                                         '@3x' => category1.image.url(:three_x),
-                                         '@2x' => category1.image.url(:two_x),
-                                         '@1x' => category1.image.url(:one_x)
+                                       'image-urls' => {
+                                         '@3x' => category1.image_urls['@3x'],
+                                         '@2x' => category1.image_urls['@2x'],
+                                         '@1x' => category1.image_urls['@1x']
                                        }
                                      }
                                  },
@@ -28,14 +28,26 @@ describe 'GET /v0/room-service/categories/' do
                                    'attributes' => {
                                      'title' => category2.title,
                                      'description' => category2.description,
-                                     'images' => {
-                                       '@3x' => category2.image.url(:three_x),
-                                       '@2x' => category2.image.url(:two_x),
-                                       '@1x' => category2.image.url(:one_x)
+                                     'image-urls' => {
+                                       '@3x' => category2.image_urls['@3x'],
+                                       '@2x' => category2.image_urls['@2x'],
+                                       '@1x' => category2.image_urls['@1x']
                                      }
                                    }
                                  }
                                ]
                              )
+  end
+
+  it 'returns nil when an image is missing' do
+    create(:room_service_category)
+
+    get '/v0/room-service/categories/'
+
+    expect(response_json['data'][0]['attributes']['image-urls']).to eq(
+              '@3x' => nil,
+              '@2x' => nil,
+              '@1x' => nil
+                                                                    )
   end
 end

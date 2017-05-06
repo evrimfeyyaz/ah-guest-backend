@@ -8,9 +8,9 @@ class RoomService::Category < ApplicationRecord
 
   def image_urls
     {
-      '@3x' => image.url(:three_x),
-      '@2x' => image.url(:two_x),
-      '@1x' => image.url(:one_x)
+      '@3x' => image.url(:three_x).empty? ? nil : image.url(:three_x),
+      '@2x' => image.url(:two_x).empty? ? nil : image.url(:two_x),
+      '@1x' => image.url(:one_x).empty? ? nil : image.url(:one_x)
     }
   end
 end
