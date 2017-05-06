@@ -7,35 +7,35 @@ describe 'GET /v0/room-service/categories/' do
 
     get '/v0/room-service/categories/'
 
-    expect(response_json).to eq('data' => [
-                                 {
-                                   'id' => category1.id.to_s,
-                                   'type' => 'room-service-categories',
-                                   'attributes' =>
-                                     {
-                                       'title' => category1.title,
-                                       'description' => category1.description,
-                                       'image-urls' => {
-                                         '@3x' => category1.image_urls['@3x'],
-                                         '@2x' => category1.image_urls['@2x'],
-                                         '@1x' => category1.image_urls['@1x']
-                                       }
-                                     }
-                                 },
-                                 {
-                                   'id' => category2.id.to_s,
-                                   'type' => 'room-service-categories',
-                                   'attributes' => {
-                                     'title' => category2.title,
-                                     'description' => category2.description,
-                                     'image-urls' => {
-                                       '@3x' => category2.image_urls['@3x'],
-                                       '@2x' => category2.image_urls['@2x'],
-                                       '@1x' => category2.image_urls['@1x']
-                                     }
-                                   }
-                                 }
-                               ]
+    expect(response_json).to eq('data' =>
+                                  [
+                                    {
+                                      'id' => category1.id.to_s,
+                                      'type' => 'room-service-categories',
+                                      'attributes' => {
+                                        'title' => category1.title,
+                                        'description' => category1.description,
+                                        'image-urls' => {
+                                          '@3x' => category1.image_urls['@3x'],
+                                          '@2x' => category1.image_urls['@2x'],
+                                          '@1x' => category1.image_urls['@1x']
+                                        }
+                                      }
+                                    },
+                                    {
+                                      'id' => category2.id.to_s,
+                                      'type' => 'room-service-categories',
+                                      'attributes' => {
+                                        'title' => category2.title,
+                                        'description' => category2.description,
+                                        'image-urls' => {
+                                          '@3x' => category2.image_urls['@3x'],
+                                          '@2x' => category2.image_urls['@2x'],
+                                          '@1x' => category2.image_urls['@1x']
+                                        }
+                                      }
+                                    }
+                                  ]
                              )
   end
 
@@ -45,9 +45,9 @@ describe 'GET /v0/room-service/categories/' do
     get '/v0/room-service/categories/'
 
     expect(response_json['data'][0]['attributes']['image-urls']).to eq(
-              '@3x' => nil,
-              '@2x' => nil,
-              '@1x' => nil
+                                                                      '@3x' => nil,
+                                                                      '@2x' => nil,
+                                                                      '@1x' => nil
                                                                     )
   end
 end

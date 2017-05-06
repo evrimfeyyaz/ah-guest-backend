@@ -13,4 +13,10 @@ class RoomService::Category < ApplicationRecord
       '@1x' => image.url(:one_x).empty? ? nil : image.url(:one_x)
     }
   end
+
+  private
+
+  def add_host_prefix(url)
+    URI.join(ActionController::Base.asset_host, url)
+  end
 end

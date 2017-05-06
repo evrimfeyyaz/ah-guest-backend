@@ -2,7 +2,8 @@ RoomService::Category.destroy_all
 
 RoomService::Category.create!([{
   title: "Breakfast",
-  description: "Served from 6am to 11am"
+  description: "Served from 6am to 11am",
+  image: Rails.root.join('seed/breakfast@3x.jpg').open
                               }, {
   title: "Breakfast A La Carte",
   description: "Served from 6am to 11am"
@@ -33,3 +34,5 @@ RoomService::Category.create!([{
   description: "Available 24 hours"
                               }
 ])
+
+puts "Created #{RoomService::Category.count} room service categories."
