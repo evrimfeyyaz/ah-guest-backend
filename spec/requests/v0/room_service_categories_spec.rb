@@ -14,7 +14,12 @@ describe 'GET /v0/room-service/categories/' do
                                    'attributes' =>
                                      {
                                        'title' => category1.title,
-                                       'description' => category1.description
+                                       'description' => category1.description,
+                                       'images' => {
+                                         '@3x' => category1.image.url(:three_x),
+                                         '@2x' => category1.image.url(:two_x),
+                                         '@1x' => category1.image.url(:one_x)
+                                       }
                                      }
                                  },
                                  {
@@ -22,7 +27,12 @@ describe 'GET /v0/room-service/categories/' do
                                    'type' => 'room-service-categories',
                                    'attributes' => {
                                      'title' => category2.title,
-                                     'description' => category2.description
+                                     'description' => category2.description,
+                                     'images' => {
+                                       '@3x' => category2.image.url(:three_x),
+                                       '@2x' => category2.image.url(:two_x),
+                                       '@1x' => category2.image.url(:one_x)
+                                     }
                                    }
                                  }
                                ]
