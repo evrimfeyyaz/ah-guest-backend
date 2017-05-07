@@ -7,8 +7,9 @@ Paperclip::Attachment.default_options.update(
 if Rails.env.production?
   Paperclip::Attachment.default_options.merge!(storage: :s3,
                                                s3_credentials: {
-                                                 access_key_id: Rails.application.secrets.aws_access_key_id,
-                                                 secret_access_key: Rails.application.secrets.aws_secret_access_key
-                                               },
-                                               bucket: 'dry-dawn-66033-2')
+                                                 access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+                                                 secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+                                                 s3_region: ENV['AWS_REGION'],
+                                                 bucket: 'dry-dawn-66033-2'
+                                               })
 end
