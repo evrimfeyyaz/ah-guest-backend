@@ -10,6 +10,7 @@ if Rails.env.production?
                                                  access_key_id: ENV['AWS_ACCESS_KEY_ID'],
                                                  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
                                                  s3_region: ENV['AWS_REGION'],
-                                                 bucket: 'dry-dawn-66033-2'
+                                                 bucket: 'dry-dawn-66033-2',
+                                                 s3_protocol: 'https://'
                                                })
 end
