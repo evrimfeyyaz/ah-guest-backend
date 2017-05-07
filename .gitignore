@@ -16,3 +16,6 @@
 
 # Miscellaneous
 .DS_Store
+
+# Images uploaded by Paperclip.
+/public/system/
