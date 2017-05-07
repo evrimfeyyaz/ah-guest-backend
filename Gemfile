@@ -12,6 +12,10 @@ gem 'puma', '~> 3.7'
 gem 'active_model_serializers', '~> 0.10.6'
 gem 'paperclip', '~> 5.1'
 
+group :production do
+  gem 'aws-sdk', '~> 2.9', '>= 2.9.15'
+end
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.5', '>= 3.5.2'
