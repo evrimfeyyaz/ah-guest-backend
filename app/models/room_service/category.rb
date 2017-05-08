@@ -19,6 +19,10 @@ class RoomService::Category < ApplicationRecord
     }
   end
 
+  def default_section
+    sections.where(default: true).first
+  end
+
   private
 
     def add_default_section

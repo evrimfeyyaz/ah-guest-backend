@@ -20,4 +20,11 @@ describe RoomService::Category, 'Sections' do
       category.destroy
     }.to change(RoomService::Section, :count).by(-2)
   end
+
+  it 'returns the default section' do
+    category.sections.create(attributes_for(:room_service_section))
+    default_section = category.sections.where(default: true).first
+
+    expect(category.default_section).to eq(default_section)
+  end
 end

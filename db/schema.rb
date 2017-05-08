@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508082906) do
+ActiveRecord::Schema.define(version: 20170508161031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,14 +26,26 @@ ActiveRecord::Schema.define(version: 20170508082906) do
     t.datetime "image_updated_at"
   end
 
+  create_table "room_service_items", force: :cascade do |t|
+    t.string "title"
+    t.string "short_description"
+    t.decimal "price", precision: 19, scale: 4, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "room_service_section_id"
+    t.index ["room_service_section_id"], name: "index_room_service_items_on_room_service_section_id"
+  end
+
   create_table "room_service_sections", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "room_service_category_id"
-    t.boolean "default"
+    t.boolean "default", default: false
+    t.integer "room_service_items_count", default: 0
     t.index ["room_service_category_id"], name: "index_room_service_sections_on_room_service_category_id"
   end
 
+  add_foreign_key "room_service_items", "room_service_sections"
   add_foreign_key "room_service_sections", "room_service_categories"
 end
