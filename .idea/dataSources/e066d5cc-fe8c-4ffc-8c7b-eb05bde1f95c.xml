@@ -3,14 +3,14 @@
   <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.1">
     <root id="1"/>
     <database id="2" parent="1" name="guest-api-app_development">
-      <ObjectId>16501</ObjectId>
+      <ObjectId>17297</ObjectId>
       <Current>1</Current>
       <Visible>1</Visible>
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-05-08.09:42:53.268</IntrospectionTimestamp>
-      <IntrospectionStateNumber>1504</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-05-08.21:02:29.689</IntrospectionTimestamp>
+      <IntrospectionStateNumber>2575</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -29,194 +29,279 @@
     <schema id="8" parent="2" name="information_schema">
       <ObjectId>12381</ObjectId>
     </schema>
-    <sequence id="9" parent="3" name="room_service_sections_id_seq">
-      <ObjectId>16727</ObjectId>
-      <StateNumber>1393</StateNumber>
+    <sequence id="9" parent="3" name="room_service_categories_id_seq">
+      <ObjectId>17299</ObjectId>
+      <StateNumber>2565</StateNumber>
       <SequenceIdentity>1</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
     </sequence>
-    <sequence id="10" parent="3" name="room_service_categories_id_seq">
-      <ObjectId>16604</ObjectId>
-      <StateNumber>988</StateNumber>
+    <sequence id="10" parent="3" name="room_service_items_id_seq">
+      <ObjectId>17310</ObjectId>
+      <StateNumber>2566</StateNumber>
       <SequenceIdentity>1</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
     </sequence>
-    <table id="11" parent="3" name="ar_internal_metadata">
-      <ObjectId>16511</ObjectId>
-      <StateNumber>951</StateNumber>
+    <sequence id="11" parent="3" name="room_service_sections_id_seq">
+      <ObjectId>17323</ObjectId>
+      <StateNumber>2568</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <table id="12" parent="3" name="ar_internal_metadata">
+      <ObjectId>17355</ObjectId>
+      <StateNumber>2575</StateNumber>
     </table>
-    <table id="12" parent="3" name="room_service_categories">
-      <ObjectId>16606</ObjectId>
-      <StateNumber>1504</StateNumber>
+    <table id="13" parent="3" name="room_service_categories">
+      <ObjectId>17301</ObjectId>
+      <StateNumber>2571</StateNumber>
     </table>
-    <table id="13" parent="3" name="room_service_sections">
-      <ObjectId>16729</ObjectId>
-      <StateNumber>1504</StateNumber>
+    <table id="14" parent="3" name="room_service_items">
+      <ObjectId>17312</ObjectId>
+      <StateNumber>2570</StateNumber>
     </table>
-    <table id="14" parent="3" name="schema_migrations">
-      <ObjectId>16503</ObjectId>
-      <StateNumber>950</StateNumber>
+    <table id="15" parent="3" name="room_service_sections">
+      <ObjectId>17325</ObjectId>
+      <StateNumber>2571</StateNumber>
     </table>
-    <column id="15" parent="11" name="key">
+    <table id="16" parent="3" name="schema_migrations">
+      <ObjectId>17347</ObjectId>
+      <StateNumber>2572</StateNumber>
+    </table>
+    <column id="17" parent="12" name="key">
       <Position>1</Position>
       <DataType>varchar|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>951</StateNumber>
+      <StateNumber>2575</StateNumber>
     </column>
-    <column id="16" parent="11" name="value">
+    <column id="18" parent="12" name="value">
       <Position>2</Position>
       <DataType>varchar|0</DataType>
-      <StateNumber>951</StateNumber>
+      <StateNumber>2575</StateNumber>
     </column>
-    <column id="17" parent="11" name="created_at">
+    <column id="19" parent="12" name="created_at">
       <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>951</StateNumber>
+      <StateNumber>2575</StateNumber>
     </column>
-    <column id="18" parent="11" name="updated_at">
+    <column id="20" parent="12" name="updated_at">
       <Position>4</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>951</StateNumber>
+      <StateNumber>2575</StateNumber>
     </column>
-    <index id="19" parent="11" name="ar_internal_metadata_pkey">
-      <ObjectId>16517</ObjectId>
+    <index id="21" parent="12" name="ar_internal_metadata_pkey">
+      <ObjectId>17361</ObjectId>
       <ColNames>key</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="20" parent="11" name="ar_internal_metadata_pkey">
-      <ObjectId>16518</ObjectId>
+    <key id="22" parent="12" name="ar_internal_metadata_pkey">
+      <ObjectId>17362</ObjectId>
       <ColNames>key</ColNames>
       <UnderlyingIndexName>ar_internal_metadata_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="21" parent="12" name="id">
+    <column id="23" parent="13" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>988</StateNumber>
+      <StateNumber>2565</StateNumber>
       <SequenceName>room_service_categories_id_seq</SequenceName>
       <DefaultExpression>nextval(&apos;room_service_categories_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="22" parent="12" name="title">
+    <column id="24" parent="13" name="title">
       <Position>2</Position>
       <DataType>varchar|0</DataType>
-      <StateNumber>988</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <column id="23" parent="12" name="description">
+    <column id="25" parent="13" name="description">
       <Position>3</Position>
       <DataType>varchar|0</DataType>
-      <StateNumber>998</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <column id="24" parent="12" name="created_at">
+    <column id="26" parent="13" name="created_at">
       <Position>4</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>988</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <column id="25" parent="12" name="updated_at">
+    <column id="27" parent="13" name="updated_at">
       <Position>5</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>988</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <column id="26" parent="12" name="image_file_name">
+    <column id="28" parent="13" name="image_file_name">
+      <Position>6</Position>
+      <DataType>varchar|0</DataType>
+      <StateNumber>2565</StateNumber>
+    </column>
+    <column id="29" parent="13" name="image_content_type">
       <Position>7</Position>
       <DataType>varchar|0</DataType>
-      <StateNumber>1082</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <column id="27" parent="12" name="image_content_type">
+    <column id="30" parent="13" name="image_file_size">
       <Position>8</Position>
-      <DataType>varchar|0</DataType>
-      <StateNumber>1082</StateNumber>
-    </column>
-    <column id="28" parent="12" name="image_file_size">
-      <Position>9</Position>
       <DataType>integer|0</DataType>
-      <StateNumber>1082</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <column id="29" parent="12" name="image_updated_at">
-      <Position>10</Position>
+    <column id="31" parent="13" name="image_updated_at">
+      <Position>9</Position>
       <DataType>timestamp|0</DataType>
-      <StateNumber>1082</StateNumber>
+      <StateNumber>2565</StateNumber>
     </column>
-    <index id="30" parent="12" name="room_service_categories_pkey">
-      <ObjectId>16613</ObjectId>
+    <index id="32" parent="13" name="room_service_categories_pkey">
+      <ObjectId>17308</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="31" parent="12" name="room_service_categories_pkey">
-      <ObjectId>16614</ObjectId>
+    <key id="33" parent="13" name="room_service_categories_pkey">
+      <ObjectId>17309</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>room_service_categories_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <column id="32" parent="13" name="id">
+    <column id="34" parent="14" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1393</StateNumber>
-      <SequenceName>room_service_sections_id_seq</SequenceName>
-      <DefaultExpression>nextval(&apos;room_service_sections_id_seq&apos;::regclass)</DefaultExpression>
+      <StateNumber>2566</StateNumber>
+      <SequenceName>room_service_items_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;room_service_items_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="33" parent="13" name="title">
+    <column id="35" parent="14" name="title">
       <Position>2</Position>
       <DataType>varchar|0</DataType>
-      <StateNumber>1393</StateNumber>
+      <StateNumber>2566</StateNumber>
     </column>
-    <column id="34" parent="13" name="created_at">
+    <column id="36" parent="14" name="short_description">
       <Position>3</Position>
-      <DataType>timestamp|0</DataType>
-      <NotNull>1</NotNull>
-      <StateNumber>1393</StateNumber>
+      <DataType>varchar|0</DataType>
+      <StateNumber>2566</StateNumber>
     </column>
-    <column id="35" parent="13" name="updated_at">
+    <column id="37" parent="14" name="price">
       <Position>4</Position>
+      <DataType>numeric(19,4)|0</DataType>
+      <StateNumber>2566</StateNumber>
+      <DefaultExpression>0.0</DefaultExpression>
+    </column>
+    <column id="38" parent="14" name="created_at">
+      <Position>5</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>1393</StateNumber>
+      <StateNumber>2566</StateNumber>
     </column>
-    <column id="36" parent="13" name="room_service_category_id">
+    <column id="39" parent="14" name="updated_at">
       <Position>6</Position>
-      <DataType>bigint|0</DataType>
-      <StateNumber>1504</StateNumber>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2566</StateNumber>
     </column>
-    <index id="37" parent="13" name="room_service_sections_pkey">
-      <ObjectId>16736</ObjectId>
+    <column id="40" parent="14" name="room_service_section_id">
+      <Position>7</Position>
+      <DataType>bigint|0</DataType>
+      <StateNumber>2566</StateNumber>
+    </column>
+    <index id="41" parent="14" name="room_service_items_pkey">
+      <ObjectId>17320</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="38" parent="13" name="index_room_service_sections_on_room_service_category_id">
-      <ObjectId>16946</ObjectId>
+    <index id="42" parent="14" name="index_room_service_items_on_room_service_section_id">
+      <ObjectId>17322</ObjectId>
+      <ColNames>room_service_section_id</ColNames>
+    </index>
+    <key id="43" parent="14" name="room_service_items_pkey">
+      <ObjectId>17321</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>room_service_items_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="44" parent="14" name="fk_rails_25160ffad4">
+      <ObjectId>17337</ObjectId>
+      <ColNames>room_service_section_id</ColNames>
+      <RefTableName>room_service_sections</RefTableName>
+      <RefKeyName>room_service_sections_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="45" parent="15" name="id">
+      <Position>1</Position>
+      <DataType>bigint|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2568</StateNumber>
+      <SequenceName>room_service_sections_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;room_service_sections_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="46" parent="15" name="title">
+      <Position>2</Position>
+      <DataType>varchar|0</DataType>
+      <StateNumber>2568</StateNumber>
+    </column>
+    <column id="47" parent="15" name="created_at">
+      <Position>3</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2568</StateNumber>
+    </column>
+    <column id="48" parent="15" name="updated_at">
+      <Position>4</Position>
+      <DataType>timestamp|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2568</StateNumber>
+    </column>
+    <column id="49" parent="15" name="room_service_category_id">
+      <Position>5</Position>
+      <DataType>bigint|0</DataType>
+      <StateNumber>2568</StateNumber>
+    </column>
+    <column id="50" parent="15" name="default">
+      <Position>6</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>2568</StateNumber>
+      <DefaultExpression>false</DefaultExpression>
+    </column>
+    <column id="51" parent="15" name="room_service_items_count">
+      <Position>7</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>2568</StateNumber>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <index id="52" parent="15" name="room_service_sections_pkey">
+      <ObjectId>17334</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="53" parent="15" name="index_room_service_sections_on_room_service_category_id">
+      <ObjectId>17336</ObjectId>
       <ColNames>room_service_category_id</ColNames>
     </index>
-    <key id="39" parent="13" name="room_service_sections_pkey">
-      <ObjectId>16737</ObjectId>
+    <key id="54" parent="15" name="room_service_sections_pkey">
+      <ObjectId>17335</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>room_service_sections_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="40" parent="13" name="fk_rails_4151af7a82">
-      <ObjectId>16947</ObjectId>
+    <foreign-key id="55" parent="15" name="fk_rails_4151af7a82">
+      <ObjectId>17342</ObjectId>
       <ColNames>room_service_category_id</ColNames>
       <RefTableName>room_service_categories</RefTableName>
       <RefKeyName>room_service_categories_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="41" parent="14" name="version">
+    <column id="56" parent="16" name="version">
       <Position>1</Position>
       <DataType>varchar|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>2572</StateNumber>
     </column>
-    <index id="42" parent="14" name="schema_migrations_pkey">
-      <ObjectId>16509</ObjectId>
+    <index id="57" parent="16" name="schema_migrations_pkey">
+      <ObjectId>17353</ObjectId>
       <ColNames>version</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="43" parent="14" name="schema_migrations_pkey">
-      <ObjectId>16510</ObjectId>
+    <key id="58" parent="16" name="schema_migrations_pkey">
+      <ObjectId>17354</ObjectId>
       <ColNames>version</ColNames>
       <UnderlyingIndexName>schema_migrations_pkey</UnderlyingIndexName>
       <Primary>1</Primary>

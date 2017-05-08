@@ -1,5 +1,4 @@
 RoomService::Category.destroy_all
-
 RoomService::Category.create!([{
   title: "Breakfast",
   description: "Served from 6am to 11am",
@@ -44,5 +43,11 @@ RoomService::Category.create!([{
   image: Rails.root.join('seed/beverages-hot-and-cold.jpg').open
                               }
 ])
-
 puts "Created #{RoomService::Category.count} room service categories."
+
+breakfast_category = RoomService::Category.find_by(title: 'Breakfast')
+breakfast_category.default_section.items.create(title: 'Continental Breakfast', price: 6.000)
+breakfast_category.default_section.items.create(title: 'American Breakfast', price: 8.500)
+breakfast_category.default_section.items.create(title: 'Oriental Breakfast', price: 8.500)
+breakfast_category.default_section.items.create(title: 'The K Healthy Breakfast', price: 8.500)
+puts "Created #{breakfast_category.default_section.items.count} items in the '#{breakfast_category.default_section.title}' section of the '#{breakfast_category.title}' category."
