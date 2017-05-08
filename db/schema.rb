@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507161950) do
+ActiveRecord::Schema.define(version: 20170508082906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,10 @@ ActiveRecord::Schema.define(version: 20170507161950) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "room_service_category_id"
+    t.boolean "default"
+    t.index ["room_service_category_id"], name: "index_room_service_sections_on_room_service_category_id"
   end
 
+  add_foreign_key "room_service_sections", "room_service_categories"
 end

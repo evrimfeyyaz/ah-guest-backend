@@ -1,7 +1,12 @@
 class RoomService::Category < ApplicationRecord
+  DEFAULT_SECTION_TITLE = '__default'
+
   has_attached_file :image, styles: { three_x: '1200x300',
                                       two_x: '600x150',
                                       one_x: '300x75' }
+  has_many :sections, foreign_key: :room_service_category_id, dependent: :destroy
+
+  after_create :add_default_section
 
   validates :title, presence: true
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
@@ -16,7 +21,7 @@ class RoomService::Category < ApplicationRecord
 
   private
 
-  def add_host_prefix(url)
-    URI.join(ActionController::Base.asset_host, url)
-  end
+    def add_default_section
+      sections.create(title: DEFAULT_SECTION_TITLE, default: true)
+    end
 end

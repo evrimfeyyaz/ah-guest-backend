@@ -11,6 +11,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'active_model_serializers', '~> 0.10.6'
 gem 'paperclip', '~> 5.1'
+gem 'rubocop', '~> 0.48.1'
 
 group :production do
   gem 'aws-sdk', '~> 2.9', '>= 2.9.15'
