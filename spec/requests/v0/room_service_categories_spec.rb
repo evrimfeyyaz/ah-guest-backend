@@ -178,4 +178,10 @@ describe 'GET /v0/room-service/categories/:category_id/sections' do
                                   ]
                              )
   end
+
+  it 'responds with "204 No Content" when there is no section with items' do
+    get "/v0/room-service/categories/#{category.id}/sections/"
+
+    expect(response.status).to eq(204)
+  end
 end
