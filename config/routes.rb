@@ -4,6 +4,8 @@ Rails.application.routes.draw do
       resources :categories, only: [:index, :show] do
         resources :sections, only: [:index]
       end
+
+      resources :items, only: [:show]
     end
   end
 end
