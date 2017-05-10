@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509151701) do
+ActiveRecord::Schema.define(version: 20170510115935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,12 @@ ActiveRecord::Schema.define(version: 20170509151701) do
     t.datetime "image_updated_at"
   end
 
+  create_table "room_service_item_attributes", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "room_service_items", force: :cascade do |t|
     t.string "title"
     t.string "short_description"
@@ -35,6 +41,13 @@ ActiveRecord::Schema.define(version: 20170509151701) do
     t.bigint "room_service_section_id"
     t.text "long_description"
     t.index ["room_service_section_id"], name: "index_room_service_items_on_room_service_section_id"
+  end
+
+  create_table "room_service_items_room_service_item_attributes", id: false, force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "item_attribute_id", null: false
+    t.index ["item_attribute_id", "item_id"], name: "by_item_attribute_id_and_item_id", unique: true
+    t.index ["item_id", "item_attribute_id"], name: "by_item_id_and_item_attribute_id", unique: true
   end
 
   create_table "room_service_sections", force: :cascade do |t|
