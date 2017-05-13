@@ -1,5 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe RoomService::ItemOption, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe RoomService::ItemOption, 'Validations' do
+  it { should validate_presence_of :title }
+  it { should have_many :possible_choices }
+end
+
+describe RoomService::ItemOption, 'Choices' do
+  let!(:item_option) { create(:room_service_item_option_with_choices) }
+
+  it 'destroys dependent choices upon destroy' do
+    expect {
+      item_option.destroy
+    }.to change(RoomService::ItemOptionChoice, :count).by(-2)
+  end
 end

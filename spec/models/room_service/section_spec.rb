@@ -3,6 +3,7 @@ require 'rails_helper'
 describe RoomService::Section, 'Validations' do
   it { should validate_presence_of :title }
   it { should belong_to :category }
+  it { should have_many :items }
 end
 
 describe RoomService::Section do

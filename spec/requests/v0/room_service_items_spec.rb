@@ -20,6 +20,9 @@ describe 'GET /v0/room-service/items/:item_id' do
                                     'relationships' => {
                                       'item-attributes' => {
                                         'data' => []
+                                      },
+                                      'possible-options' => {
+                                        'data' => []
                                       }
                                     }
                                   })
@@ -54,8 +57,6 @@ describe 'GET /v0/room-service/items/:item_id' do
     choice2 = option.possible_choices.last
 
     item.possible_options << option
-    option.default_choice = choice1
-    option.save!
 
     get "/v0/room-service/items/#{item.id}"
 
@@ -77,6 +78,7 @@ describe 'GET /v0/room-service/items/:item_id' do
                                                      'title' => option.title,
                                                      'optional' => option.optional,
                                                      'allows-multiple-choices' => option.allows_multiple_choices,
+                                                     'default-choice-id' => option.default_choice_id
                                                    },
                                                    'relationships' => {
                                                      'possible-choices' => {
@@ -91,12 +93,6 @@ describe 'GET /v0/room-service/items/:item_id' do
                                                              'type' => 'room-service-item-option-choices'
                                                            }
                                                          ]
-                                                     },
-                                                     'default-choice' => {
-                                                       'data' => {
-                                                         'id' => choice1.id.to_s,
-                                                         'type' => 'room-service-item-option-choices'
-                                                       }
                                                      }
                                                    }
                                                  },
