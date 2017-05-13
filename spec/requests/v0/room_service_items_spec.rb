@@ -54,10 +54,12 @@ describe 'GET /v0/room-service/items/:item_id' do
     choice2 = option.possible_choices.last
 
     item.possible_options << option
+    option.default_choice = choice1
+    option.save!
 
     get "/v0/room-service/items/#{item.id}"
 
-    expect(response_json['data']['relationships']).to include('item-options' =>
+    expect(response_json['data']['relationships']).to include('possible-options' =>
                                                                 {
                                                                   'data' =>
                                                                     [
@@ -67,45 +69,53 @@ describe 'GET /v0/room-service/items/:item_id' do
                                                                       }
                                                                     ]
                                                                 })
-    expect(response_json['included']).to include([
-                                                   {
-                                                     'id' => attribute.id.to_s,
-                                                     'type' => 'room-service-item-attributes',
-                                                     'attributes' => {
-                                                       'title' => attribute.title
+
+    expect(response_json['included']).to include({
+                                                   'id' => option.id.to_s,
+                                                   'type' => 'room-service-item-options',
+                                                   'attributes' => {
+                                                     'title' => option.title,
+                                                     'optional' => option.optional,
+                                                     'allows-multiple-choices' => option.allows_multiple_choices,
+                                                   },
+                                                   'relationships' => {
+                                                     'possible-choices' => {
+                                                       'data' =>
+                                                         [
+                                                           {
+                                                             'id' => choice1.id.to_s,
+                                                             'type' => 'room-service-item-option-choices'
+                                                           },
+                                                           {
+                                                             'id' => choice2.id.to_s,
+                                                             'type' => 'room-service-item-option-choices'
+                                                           }
+                                                         ]
                                                      },
-                                                     'relationships' => {
-                                                       'item-option-choices' => {
-                                                         'data' =>
-                                                           [
-                                                             {
-                                                               'id' => choice1.id.to_s,
-                                                               'type' => 'room-service-item-option-choices'
-                                                             },
-                                                             {
-                                                               'id' => choice2.id.to_s,
-                                                               'type' => 'room-service-item-option-choices'
-                                                             }
-                                                           ]
+                                                     'default-choice' => {
+                                                       'data' => {
+                                                         'id' => choice1.id.to_s,
+                                                         'type' => 'room-service-item-option-choices'
                                                        }
                                                      }
-                                                   },
-                                                   {
-                                                     'id' => choice1.id.to_s,
-                                                     'type' => 'room-service-item-option-choices',
-                                                     'attributes' => {
-                                                       'title' => choice1.title,
-                                                       'price' => choice1.price.to_s
-                                                     }
-                                                   },
-                                                   {
-                                                     'id' => choice2.id.to_s,
-                                                     'type' => 'room-service-item-option-choices',
-                                                     'attributes' => {
-                                                       'title' => choice2.title,
-                                                       'price' => choice2.price.to_s
-                                                     }
                                                    }
-                                                 ])
+                                                 },
+                                                 {
+                                                   'id' => choice1.id.to_s,
+                                                   'type' => 'room-service-item-option-choices',
+                                                   'attributes' => {
+                                                     'title' => choice1.title,
+                                                     'price' => choice1.price.to_s
+                                                   }
+                                                 },
+                                                 {
+                                                   'id' => choice2.id.to_s,
+                                                   'type' => 'room-service-item-option-choices',
+                                                   'attributes' => {
+                                                     'title' => choice2.title,
+                                                     'price' => choice2.price.to_s
+                                                   }
+                                                 }
+                                         )
   end
 end

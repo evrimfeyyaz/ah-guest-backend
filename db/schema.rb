@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510173112) do
+ActiveRecord::Schema.define(version: 20170513135316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,13 @@ ActiveRecord::Schema.define(version: 20170510173112) do
     t.bigint "item_attribute_id", null: false
     t.index ["item_attribute_id", "item_id"], name: "by_item_attribute_id_and_item_id", unique: true
     t.index ["item_id", "item_attribute_id"], name: "by_item_id_and_item_attribute_id", unique: true
+  end
+
+  create_table "room_service_items_room_service_item_options", id: false, force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "item_option_id", null: false
+    t.index ["item_id", "item_option_id"], name: "by_item_id_and_item_option_id", unique: true
+    t.index ["item_option_id", "item_id"], name: "by_item_option_id_and_item_id", unique: true
   end
 
   create_table "room_service_sections", force: :cascade do |t|
