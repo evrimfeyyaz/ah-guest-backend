@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510115935) do
+ActiveRecord::Schema.define(version: 20170510173112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,25 @@ ActiveRecord::Schema.define(version: 20170510115935) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "room_service_item_option_choices", force: :cascade do |t|
+    t.string "title"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "room_service_item_option_id"
+    t.index ["room_service_item_option_id"], name: "by_room_service_item_option_id"
+  end
+
+  create_table "room_service_item_options", force: :cascade do |t|
+    t.string "title"
+    t.boolean "optional", default: true
+    t.boolean "allows_multiple_choices", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "default_choice_id"
+    t.index ["default_choice_id"], name: "index_room_service_item_options_on_default_choice_id"
   end
 
   create_table "room_service_items", force: :cascade do |t|
@@ -60,6 +79,8 @@ ActiveRecord::Schema.define(version: 20170510115935) do
     t.index ["room_service_category_id"], name: "index_room_service_sections_on_room_service_category_id"
   end
 
+  add_foreign_key "room_service_item_option_choices", "room_service_item_options"
+  add_foreign_key "room_service_item_options", "room_service_item_option_choices", column: "default_choice_id"
   add_foreign_key "room_service_items", "room_service_sections"
   add_foreign_key "room_service_sections", "room_service_categories"
 end
