@@ -48,7 +48,7 @@ RoomService::Category.create!([
 puts "Created #{RoomService::Category.count} room service categories."
 
 # Create room service item attributes.
-RoomService::ItemAttribute.destroy_all!
+RoomService::ItemAttribute.destroy_all
 cereals_attribute = RoomService::ItemAttribute.create!(title: 'Cereals')
 seafood_attribute = RoomService::ItemAttribute.create!(title: 'Seafood')
 dairy_attribute = RoomService::ItemAttribute.create!(title: 'Dairy')
@@ -62,16 +62,18 @@ vegetarian_attribute = RoomService::ItemAttribute.create!(title: 'Vegetarian')
 puts "Created #{RoomService::ItemAttribute.count} room service item attributes."
 
 # Create room service item options.
-RoomService::ItemOption.destroy_all!
-breakfast_beverage_option = RoomService::ItemOption.create!(title: 'Beverage', optional: false, allows_multiple_choices: false, possible_choices: [
-  RoomService::ItemOptionChoice.create!(title: 'Tea'),
-  RoomService::ItemOptionChoice.create!(title: 'Coffee'),
-  RoomService::ItemOptionChoice.create!(title: 'Milk')
-])
-breakfast_pastry_option = RoomService::ItemOption.create!(title: 'Pastries', optional: false, allows_multiple_choices: false, possible_choices: [
-  RoomService::ItemOptionChoice.create!(title: "Baker's Basket"),
-  RoomService::ItemOptionChoice.create!(title: 'Bread Rolls')
-])
+RoomService::ItemOption.destroy_all
+breakfast_beverage_option = RoomService::ItemOption.create!(title: 'Beverage', optional: false, allows_multiple_choices: false)
+breakfast_beverage_option.possible_choices.create!([
+  { title: 'Tea', price: 0 },
+  { title: 'Coffee', price: 0 },
+  { title: 'Milk', price: 0 }
+                                                  ])
+breakfast_pastry_option = RoomService::ItemOption.create!(title: 'Pastries', optional: false, allows_multiple_choices: false)
+breakfast_pastry_option.possible_choices.create!([
+  { title: "Baker's Basket", price: 0 },
+  { title: 'Bread rolls', price: 0 }
+                                                ])
 puts "Created #{RoomService::ItemOption.count} room service item options."
 puts "Created #{RoomService::ItemOptionChoice.count} room service item option choices."
 
