@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe 'GET /v0/room-service/categories/' do
+describe 'GET /api/v0/room-service/categories/' do
   it 'returns all room service categories' do
     category1 = create(:room_service_category)
     category2 = create(:room_service_category)
 
-    get '/v0/room-service/categories/'
+    get '/api/v0/room-service/categories/'
 
     expect(response_json).to eq('data' =>
                                   [
@@ -41,7 +41,7 @@ describe 'GET /v0/room-service/categories/' do
   it 'returns nil when an image is missing' do
     create(:room_service_category)
 
-    get '/v0/room-service/categories/'
+    get '/api/v0/room-service/categories/'
 
     expect(response_json['data'][0]['attributes']['image-urls']).to eq('@3x' => nil,
                                                                        '@2x' => nil,
@@ -49,7 +49,7 @@ describe 'GET /v0/room-service/categories/' do
   end
 end
 
-describe 'GET /v0/room-service/categories/:category_id/sections' do
+describe 'GET /api/v0/room-service/categories/:category_id/sections' do
   let!(:category) { create(:room_service_category) }
 
   it 'returns all sections and item summaries' do
@@ -60,7 +60,7 @@ describe 'GET /v0/room-service/categories/:category_id/sections' do
     item2 = section1.items.create(attributes_for(:room_service_item))
     item3 = section2.items.create(attributes_for(:room_service_item))
 
-    get "/v0/room-service/categories/#{category.id}/sections/"
+    get "/api/v0/room-service/categories/#{category.id}/sections/"
 
     expect(response_json).to eq('data' =>
                                   [
@@ -141,7 +141,7 @@ describe 'GET /v0/room-service/categories/:category_id/sections' do
     section = category.sections.create(attributes_for(:room_service_section))
     item = section.items.create(attributes_for(:room_service_item))
 
-    get "/v0/room-service/categories/#{category.id}/sections/"
+    get "/api/v0/room-service/categories/#{category.id}/sections/"
 
     expect(response_json).to eq('data' =>
                                   [
@@ -180,7 +180,7 @@ describe 'GET /v0/room-service/categories/:category_id/sections' do
   end
 
   it 'responds with "204 No Content" when there is no section with items' do
-    get "/v0/room-service/categories/#{category.id}/sections/"
+    get "/api/v0/room-service/categories/#{category.id}/sections/"
 
     expect(response.status).to eq(204)
   end

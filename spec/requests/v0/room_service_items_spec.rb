@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe 'GET /v0/room-service/items/:item_id' do
+describe 'GET /api/v0/room-service/items/:item_id' do
   let(:category) { create(:room_service_category) }
   let(:item) { category.default_section.items.create(attributes_for(:room_service_item)) }
 
   it 'returns a room service item' do
-    get "/v0/room-service/items/#{item.id}"
+    get "/api/v0/room-service/items/#{item.id}"
 
     expect(response_json).to eq('data' =>
                                   {
@@ -31,7 +31,7 @@ describe 'GET /v0/room-service/items/:item_id' do
   it 'returns the room service item attributes when the room service item has at least one attribute' do
     attribute = item.item_attributes.create(attributes_for(:room_service_item_attribute))
 
-    get "/v0/room-service/items/#{item.id}"
+    get "/api/v0/room-service/items/#{item.id}"
 
     # TODO: Find a way to refactor out the serialized object type.
     expect(response_json['data']['relationships']).to include('item-attributes' =>
@@ -58,7 +58,7 @@ describe 'GET /v0/room-service/items/:item_id' do
 
     item.possible_options << option
 
-    get "/v0/room-service/items/#{item.id}"
+    get "/api/v0/room-service/items/#{item.id}"
 
     expect(response_json['data']['relationships']).to include('possible-options' =>
                                                                 {

@@ -12,6 +12,10 @@ gem 'puma', '~> 3.7'
 gem 'active_model_serializers', '~> 0.10.6'
 gem 'paperclip', '~> 5.1'
 gem 'rubocop', '~> 0.48.1'
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.2'
+gem 'turbolinks', '~> 5'
 
 group :production do
   gem 'aws-sdk', '~> 2.9', '>= 2.9.15'
@@ -25,6 +29,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'

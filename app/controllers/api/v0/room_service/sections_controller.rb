@@ -1,4 +1,4 @@
-class V0::RoomService::SectionsController < ApplicationController
+class Api::V0::RoomService::SectionsController < ApiController
   def index
     if params[:category_id]
       sections = ::RoomService::Section.where(category: params[:category_id]).where('room_service_items_count > 0')
