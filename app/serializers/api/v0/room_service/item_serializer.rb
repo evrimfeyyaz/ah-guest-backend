@@ -1,4 +1,4 @@
-class RoomService::ItemSerializer < ActiveModel::Serializer
+class Api::V0::RoomService::ItemSerializer < ActiveModel::Serializer
   attributes :id, :title, :short_description, :long_description, :price
 
   has_many :item_attributes, include_data: true

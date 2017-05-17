@@ -1,4 +1,4 @@
-class Api::V0::RoomService::ItemsController < ApiController
+class Api::V0::RoomService::ItemsController < ActionController::API
   def show
     item = ::RoomService::Item.find(params[:id])
 
