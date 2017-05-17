@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-05-17.11:47:40.620</IntrospectionTimestamp>
-      <IntrospectionStateNumber>7475</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-05-17.15:28:59.420</IntrospectionTimestamp>
+      <IntrospectionStateNumber>7945</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -575,7 +575,7 @@ item_id</ColNames>
     <column id="106" parent="26" name="email">
       <Position>2</Position>
       <DataType>varchar|0</DataType>
-      <StateNumber>7475</StateNumber>
+      <StateNumber>7944</StateNumber>
     </column>
     <column id="107" parent="26" name="first_name">
       <Position>3</Position>
@@ -609,7 +609,12 @@ item_id</ColNames>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="113" parent="26" name="users_pkey">
+    <index id="113" parent="26" name="index_users_on_email">
+      <ObjectId>20729</ObjectId>
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="114" parent="26" name="users_pkey">
       <ObjectId>20594</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
