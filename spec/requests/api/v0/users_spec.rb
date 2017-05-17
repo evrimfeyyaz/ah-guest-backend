@@ -3,25 +3,22 @@ require 'rails_helper'
 describe 'POST /api/v0/users/' do
   context 'with valid parameters' do
     it 'creates a user' do
-      first_name = 'John'
-      last_name = 'Doe'
-      email = 'user@example.com'
-      password = 'secret12345'
+      user_attributes = attributes_for(:user)
 
       post '/api/v0/users/', params: {
         'data' => {
           'type' => 'users',
           'attributes' => {
-            'first-name' => first_name,
-            'last-name' => last_name,
-            'email' => email,
-            'password' => password,
-            'password-confirmation' => password
+            'first-name' => user_attributes[:first_name],
+            'last-name' => user_attributes[:last_name],
+            'email' => user_attributes[:email],
+            'password' => user_attributes[:password],
+            'password-confirmation' => user_attributes[:password]
           }
         }
       }
 
-      user = User.find_by(email: email)
+      user = User.find_by(email: user_attributes[:email])
       expect(response.status).to eq(201)
       expect(response_json).to eq('data' => {
         'type' => 'users',
@@ -29,7 +26,8 @@ describe 'POST /api/v0/users/' do
         'attributes' => {
           'email' => user.email,
           'first-name' => user.first_name,
-          'last-name' => user.last_name
+          'last-name' => user.last_name,
+          'auth-token' => user.auth_token
         }
       })
     end

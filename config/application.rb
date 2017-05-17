@@ -27,5 +27,10 @@ module GuestApiApp
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Use UUIDs as primary keys as not to give away data related to business, e.g. number of users.
+    # http://blog.bigbinary.com/2016/04/04/rails-5-provides-application-config-to-use-UUID-as-primary-key.html
+    # https://github.com/rails/rails/pull/22033
+    config.generators.orm :active_record, primary_key_type: :uuid
   end
 end

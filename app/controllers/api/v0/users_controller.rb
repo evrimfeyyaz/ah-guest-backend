@@ -1,6 +1,4 @@
 class Api::V0::UsersController < ActionController::API
-  # protect_from_forgery with: :null_session
-
   def create
     user = User.new(user_params)
 
