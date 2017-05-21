@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170517164902) do
+ActiveRecord::Schema.define(version: 20170520162734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "room_service_cart_items", force: :cascade do |t|
+    t.integer "quantity"
+    t.text "special_request"
+    t.bigint "room_service_item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "room_service_order_id"
+    t.index ["room_service_item_id"], name: "index_room_service_cart_items_on_room_service_item_id"
+    t.index ["room_service_order_id"], name: "index_room_service_cart_items_on_room_service_order_id"
+  end
 
   create_table "room_service_categories", force: :cascade do |t|
     t.string "title"
@@ -76,6 +87,13 @@ ActiveRecord::Schema.define(version: 20170517164902) do
     t.index ["item_option_id", "item_id"], name: "by_item_option_id_and_item_id", unique: true
   end
 
+  create_table "room_service_orders", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_room_service_orders_on_user_id"
+  end
+
   create_table "room_service_sections", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -98,8 +116,11 @@ ActiveRecord::Schema.define(version: 20170517164902) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "room_service_cart_items", "room_service_items"
+  add_foreign_key "room_service_cart_items", "room_service_orders"
   add_foreign_key "room_service_item_option_choices", "room_service_item_options"
   add_foreign_key "room_service_item_options", "room_service_item_option_choices", column: "default_choice_id"
   add_foreign_key "room_service_items", "room_service_sections"
+  add_foreign_key "room_service_orders", "users"
   add_foreign_key "room_service_sections", "room_service_categories"
 end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/users/' do
+  let(:json_headers) { { 'CONTENT_TYPE' => 'application/json' } }
+
   context 'with valid parameters' do
     it 'creates a user' do
       user_attributes = attributes_for(:user)
@@ -16,7 +18,7 @@ describe 'POST /api/v0/users/' do
             'password-confirmation' => user_attributes[:password]
           }
         }
-      }
+      }.to_json, headers: json_headers
 
       user = User.find_by(email: user_attributes[:email])
       expect(response.status).to eq(201)
@@ -35,7 +37,7 @@ describe 'POST /api/v0/users/' do
 
   context 'with invalid parameters' do
     it 'does not create a user' do
-      post '/api/v0/users/', params: { :user => {} }
+      post '/api/v0/users/', params: {}.to_json, headers: json_headers
 
       expect(response.status).to eq(422)
       expect(response_json).to have_key('errors')
