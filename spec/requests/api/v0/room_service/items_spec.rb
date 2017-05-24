@@ -35,6 +35,7 @@ describe 'GET /api/v0/room-service/items/:item_id' do
 
       get "/api/v0/room-service/items/#{item.id}"
 
+      # noinspection RubyResolve
       expect(response_json).to include('item_attributes' => [{
                                                                'id' => attribute.id,
                                                                'title' => attribute.title
@@ -52,12 +53,13 @@ describe 'GET /api/v0/room-service/items/:item_id' do
 
       get "/api/v0/room-service/items/#{item.id}"
 
+      # noinspection RubyResolve
       expect(response_json).to include('options' => [{
                                                        'id' => option.id,
                                                        'title' => option.title,
                                                        'optional' => option.optional?,
                                                        'allows_multiple_choices' => option.allows_multiple_choices,
-                                                       'default_choice_id' => option.default_choice_id,
+                                                       'default_room_service_choice_id' => option.default_room_service_choice_id,
                                                        'possible_choices' => [{
                                                                                 'id' => choice1.id,
                                                                                 'title' => choice1.title,

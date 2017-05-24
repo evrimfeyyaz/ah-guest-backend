@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524060232) do
+ActiveRecord::Schema.define(version: 20170524080605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,8 +99,8 @@ ActiveRecord::Schema.define(version: 20170524060232) do
     t.boolean "allows_multiple_choices", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "default_choice_id"
-    t.index ["default_choice_id"], name: "index_room_service_options_on_default_choice_id"
+    t.bigint "default_room_service_choice_id"
+    t.index ["default_room_service_choice_id"], name: "index_room_service_options_on_default_room_service_choice_id"
   end
 
   create_table "room_service_orders", force: :cascade do |t|
@@ -119,6 +119,8 @@ ActiveRecord::Schema.define(version: 20170524060232) do
     t.bigint "room_service_category_id"
     t.boolean "default", default: false
     t.integer "room_service_items_count", default: 0
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_room_service_sections_on_category_id"
     t.index ["room_service_category_id"], name: "index_room_service_sections_on_room_service_category_id"
   end
 
@@ -150,9 +152,10 @@ ActiveRecord::Schema.define(version: 20170524060232) do
   add_foreign_key "room_service_choices_for_options", "room_service_cart_items"
   add_foreign_key "room_service_choices_for_options", "room_service_options"
   add_foreign_key "room_service_items", "room_service_sections"
-  add_foreign_key "room_service_options", "room_service_choices", column: "default_choice_id"
+  add_foreign_key "room_service_options", "room_service_choices", column: "default_room_service_choice_id"
   add_foreign_key "room_service_orders", "stays"
   add_foreign_key "room_service_orders", "users"
   add_foreign_key "room_service_sections", "room_service_categories"
+  add_foreign_key "room_service_sections", "room_service_categories", column: "category_id"
   add_foreign_key "stays", "users"
 end

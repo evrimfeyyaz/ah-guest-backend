@@ -1,7 +1,5 @@
 class Api::V0::RoomService::OrdersController < ActionController::API
   def create
-    p params
-    p order_params
     user = User.find(params[:user_id])
 
     order = user.room_service_orders.build(order_params)
