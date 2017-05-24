@@ -5,13 +5,13 @@ class Api::V0::UsersController < ActionController::API
     if user.save
       render json: user, status: :created
     else
-      render json: user, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+      render json: user, status: :unprocessable_entity, serializer: ErrorSerializer
     end
   end
 
   private
 
     def user_params
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params, only: [:email, :password, 'password-confirmation', 'first-name', 'last-name'])
+      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
     end
 end

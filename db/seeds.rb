@@ -62,20 +62,20 @@ vegetarian_attribute = RoomService::ItemAttribute.create!(title: 'Vegetarian')
 puts "Created #{RoomService::ItemAttribute.count} room service item attributes."
 
 # Create room service item options.
-RoomService::ItemOption.destroy_all
-breakfast_beverage_option = RoomService::ItemOption.create!(title: 'Beverage', optional: false, allows_multiple_choices: false)
+RoomService::Option.destroy_all
+breakfast_beverage_option = RoomService::Option.create!(title: 'Beverage', optional: false, allows_multiple_choices: false)
 breakfast_beverage_option.possible_choices.create!([
   { title: 'Tea', price: 0 },
   { title: 'Coffee', price: 0 },
   { title: 'Milk', price: 0 }
                                                   ])
-breakfast_pastry_option = RoomService::ItemOption.create!(title: 'Pastries', optional: false, allows_multiple_choices: false)
+breakfast_pastry_option = RoomService::Option.create!(title: 'Pastries', optional: false, allows_multiple_choices: false)
 breakfast_pastry_option.possible_choices.create!([
   { title: "Baker's Basket", price: 0 },
   { title: 'Bread rolls', price: 0 }
                                                 ])
-puts "Created #{RoomService::ItemOption.count} room service item options."
-puts "Created #{RoomService::ItemOptionChoice.count} room service item option choices."
+puts "Created #{RoomService::Option.count} room service item options."
+puts "Created #{RoomService::Choice.count} room service item option choices."
 
 # Create room service items.
 breakfast_category = RoomService::Category.find_by(title: 'Breakfast')

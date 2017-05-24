@@ -15,6 +15,6 @@ class Api::V0::AuthenticationsController < ActionController::API
   private
 
     def authentication_params
-      ActiveModelSerializers::Deserialization.jsonapi_parse(params, only: [:email, :password])
+      params.require(:user).permit(:email, :password)
     end
 end

@@ -1,117 +1,74 @@
 require 'rails_helper'
 
 describe 'GET /api/v0/room-service/items/:item_id' do
-  let(:category) { create(:room_service_category) }
-  let(:item) { category.default_section.items.create(attributes_for(:room_service_item)) }
+  let(:item) { create(:room_service_item) }
 
-  it 'returns a room service item' do
-    get "/api/v0/room-service/items/#{item.id}"
+  context 'when item exists' do
+    it 'returns a room service item' do
+      get "/api/v0/room-service/items/#{item.id}"
 
-    expect(response_json).to eq('data' =>
-                                  {
-                                    'id' => item.id.to_s,
-                                    'type' => 'room-service-items',
-                                    'attributes' => {
-                                      'title' => item.title,
-                                      'short-description' => item.short_description,
-                                      'long-description' => item.long_description,
-                                      'price' => item.price.to_s
-                                    },
-                                    'relationships' => {
-                                      'item-attributes' => {
-                                        'data' => []
-                                      },
-                                      'possible-options' => {
-                                        'data' => []
-                                      }
-                                    }
+      expect(response_json).to eq({
+                                    'id' => item.id,
+                                    'title' => item.title,
+                                    'short_description' => item.short_description,
+                                    'long_description' => item.long_description,
+                                    'price' => item.price.to_s,
+                                    'item_attributes' => [],
+                                    'options' => []
                                   })
+    end
   end
 
-  it 'returns the room service item attributes when the room service item has at least one attribute' do
-    attribute = item.item_attributes.create(attributes_for(:room_service_item_attribute))
+  context 'when item does not exist' do
+    it 'responds with 404' do
+      non_existent_item_id = 123456
 
-    get "/api/v0/room-service/items/#{item.id}"
+      get "/api/v0/room-service/items/#{non_existent_item_id}"
 
-    # TODO: Find a way to refactor out the serialized object type.
-    expect(response_json['data']['relationships']).to include('item-attributes' =>
-                                                                {
-                                                                  'data' =>
-                                                                    [
-                                                                      {
-                                                                        'id' => attribute.id.to_s,
-                                                                        'type' => 'room-service-item-attributes'
-                                                                      }
-                                                                    ]
-                                                                })
-    expect(response_json['included']).to include('id' => attribute.id.to_s,
-                                                 'type' => 'room-service-item-attributes',
-                                                 'attributes' => {
-                                                   'title' => attribute.title
-                                                 })
+      expect(response.status).to be(404)
+    end
   end
 
-  it 'returns the room service item options (and the associated choices) when the room service item has at least one option' do
-    option = create(:room_service_item_option_with_choices, choices_count: 2)
-    choice1 = option.possible_choices.first
-    choice2 = option.possible_choices.last
+  context 'when item has attributes' do
+    it 'includes the attributes' do
+      attribute = item.item_attributes.create(attributes_for(:room_service_item_attribute))
 
-    item.possible_options << option
+      get "/api/v0/room-service/items/#{item.id}"
 
-    get "/api/v0/room-service/items/#{item.id}"
+      expect(response_json).to include('item_attributes' => [{
+                                                               'id' => attribute.id,
+                                                               'title' => attribute.title
+                                                             }])
+    end
+  end
 
-    expect(response_json['data']['relationships']).to include('possible-options' =>
-                                                                {
-                                                                  'data' =>
-                                                                    [
-                                                                      {
-                                                                        'id' => option.id.to_s,
-                                                                        'type' => 'room-service-item-options'
-                                                                      }
-                                                                    ]
-                                                                })
+  context 'when item has options' do
+    it 'includes the options (and associated choices)' do
+      option = create(:room_service_option_with_choices, choices_count: 2)
+      choice1 = option.possible_choices.first
+      choice2 = option.possible_choices.last
 
-    expect(response_json['included']).to include({
-                                                   'id' => option.id.to_s,
-                                                   'type' => 'room-service-item-options',
-                                                   'attributes' => {
-                                                     'title' => option.title,
-                                                     'optional' => option.optional,
-                                                     'allows-multiple-choices' => option.allows_multiple_choices,
-                                                     'default-choice-id' => option.default_choice_id
-                                                   },
-                                                   'relationships' => {
-                                                     'possible-choices' => {
-                                                       'data' =>
-                                                         [
-                                                           {
-                                                             'id' => choice1.id.to_s,
-                                                             'type' => 'room-service-item-option-choices'
-                                                           },
-                                                           {
-                                                             'id' => choice2.id.to_s,
-                                                             'type' => 'room-service-item-option-choices'
-                                                           }
-                                                         ]
-                                                     }
-                                                   }
-                                                 },
-                                                 {
-                                                   'id' => choice1.id.to_s,
-                                                   'type' => 'room-service-item-option-choices',
-                                                   'attributes' => {
-                                                     'title' => choice1.title,
-                                                     'price' => choice1.price.to_s
-                                                   }
-                                                 },
-                                                 {
-                                                   'id' => choice2.id.to_s,
-                                                   'type' => 'room-service-item-option-choices',
-                                                   'attributes' => {
-                                                     'title' => choice2.title,
-                                                     'price' => choice2.price.to_s
-                                                   }
-                                                 }
-                                         )
+      item.options << option
+
+      get "/api/v0/room-service/items/#{item.id}"
+
+      expect(response_json).to include('options' => [{
+                                                       'id' => option.id,
+                                                       'title' => option.title,
+                                                       'optional' => option.optional?,
+                                                       'allows_multiple_choices' => option.allows_multiple_choices,
+                                                       'default_choice_id' => option.default_choice_id,
+                                                       'possible_choices' => [{
+                                                                                'id' => choice1.id,
+                                                                                'title' => choice1.title,
+                                                                                'price' => choice1.price.to_s
+                                                                              },
+                                                                              {
+                                                                                'id' => choice2.id,
+                                                                                'title' => choice2.title,
+                                                                                'price' => choice2.price.to_s
+                                                                              }]
+                                                     }])
+    end
   end
 end

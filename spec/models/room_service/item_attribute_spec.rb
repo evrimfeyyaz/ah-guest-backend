@@ -1,7 +1,9 @@
 require 'rails_helper'
 
-describe RoomService::Section, 'Validations' do
+describe RoomService::ItemAttribute do
+  it { should have_and_belong_to_many(:items).
+    join_table('room_service_items_room_service_item_attributes').
+    inverse_of(:item_attributes) }
+
   it { should validate_presence_of :title }
-  # TODO: Check if you can change the table name to the one that is recommended when you run the following test.
-  # it { should have_and_belong_to_many :items }
 end

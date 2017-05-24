@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520162734) do
+ActiveRecord::Schema.define(version: 20170524060232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,29 +37,35 @@ ActiveRecord::Schema.define(version: 20170520162734) do
     t.datetime "image_updated_at"
   end
 
-  create_table "room_service_item_attributes", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "room_service_item_option_choices", force: :cascade do |t|
+  create_table "room_service_choices", force: :cascade do |t|
     t.string "title"
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "room_service_item_option_id"
-    t.index ["room_service_item_option_id"], name: "by_room_service_item_option_id"
+    t.bigint "room_service_option_id"
+    t.index ["room_service_option_id"], name: "by_room_service_option_id"
   end
 
-  create_table "room_service_item_options", force: :cascade do |t|
-    t.string "title"
-    t.boolean "optional", default: true
-    t.boolean "allows_multiple_choices", default: false
+  create_table "room_service_choices_for_options", force: :cascade do |t|
+    t.bigint "room_service_option_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "default_choice_id"
-    t.index ["default_choice_id"], name: "index_room_service_item_options_on_default_choice_id"
+    t.bigint "room_service_cart_item_id"
+    t.index ["room_service_cart_item_id"], name: "room_service_choices_for_options_on_cart_item_id"
+    t.index ["room_service_option_id"], name: "room_service_choices_for_options_on_option_id"
+  end
+
+  create_table "room_service_choices_for_options_room_service_choices", id: false, force: :cascade do |t|
+    t.bigint "choices_for_option_id", null: false
+    t.bigint "choice_id", null: false
+    t.index ["choice_id", "choices_for_option_id"], name: "by_choice_id_and_choices_for_option_id", unique: true
+    t.index ["choices_for_option_id", "choice_id"], name: "by_choices_for_option_id_and_choice_id", unique: true
+  end
+
+  create_table "room_service_item_attributes", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "room_service_items", force: :cascade do |t|
@@ -80,17 +86,29 @@ ActiveRecord::Schema.define(version: 20170520162734) do
     t.index ["item_id", "item_attribute_id"], name: "by_item_id_and_item_attribute_id", unique: true
   end
 
-  create_table "room_service_items_room_service_item_options", id: false, force: :cascade do |t|
+  create_table "room_service_items_room_service_options", id: false, force: :cascade do |t|
     t.bigint "item_id", null: false
-    t.bigint "item_option_id", null: false
-    t.index ["item_id", "item_option_id"], name: "by_item_id_and_item_option_id", unique: true
-    t.index ["item_option_id", "item_id"], name: "by_item_option_id_and_item_id", unique: true
+    t.bigint "option_id", null: false
+    t.index ["item_id", "option_id"], name: "by_item_id_and_option_id", unique: true
+    t.index ["option_id", "item_id"], name: "by_option_id_and_item_id", unique: true
+  end
+
+  create_table "room_service_options", force: :cascade do |t|
+    t.string "title"
+    t.boolean "optional", default: true
+    t.boolean "allows_multiple_choices", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "default_choice_id"
+    t.index ["default_choice_id"], name: "index_room_service_options_on_default_choice_id"
   end
 
   create_table "room_service_orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "stay_id"
+    t.index ["stay_id"], name: "index_room_service_orders_on_stay_id"
     t.index ["user_id"], name: "index_room_service_orders_on_user_id"
   end
 
@@ -102,6 +120,16 @@ ActiveRecord::Schema.define(version: 20170520162734) do
     t.boolean "default", default: false
     t.integer "room_service_items_count", default: 0
     t.index ["room_service_category_id"], name: "index_room_service_sections_on_room_service_category_id"
+  end
+
+  create_table "stays", force: :cascade do |t|
+    t.bigint "user_id"
+    t.date "check_in_date"
+    t.date "check_out_date"
+    t.integer "room_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stays_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -118,9 +146,13 @@ ActiveRecord::Schema.define(version: 20170520162734) do
 
   add_foreign_key "room_service_cart_items", "room_service_items"
   add_foreign_key "room_service_cart_items", "room_service_orders"
-  add_foreign_key "room_service_item_option_choices", "room_service_item_options"
-  add_foreign_key "room_service_item_options", "room_service_item_option_choices", column: "default_choice_id"
+  add_foreign_key "room_service_choices", "room_service_options"
+  add_foreign_key "room_service_choices_for_options", "room_service_cart_items"
+  add_foreign_key "room_service_choices_for_options", "room_service_options"
   add_foreign_key "room_service_items", "room_service_sections"
+  add_foreign_key "room_service_options", "room_service_choices", column: "default_choice_id"
+  add_foreign_key "room_service_orders", "stays"
   add_foreign_key "room_service_orders", "users"
   add_foreign_key "room_service_sections", "room_service_categories"
+  add_foreign_key "stays", "users"
 end

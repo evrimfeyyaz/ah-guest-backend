@@ -1,8 +1,5 @@
 FactoryGirl.define do
   factory :room_service_cart_item, class: 'RoomService::CartItem' do
     quantity 1
-    special_request "MyText"
-
-
   end
 end
