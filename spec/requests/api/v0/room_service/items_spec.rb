@@ -13,7 +13,7 @@ describe 'GET /api/v0/room-service/items/:item_id' do
                                     'short_description' => item.short_description,
                                     'long_description' => item.long_description,
                                     'price' => item.price.to_s,
-                                    'item_attributes' => [],
+                                    'tags' => [],
                                     'options' => []
                                   })
     end
@@ -29,17 +29,17 @@ describe 'GET /api/v0/room-service/items/:item_id' do
     end
   end
 
-  context 'when item has attributes' do
-    it 'includes the attributes' do
-      attribute = item.item_attributes.create(attributes_for(:room_service_item_attribute))
+  context 'when item has tags' do
+    it 'includes the tags' do
+      attribute = item.tags.create(attributes_for(:room_service_tag))
 
       get "/api/v0/room-service/items/#{item.id}"
 
       # noinspection RubyResolve
-      expect(response_json).to include('item_attributes' => [{
-                                                               'id' => attribute.id,
-                                                               'title' => attribute.title
-                                                             }])
+      expect(response_json).to include('tags' => [{
+                                                    'id' => attribute.id,
+                                                    'title' => attribute.title
+                                                  }])
     end
   end
 

@@ -5,7 +5,7 @@ describe RoomService::Item do
     counter_cache('room_service_items_count').
     inverse_of(:items).
     with_foreign_key('room_service_section_id') }
-  it { should have_and_belong_to_many(:item_attributes).inverse_of(:items) }
+  it { should have_and_belong_to_many(:tags).inverse_of(:items) }
   it { should have_and_belong_to_many(:options).inverse_of(:items) }
 
   it { should validate_presence_of :title }

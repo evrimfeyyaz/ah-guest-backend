@@ -1,8 +1,8 @@
 class RoomService::ItemSerializer < ActiveModel::Serializer
   attributes :id, :title, :price, :short_description, :long_description
 
-  has_many :item_attributes
-  class ItemAttributeSerializer < ActiveModel::Serializer
+  has_many :tags
+  class TagSerializer < ActiveModel::Serializer
     attributes :id, :title
   end
 

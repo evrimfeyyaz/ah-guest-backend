@@ -48,18 +48,18 @@ RoomService::Category.create!([
 puts "Created #{RoomService::Category.count} room service categories."
 
 # Create room service item attributes.
-RoomService::ItemAttribute.destroy_all
-cereals_attribute = RoomService::ItemAttribute.create!(title: 'Cereals')
-seafood_attribute = RoomService::ItemAttribute.create!(title: 'Seafood')
-dairy_attribute = RoomService::ItemAttribute.create!(title: 'Dairy')
-nuts_and_seeds_attribute = RoomService::ItemAttribute.create!(title: 'Nuts & Seeds')
-egg_attribute = RoomService::ItemAttribute.create!(title: 'Egg')
-mustard_and_celery_attribute = RoomService::ItemAttribute.create!(title: 'Mustard & Celery')
-soya_attribute = RoomService::ItemAttribute.create!(title: 'Soya')
-spicy_attribute = RoomService::ItemAttribute.create!(title: 'Spicy')
-healthy_attribute = RoomService::ItemAttribute.create!(title: 'Healthy')
-vegetarian_attribute = RoomService::ItemAttribute.create!(title: 'Vegetarian')
-puts "Created #{RoomService::ItemAttribute.count} room service item attributes."
+RoomService::Tag.destroy_all
+cereals_attribute = RoomService::Tag.create!(title: 'Cereals')
+seafood_attribute = RoomService::Tag.create!(title: 'Seafood')
+dairy_attribute = RoomService::Tag.create!(title: 'Dairy')
+nuts_and_seeds_attribute = RoomService::Tag.create!(title: 'Nuts & Seeds')
+egg_attribute = RoomService::Tag.create!(title: 'Egg')
+mustard_and_celery_attribute = RoomService::Tag.create!(title: 'Mustard & Celery')
+soya_attribute = RoomService::Tag.create!(title: 'Soya')
+spicy_attribute = RoomService::Tag.create!(title: 'Spicy')
+healthy_attribute = RoomService::Tag.create!(title: 'Healthy')
+vegetarian_attribute = RoomService::Tag.create!(title: 'Vegetarian')
+puts "Created #{RoomService::Tag.count} room service item attributes."
 
 # Create room service item options.
 RoomService::Option.destroy_all
