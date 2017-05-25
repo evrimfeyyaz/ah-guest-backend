@@ -1,4 +1,4 @@
-class Api::V0::RoomService::ItemsController < ActionController::API
+class Api::V0::RoomService::ItemsController < ApiController
   rescue_from ActiveRecord::RecordNotFound, with: :respond_with_not_found
 
   def show

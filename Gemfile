@@ -16,7 +16,6 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
-gem 'jwt', '~> 1.5', '>= 1.5.6'
 gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 
 group :production do

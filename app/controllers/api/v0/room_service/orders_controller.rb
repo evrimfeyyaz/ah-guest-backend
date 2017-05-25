@@ -1,4 +1,4 @@
-class Api::V0::RoomService::OrdersController < ActionController::API
+class Api::V0::RoomService::OrdersController < ApiController
   def create
     user = User.find(params[:user_id])
 

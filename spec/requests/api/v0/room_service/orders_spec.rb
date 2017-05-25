@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/users/:user_id/room-service/orders' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/0/room-service/orders'
+
   context 'with valid parameters' do
     it 'creates an order' do
       user = create(:user)
@@ -32,7 +34,7 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
             }
           }
         }
-      }.to_json, headers: json_headers
+      }.to_json, headers: headers
 
       expect(response.status).to eq(201)
 

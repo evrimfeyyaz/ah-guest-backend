@@ -1,4 +1,4 @@
-class Api::V0::RoomService::CategoriesController < ActionController::API
+class Api::V0::RoomService::CategoriesController < ApiController
   def index
     categories = ::RoomService::Category.all
 

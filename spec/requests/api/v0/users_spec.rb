@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/users/' do
-  context 'with invalid client key' do
-    it 'returns "401 Unauthorized"' do
-      post '/api/v0/users/', headers: headers('INVALID_CLIENT_KEY')
-
-      expect(response.status).to eq(401)
-    end
-  end
+  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/'
 
   context 'with valid client key' do
     let(:client_key) { Rails.application.secrets.client_key }
@@ -24,7 +18,7 @@ describe 'POST /api/v0/users/' do
             'password' => user_attributes[:password],
             'password_confirmation' => user_attributes[:password]
           }
-        }.to_json, headers: headers(client_key)
+        }.to_json, headers: headers
 
         user = User.find_by(email: user_attributes[:email])
 
@@ -47,7 +41,7 @@ describe 'POST /api/v0/users/' do
             'password' => '',
             'password_confirmation' => ''
           }
-        }.to_json, headers: headers(client_key)
+        }.to_json, headers: headers
 
         expect(response.status).to eq(422)
         expect(response_json).to have_key('errors')

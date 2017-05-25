@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/authentication/' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/authentication/'
+
   context 'with valid credentials' do
     it 'returns a user' do
       user = create(:user)
@@ -10,7 +12,7 @@ describe 'POST /api/v0/authentication/' do
           'email' => user.email,
           'password' => attributes_for(:user)[:password]
         }
-      }.to_json, headers: json_headers
+      }.to_json, headers: headers
 
       expect(response.status).to eq(200)
       expect(response_json).to eq('id' => user.id,
@@ -30,7 +32,7 @@ describe 'POST /api/v0/authentication/' do
           'email' => user.email,
           'password' => 'wrong_password'
         }
-      }.to_json, headers: json_headers
+      }.to_json, headers: headers
 
       expect(response.status).to eq(404)
       expect(response.body).to be_empty
@@ -44,7 +46,7 @@ describe 'POST /api/v0/authentication/' do
           'email' => 'wrong@email.com',
           'password' => 'IRRELEVANT'
         }
-      }.to_json, headers: json_headers
+      }.to_json, headers: headers
 
       expect(response.status).to eq(404)
       expect(response.body).to be_empty
