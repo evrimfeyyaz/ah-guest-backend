@@ -16,8 +16,8 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
-gem 'doorkeeper', '~> 4.2', '>= 4.2.5'
-gem 'devise', '~> 4.3'
+gem 'jwt', '~> 1.5', '>= 1.5.6'
+gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 
 group :production do
   gem 'aws-sdk', '~> 2.9', '>= 2.9.15'

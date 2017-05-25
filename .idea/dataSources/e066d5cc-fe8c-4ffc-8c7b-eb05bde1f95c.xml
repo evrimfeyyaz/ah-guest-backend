@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-05-24.11:35:49.199</IntrospectionTimestamp>
-      <IntrospectionStateNumber>14968</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-05-25.15:09:22.501</IntrospectionTimestamp>
+      <IntrospectionStateNumber>15621</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -153,11 +153,11 @@
     </table>
     <table id="34" parent="3" name="stays">
       <ObjectId>25489</ObjectId>
-      <StateNumber>13481</StateNumber>
+      <StateNumber>15458</StateNumber>
     </table>
     <table id="35" parent="3" name="users">
       <ObjectId>20586</ObjectId>
-      <StateNumber>13309</StateNumber>
+      <StateNumber>15621</StateNumber>
     </table>
     <column id="36" parent="20" name="key">
       <Position>1</Position>
@@ -887,29 +887,34 @@ item_id</ColNames>
       <NotNull>1</NotNull>
       <StateNumber>13309</StateNumber>
     </column>
-    <index id="163" parent="34" name="stays_pkey">
+    <column id="163" parent="34" name="confirmation_code">
+      <Position>9</Position>
+      <DataType>varchar|0</DataType>
+      <StateNumber>15458</StateNumber>
+    </column>
+    <index id="164" parent="34" name="stays_pkey">
       <ObjectId>25493</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="164" parent="34" name="index_stays_on_user_id">
+    <index id="165" parent="34" name="index_stays_on_user_id">
       <ObjectId>25500</ObjectId>
       <ColNames>user_id</ColNames>
     </index>
-    <key id="165" parent="34" name="stays_pkey">
+    <key id="166" parent="34" name="stays_pkey">
       <ObjectId>25494</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>stays_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="166" parent="34" name="fk_rails_57a645631d">
+    <foreign-key id="167" parent="34" name="fk_rails_57a645631d">
       <ObjectId>25495</ObjectId>
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefKeyName>users_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="167" parent="35" name="id">
+    <column id="168" parent="35" name="id">
       <Position>1</Position>
       <DataType>bigint|0</DataType>
       <NotNull>1</NotNull>
@@ -917,59 +922,59 @@ item_id</ColNames>
       <SequenceName>users_id_seq</SequenceName>
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
     </column>
-    <column id="168" parent="35" name="email">
+    <column id="169" parent="35" name="email">
       <Position>2</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>7944</StateNumber>
     </column>
-    <column id="169" parent="35" name="first_name">
+    <column id="170" parent="35" name="first_name">
       <Position>3</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>7475</StateNumber>
     </column>
-    <column id="170" parent="35" name="last_name">
+    <column id="171" parent="35" name="last_name">
       <Position>4</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>7475</StateNumber>
     </column>
-    <column id="171" parent="35" name="password_digest">
+    <column id="172" parent="35" name="password_digest">
       <Position>5</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>7475</StateNumber>
     </column>
-    <column id="172" parent="35" name="created_at">
+    <column id="173" parent="35" name="created_at">
       <Position>6</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>7475</StateNumber>
     </column>
-    <column id="173" parent="35" name="updated_at">
+    <column id="174" parent="35" name="updated_at">
       <Position>7</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <StateNumber>7475</StateNumber>
     </column>
-    <column id="174" parent="35" name="auth_token">
+    <column id="175" parent="35" name="auth_token">
       <Position>8</Position>
       <DataType>varchar|0</DataType>
       <StateNumber>8013</StateNumber>
     </column>
-    <index id="175" parent="35" name="users_pkey">
+    <index id="176" parent="35" name="users_pkey">
       <ObjectId>20593</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="176" parent="35" name="index_users_on_email">
+    <index id="177" parent="35" name="index_users_on_email">
       <ObjectId>20729</ObjectId>
       <ColNames>email</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="177" parent="35" name="index_users_on_auth_token">
+    <index id="178" parent="35" name="index_users_on_auth_token">
       <ObjectId>20865</ObjectId>
       <ColNames>auth_token</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="178" parent="35" name="users_pkey">
+    <key id="179" parent="35" name="users_pkey">
       <ObjectId>20594</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>users_pkey</UnderlyingIndexName>

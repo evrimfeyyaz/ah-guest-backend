@@ -91,7 +91,7 @@ describe 'GET /api/v0/room-service/categories/:category_id/sections' do
   end
 
   context 'when there is no section with items' do
-    it 'responds with "204 No Content" when there is no section with items' do
+    it 'responds with "204 No Content"' do
       get "/api/v0/room-service/categories/#{category.id}/sections/"
 
       expect(response.status).to eq(204)
