@@ -12,7 +12,7 @@ describe 'POST /api/v0/authentication/' do
           'email' => user.email,
           'password' => attributes_for(:user)[:password]
         }
-      }.to_json, headers: headers
+      }.to_json, headers: request_headers
 
       expect(response.status).to eq(200)
       expect(response_json).to eq('id' => user.id,
@@ -32,7 +32,7 @@ describe 'POST /api/v0/authentication/' do
           'email' => user.email,
           'password' => 'wrong_password'
         }
-      }.to_json, headers: headers
+      }.to_json, headers: request_headers
 
       expect(response.status).to eq(404)
       expect(response.body).to be_empty
@@ -46,7 +46,7 @@ describe 'POST /api/v0/authentication/' do
           'email' => 'wrong@email.com',
           'password' => 'IRRELEVANT'
         }
-      }.to_json, headers: headers
+      }.to_json, headers: request_headers
 
       expect(response.status).to eq(404)
       expect(response.body).to be_empty

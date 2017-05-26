@@ -16,12 +16,4 @@ class User < ApplicationRecord
   validates_format_of :email, with: /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\z/i # Email validation regex from: http://www.regular-expressions.info/email.html
 
   validates_length_of :password, minimum: 8, maximum: 128, on: :create
-
-  def auth_token_with_id
-    if id.nil? || auth_token.empty?
-      nil
-    else
-      "#{id}.#{auth_token}"
-    end
-  end
 end

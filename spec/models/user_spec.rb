@@ -31,40 +31,4 @@ describe User do
 
   it { should validate_presence_of :last_name }
   it { should validate_length_of(:last_name).is_at_most(60) }
-
-  describe '#auth_token_with_id' do
-    let(:user) { build(:user) }
-
-    context 'when #auth_token and #id both exist' do
-      it 'returns "{id}.{auth_token}"' do
-        user.save
-
-        expect(user.auth_token_with_id).to eq("#{user.id}.#{user.auth_token}")
-      end
-    end
-
-    context 'when #auth_token is empty' do
-      it 'returns nil' do
-        user.auth_token = ''
-
-        expect(user.auth_token_with_id).to eq(nil)
-      end
-    end
-
-    context 'when #auth_token is nil' do
-      it 'returns nil' do
-        user.auth_token = nil
-
-        expect(user.auth_token_with_id).to eq(nil)
-      end
-    end
-
-    context 'when #id is nil' do
-      it 'returns nil' do
-        user.id = nil
-
-        expect(user.auth_token_with_id).to eq(nil)
-      end
-    end
-  end
 end

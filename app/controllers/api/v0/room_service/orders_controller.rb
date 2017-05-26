@@ -1,4 +1,6 @@
 class Api::V0::RoomService::OrdersController < ApiController
+  rescue_from ActionController::ParameterMissing, with: :respond_with_unprocessable_entity
+
   def create
     user = User.find(params[:user_id])
 
@@ -20,5 +22,9 @@ class Api::V0::RoomService::OrdersController < ApiController
                                                           :room_service_item_id,
                                                           choices_for_options_attributes: [:room_service_option_id,
                                                                                            selected_choice_ids: []]])
+  end
+
+  def respond_with_unprocessable_entity
+    head :unprocessable_entity
   end
 end

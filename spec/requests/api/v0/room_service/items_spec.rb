@@ -5,8 +5,9 @@ describe 'GET /api/v0/room-service/items/:item_id' do
 
   context 'when item exists' do
     it 'returns a room service item' do
-      get "/api/v0/room-service/items/#{item.id}", headers: headers
+      get "/api/v0/room-service/items/#{item.id}", headers: request_headers
 
+      expect(response.status).to eq(200)
       expect(response_json).to eq({
                                     'id' => item.id,
                                     'title' => item.title,
@@ -23,7 +24,7 @@ describe 'GET /api/v0/room-service/items/:item_id' do
     it 'responds with 404' do
       non_existent_item_id = 123456
 
-      get "/api/v0/room-service/items/#{non_existent_item_id}", headers: headers
+      get "/api/v0/room-service/items/#{non_existent_item_id}", headers: request_headers
 
       expect(response.status).to be(404)
     end
@@ -33,7 +34,7 @@ describe 'GET /api/v0/room-service/items/:item_id' do
     it 'includes the tags' do
       attribute = item.tags.create(attributes_for(:room_service_tag))
 
-      get "/api/v0/room-service/items/#{item.id}", headers: headers
+      get "/api/v0/room-service/items/#{item.id}", headers: request_headers
 
       # noinspection RubyResolve
       expect(response_json).to include('tags' => [{
@@ -51,7 +52,7 @@ describe 'GET /api/v0/room-service/items/:item_id' do
 
       item.options << option
 
-      get "/api/v0/room-service/items/#{item.id}", headers: headers
+      get "/api/v0/room-service/items/#{item.id}", headers: request_headers
 
       # noinspection RubyResolve
       expect(response_json).to include('options' => [{

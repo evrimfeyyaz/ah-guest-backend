@@ -1,13 +1,26 @@
 module RequestHeaders
-  def headers(options = {})
+  def request_headers(options = {})
     client_secret = options.key?(:client_secret) ? options[:client_secret] : Rails.application.secrets.client_secret
-    auth_token = options.key?(:auth_token) ? options[:auth_token] : nil
 
-    {
+    headers = {
       'ah-client-secret' => client_secret,
-      'Authorization' => auth_token,
       'Content-Type' => 'application/json'
     }
+
+    if options.key?(:auth_token)
+      headers.merge!('Authorization' => options[:auth_token])
+    end
+
+    if options.key?(:user_id)
+      headers.merge!('ah-user-id' => options[:user_id])
+    end
+
+    if options.key?(:user)
+      headers.merge!({ 'ah-user-id' => options[:user].id,
+                      'Authorization' => options[:user].auth_token })
+    end
+
+    headers
   end
 end
 

@@ -1,4 +1,6 @@
-class Api::V0::AuthenticationsController < ActionController::API
+class Api::V0::AuthenticationsController < ApiController
+  skip_before_action :authenticate_user_by_auth_token, only: [:create]
+
   def create
     email = authentication_params[:email]
     password = authentication_params[:password]
