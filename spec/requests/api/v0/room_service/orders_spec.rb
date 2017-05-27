@@ -39,7 +39,7 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
       context 'and authentication token matches user' do
         it 'does not return "401 Unauthorized"' do
           post "/api/v0/users/#{user.id}/room-service/orders",
-               headers: request_headers(user_id: user.id, auth_token: user.auth_token)
+               headers: request_headers(user: user)
 
           expect(response.status).not_to eq(401)
         end
@@ -121,6 +121,58 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
                                       }
                                     ]
                                   })
+    end
+  end
+
+  context 'with a user ID parameter different than the one of the current user' do
+    it 'wrong user ID is ignored' do
+      wrong_user = create(:user)
+
+      stay = user.stays.create(attributes_for(:stay))
+
+      item = create(:room_service_item_with_option)
+      cart_item_attributes = attributes_for(:room_service_cart_item)
+
+      expect {
+        post "/api/v0/users/#{user.id}/room-service/orders", params: {
+          'order' => {
+            'stay_id' => stay.id,
+            'user_id' => wrong_user.id,
+            'cart_items_attributes' => {
+              '0' => {
+                'quantity' => cart_item_attributes[:quantity],
+                'special_request' => cart_item_attributes[:special_request],
+                'room_service_item_id' => item.id,
+              }
+            }
+          }
+        }.to_json, headers: request_headers(user: user)
+      }.to change { user.room_service_orders.count }.by(1).
+          and change { wrong_user.room_service_orders.count }.by(0)
+    end
+  end
+
+  context 'with a stay ID parameter that does not belong to the current user' do
+    it 'responds with "401 Unauthorized"' do
+      stay_that_belongs_to_another_user = create(:stay)
+
+      post "/api/v0/users/#{user.id}/room-service/orders", params: {
+        'order' => {
+          'stay_id' => stay_that_belongs_to_another_user.id
+        }
+      }.to_json, headers: request_headers(user: user)
+
+      expect(response.status).to eq(401)
+    end
+  end
+
+  context 'with a user ID in the URL that does not belong to the current user' do
+    it 'responds with "401 Unauthorized"' do
+      wrong_user = create(:user)
+
+      post "/api/v0/users/#{wrong_user.id}/room-service/orders", headers: request_headers(user: user)
+
+      expect(response.status).to eq(401)
     end
   end
 end

@@ -4,6 +4,15 @@ class Api::V0::RoomService::OrdersController < ApiController
   def create
     user = User.find(params[:user_id])
 
+    if user != current_user
+      return head :unauthorized
+    end
+
+    stay_id = params[:order][:stay_id]
+    unless stay_id.nil? || user.stay_ids.include?(stay_id)
+      return head :unauthorized
+    end
+
     order = user.room_service_orders.build(order_params)
 
     if order.save

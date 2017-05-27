@@ -10,17 +10,14 @@ class ApiController < ActionController::API
     end
   end
 
+  def current_user
+    @current_user ||= User.find_by(id: request.headers['ah-user-id'])
+  end
+
   def authenticate_user_by_auth_token
-    user_id = request.headers['ah-user-id']
     auth_token = request.headers['Authorization']
 
-    begin
-      user = User.find(user_id)
-    rescue ActiveRecord::RecordNotFound
-      head :unauthorized
-    end
-
-    unless user && auth_token && ActiveSupport::SecurityUtils.secure_compare(user.auth_token, auth_token)
+    unless current_user && auth_token && ActiveSupport::SecurityUtils.secure_compare(current_user.auth_token, auth_token)
       head :unauthorized
     end
   end

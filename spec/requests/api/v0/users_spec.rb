@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'POST /api/v0/users/' do
   it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/'
 
-  context 'and valid parameters' do
+  context 'with valid parameters' do
     it 'creates a user' do
       user_attributes = attributes_for(:user)
 
@@ -28,7 +28,7 @@ describe 'POST /api/v0/users/' do
     end
   end
 
-  context 'and invalid parameters' do
+  context 'with invalid parameters' do
     it 'does not create a user' do
       post '/api/v0/users/', params: {
         'user' => {
