@@ -17,7 +17,7 @@ module RequestHeaders
 
     if options.key?(:user)
       headers.merge!({ 'ah-user-id' => options[:user].id,
-                      'Authorization' => options[:user].auth_token })
+                       'Authorization' => options[:user].auth_token })
     end
 
     headers

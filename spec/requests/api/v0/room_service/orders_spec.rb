@@ -2,61 +2,11 @@ require 'rails_helper'
 
 describe 'POST /api/v0/users/:user_id/room-service/orders' do
   it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/0/room-service/orders'
+  it_behaves_like 'an endpoint that requires user authentication', :post, "/api/v0/users/%{user_id}/room-service/orders" do
+    let(:user) { create(:user) }
+  end
 
   let(:user) { create(:user) }
-
-  describe 'User authentication' do
-    context 'when ID in ID header belongs to a user' do
-      context 'but authentication token header does not exist' do
-        it 'returns "401 Unauthorized"' do
-          post "/api/v0/users/#{user.id}/room-service/orders",
-               headers: request_headers(user_id: user.id, auth_token: nil)
-
-          expect(response.status).to eq(401)
-        end
-      end
-
-      context 'and authentication token does not match user' do
-        it 'returns "401 Unauthorized"' do
-          post "/api/v0/users/#{user.id}/room-service/orders",
-               headers: request_headers(user_id: user.id, auth_token: 'WRONGTOKEN')
-
-          expect(response.status).to eq(401)
-        end
-      end
-
-      context 'and authentication token matches another user' do
-        it 'returns "401 Unauthorized"' do
-          another_user = create(:user)
-
-          post "/api/v0/users/#{user.id}/room-service/orders",
-               headers: request_headers(user_id: user.id, auth_token: another_user.auth_token)
-
-          expect(response.status).to eq(401)
-        end
-      end
-
-      context 'and authentication token matches user' do
-        it 'does not return "401 Unauthorized"' do
-          post "/api/v0/users/#{user.id}/room-service/orders",
-               headers: request_headers(user: user)
-
-          expect(response.status).not_to eq(401)
-        end
-      end
-    end
-
-    context 'when authentication token exists' do
-      context 'but ID header is empty' do
-        it 'returns "401 Unauthorized"' do
-          post "/api/v0/users/#{user.id}/room-service/orders",
-               headers: request_headers(user_id: nil, auth_token: user.id)
-
-          expect(response.status).to eq(401)
-        end
-      end
-    end
-  end
 
   context 'with valid parameters' do
     it 'creates an order' do
