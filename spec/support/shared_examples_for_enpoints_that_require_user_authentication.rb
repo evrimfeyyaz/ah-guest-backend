@@ -1,5 +1,13 @@
 shared_examples 'an endpoint that requires user authentication' do |http_verb, endpoint_without_interpolation|
-  let(:endpoint)  { endpoint_without_interpolation % { user_id: user.id } }
+  let(:user) { create(:user) }
+
+  let(:endpoint) {
+    if defined?(object) && object.present?
+      endpoint_without_interpolation % { object_id: object.id }
+    else
+      endpoint_without_interpolation
+    end
+  }
 
   context 'when ID in ID header belongs to a user' do
     context 'but authentication token header does not exist' do

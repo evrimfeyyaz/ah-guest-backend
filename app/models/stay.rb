@@ -3,6 +3,7 @@ class Stay < ApplicationRecord
   has_many :room_service_orders, class_name: 'RoomService::Order', inverse_of: :stay
 
   validates_presence_of :confirmation_code, :check_in_date, :check_out_date
+  validates_uniqueness_of :confirmation_code, case_sensitive: false
   validate :check_out_date_cannot_be_before_check_in_date
 
   private

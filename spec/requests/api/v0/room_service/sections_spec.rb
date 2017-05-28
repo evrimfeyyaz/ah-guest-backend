@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe 'GET /api/v0/room-service/categories/:category_id/sections' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/room-service/categories/0/sections'
+describe 'GET /api/v0/room_service/categories/:category_id/sections' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/room_service/categories/0/sections'
 
   let!(:category) { create(:room_service_category) }
 
@@ -10,7 +10,7 @@ describe 'GET /api/v0/room-service/categories/:category_id/sections' do
 
     item = section.items.create(attributes_for(:room_service_item))
 
-    get "/api/v0/room-service/categories/#{category.id}/sections/", headers: request_headers
+    get "/api/v0/room_service/categories/#{category.id}/sections/", headers: request_headers
 
     expect(response.status).to eq(200)
     expect(response_json).to eq([
@@ -34,7 +34,7 @@ describe 'GET /api/v0/room-service/categories/:category_id/sections' do
       section_with_item = category.sections.create(attributes_for(:room_service_section))
       item = section_with_item.items.create(attributes_for(:room_service_item))
 
-      get "/api/v0/room-service/categories/#{category.id}/sections/", headers: request_headers
+      get "/api/v0/room_service/categories/#{category.id}/sections/", headers: request_headers
 
       expect(response.status).to eq(200)
       expect(response_json).to eq([{
@@ -52,7 +52,7 @@ describe 'GET /api/v0/room-service/categories/:category_id/sections' do
 
   context 'when there is no section with items' do
     it 'responds with "204 No Content"' do
-      get "/api/v0/room-service/categories/#{category.id}/sections/", headers: request_headers
+      get "/api/v0/room_service/categories/#{category.id}/sections/", headers: request_headers
 
       expect(response.status).to eq(204)
     end

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe 'GET /api/v0/room-service/categories/' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/room-service/categories'
+describe 'GET /api/v0/room_service/categories/' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/room_service/categories'
 
   it 'returns all room service categories' do
     category = create(:room_service_category)
 
-    get '/api/v0/room-service/categories/', headers: request_headers
+    get '/api/v0/room_service/categories/', headers: request_headers
 
     expect(response.status).to eq(200)
     expect(response_json).to eq([{
@@ -25,7 +25,7 @@ describe 'GET /api/v0/room-service/categories/' do
     it 'returns nil for image urls' do
       create(:room_service_category)
 
-      get '/api/v0/room-service/categories/', headers: request_headers
+      get '/api/v0/room_service/categories/', headers: request_headers
 
       expect(response.status).to eq(200)
       expect(response_json[0]['image_urls']).to eq('@3x' => nil,
@@ -38,7 +38,7 @@ describe 'GET /api/v0/room-service/categories/' do
     it 'returns image urls' do
       category_with_image = create(:room_service_category_with_image)
 
-      get '/api/v0/room-service/categories/', headers: request_headers
+      get '/api/v0/room_service/categories/', headers: request_headers
 
       expect(response.status).to eq(200)
       expect(response_json[0]['image_urls']).to eq('@3x' => category_with_image.image.url(:three_x),

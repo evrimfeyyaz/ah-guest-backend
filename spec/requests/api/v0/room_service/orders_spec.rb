@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe 'POST /api/v0/users/:user_id/room-service/orders' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/0/room-service/orders'
-  it_behaves_like 'an endpoint that requires user authentication', :post, "/api/v0/users/%{user_id}/room-service/orders" do
-    let(:user) { create(:user) }
+describe 'POST /api/v0/users/:user_id/room_service/orders' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/0/room_service/orders'
+  it_behaves_like 'an endpoint that requires user authentication', :post, '/api/v0/users/%{object_id}/room_service/orders' do
+    let(:object) { user }
   end
 
   let(:user) { create(:user) }
@@ -19,7 +19,7 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
 
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
-      post "/api/v0/users/#{user.id}/room-service/orders", params: {
+      post "/api/v0/users/#{user.id}/room_service/orders", params: {
         'order' => {
           'stay_id' => stay.id,
           'cart_items_attributes' => {
@@ -84,7 +84,7 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
       expect {
-        post "/api/v0/users/#{user.id}/room-service/orders", params: {
+        post "/api/v0/users/#{user.id}/room_service/orders", params: {
           'order' => {
             'stay_id' => stay.id,
             'user_id' => wrong_user.id,
@@ -106,7 +106,7 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
     it 'responds with "401 Unauthorized"' do
       stay_that_belongs_to_another_user = create(:stay)
 
-      post "/api/v0/users/#{user.id}/room-service/orders", params: {
+      post "/api/v0/users/#{user.id}/room_service/orders", params: {
         'order' => {
           'stay_id' => stay_that_belongs_to_another_user.id
         }
@@ -120,7 +120,7 @@ describe 'POST /api/v0/users/:user_id/room-service/orders' do
     it 'responds with "401 Unauthorized"' do
       wrong_user = create(:user)
 
-      post "/api/v0/users/#{wrong_user.id}/room-service/orders", headers: request_headers(user: user)
+      post "/api/v0/users/#{wrong_user.id}/room_service/orders", headers: request_headers(user: user)
 
       expect(response.status).to eq(401)
     end

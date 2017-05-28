@@ -5,6 +5,7 @@ describe Stay do
   it { should have_many(:room_service_orders).inverse_of(:stay).class_name('RoomService::Order') }
 
   it { should validate_presence_of :confirmation_code }
+  it { should validate_uniqueness_of(:confirmation_code).case_insensitive }
   it { should validate_presence_of :check_in_date }
   it { should validate_presence_of :check_out_date }
 
