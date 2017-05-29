@@ -7,7 +7,7 @@ class Api::V0::UsersController < ApiController
     if user.save
       render json: user, status: :created
     else
-      render json: user, status: :unprocessable_entity, serializer: ErrorSerializer
+      render json: user, status: :unprocessable_entity, serializer: ValidationErrorSerializer
     end
   end
 
