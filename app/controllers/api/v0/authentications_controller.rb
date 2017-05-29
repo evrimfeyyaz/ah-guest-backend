@@ -14,6 +14,12 @@ class Api::V0::AuthenticationsController < ApiController
     end
   end
 
+  def destroy
+    current_user.regenerate_auth_token
+
+    head :no_content
+  end
+
   private
 
     def authentication_params

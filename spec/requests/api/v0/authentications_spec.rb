@@ -53,3 +53,21 @@ describe 'POST /api/v0/authentication/' do
     end
   end
 end
+
+describe 'DELETE /api/v0/authentication' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :delete, '/api/v0/authentication/'
+  it_behaves_like 'an endpoint that requires user authentication', :delete, 'api/v0/authentication'
+
+  it 'resets the authentication token of current user and responds with "204 No Content"' do
+    user = create(:user)
+    signed_in_authentication_token = user.auth_token
+
+    delete '/api/v0/authentication/', headers: request_headers(user: user)
+
+    user.reload
+
+    expect(response.status).to eq(204)
+    expect(user.auth_token).not_to be_nil
+    expect(user.auth_token).not_to eq(signed_in_authentication_token)
+  end
+end

@@ -30,15 +30,14 @@ describe 'POST /api/v0/reservation_associations' do
       it 'does not associate the reservation with the user and responds with "400 Bad Request"' do
         reservation = create(:reservation, first_name: user.first_name, last_name: user.last_name)
 
-        check_in_date = reservation.check_in_date
+        same_check_in_date = reservation.check_in_date
 
-        # The other reservation with the same check-in date.
-        create(:reservation, check_in_date: check_in_date)
+        create(:reservation, check_in_date: same_check_in_date)
 
         expect {
           post '/api/v0/reservation_associations', params: {
             'reservation' => {
-              'check_in_date' => check_in_date
+              'check_in_date' => same_check_in_date
             }
           }.to_json, headers: request_headers(user: user)
         }.not_to change { user.reservations.count }

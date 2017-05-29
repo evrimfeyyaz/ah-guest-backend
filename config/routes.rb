@@ -6,7 +6,7 @@ Rails.application.routes.draw do
           resources :orders, only: [:create]
         end
       end
-      resource :authentication, only: [:create]
+      resource :authentication, only: [:create, :destroy]
       resources :reservation_associations, only: [:create]
 
       namespace :room_service do
