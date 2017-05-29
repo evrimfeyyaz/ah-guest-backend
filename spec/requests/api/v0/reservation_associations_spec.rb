@@ -32,7 +32,7 @@ describe 'POST /api/v0/reservation_associations' do
 
         same_check_in_date = reservation.check_in_date
 
-        create(:reservation, check_in_date: same_check_in_date)
+        create(:reservation, first_name: user.first_name, last_name: user.last_name, check_in_date: same_check_in_date)
 
         expect {
           post '/api/v0/reservation_associations', params: {

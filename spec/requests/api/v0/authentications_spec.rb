@@ -56,7 +56,7 @@ end
 
 describe 'DELETE /api/v0/authentication' do
   it_behaves_like 'an endpoint that requires client secret authorization', :delete, '/api/v0/authentication/'
-  it_behaves_like 'an endpoint that requires user authentication', :delete, 'api/v0/authentication'
+  it_behaves_like 'an endpoint that requires user authentication', :delete, '/api/v0/authentication'
 
   it 'resets the authentication token of current user and responds with "204 No Content"' do
     user = create(:user)

@@ -1,4 +1,6 @@
 class Api::V0::ReservationAssociationsController < ApiController
+  rescue_from ActionController::ParameterMissing, with: :respond_with_bad_request
+
   def create
     confirmation_code = reservation_association_params.has_key?(:confirmation_code) ?
       reservation_association_params[:confirmation_code] : nil
@@ -47,5 +49,9 @@ class Api::V0::ReservationAssociationsController < ApiController
 
   def reservation_association_params
     params.require(:reservation).permit(:check_in_date, :confirmation_code)
+  end
+
+  def respond_with_bad_request
+    head :bad_request
   end
 end
