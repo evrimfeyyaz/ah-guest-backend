@@ -10,7 +10,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
   context 'with valid parameters' do
     it 'creates an order' do
-      stay = user.stays.create(attributes_for(:stay))
+      reservation = user.reservations.create(attributes_for(:reservation))
 
       item = create(:room_service_item_with_option)
       option = item.options.first
@@ -21,7 +21,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
         'order' => {
-          'stay_id' => stay.id,
+          'reservation_id' => reservation.id,
           'cart_items_attributes' => {
             '0' => {
               'quantity' => cart_item_attributes[:quantity],
@@ -51,7 +51,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       expect(choices_for_option.selected_choices).not_to include(non_selected_choice)
 
       expect(response_json).to eq({ 'id' => order.id,
-                                    'stay_id' => stay.id,
+                                    'reservation_id' => reservation.id,
                                     'user_id' => user.id,
                                     'cart_items' => [
                                       {
@@ -78,7 +78,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     it 'wrong user ID is ignored' do
       wrong_user = create(:user)
 
-      stay = user.stays.create(attributes_for(:stay))
+      reservation = user.reservations.create(attributes_for(:reservation))
 
       item = create(:room_service_item_with_option)
       cart_item_attributes = attributes_for(:room_service_cart_item)
@@ -86,7 +86,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       expect {
         post "/api/v0/users/#{user.id}/room_service/orders", params: {
           'order' => {
-            'stay_id' => stay.id,
+            'reservation_id' => reservation.id,
             'user_id' => wrong_user.id,
             'cart_items_attributes' => {
               '0' => {
@@ -102,13 +102,13 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     end
   end
 
-  context 'with a stay ID parameter that does not belong to the current user' do
+  context 'with a reservation ID parameter that does not belong to the current user' do
     it 'responds with "401 Unauthorized"' do
-      stay_that_belongs_to_another_user = create(:stay)
+      reservation_that_belongs_to_another_user = create(:reservation)
 
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
         'order' => {
-          'stay_id' => stay_that_belongs_to_another_user.id
+          'reservation_id' => reservation_that_belongs_to_another_user.id
         }
       }.to_json, headers: request_headers(user: user)
 

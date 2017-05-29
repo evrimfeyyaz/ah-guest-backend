@@ -8,8 +8,8 @@ class Api::V0::RoomService::OrdersController < ApiController
       return head :unauthorized
     end
 
-    stay_id = params[:order][:stay_id]
-    unless stay_id.nil? || user.stay_ids.include?(stay_id)
+    reservation_id = params[:order][:reservation_id]
+    unless reservation_id.nil? || user.reservation_ids.include?(reservation_id)
       return head :unauthorized
     end
 
@@ -25,7 +25,7 @@ class Api::V0::RoomService::OrdersController < ApiController
   private
 
   def order_params
-    params.require(:order).permit(:stay_id,
+    params.require(:order).permit(:reservation_id,
                                   cart_items_attributes: [:quantity,
                                                           :special_request,
                                                           :room_service_item_id,

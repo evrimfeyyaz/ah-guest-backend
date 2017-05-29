@@ -1,5 +1,5 @@
 class RoomService::OrderSerializer < ActiveModel::Serializer
-  attributes :id, :stay_id, :user_id
+  attributes :id, :reservation_id, :user_id
 
   has_many :cart_items
   class CartItemSerializer < ActiveModel::Serializer

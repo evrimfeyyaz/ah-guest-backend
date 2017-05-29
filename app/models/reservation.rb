@@ -1,6 +1,6 @@
-class Stay < ApplicationRecord
-  belongs_to :user, inverse_of: :stays, optional: true
-  has_many :room_service_orders, class_name: 'RoomService::Order', inverse_of: :stay
+class Reservation < ApplicationRecord
+  belongs_to :user, inverse_of: :reservations, optional: true
+  has_many :room_service_orders, class_name: 'RoomService::Order', inverse_of: :reservation
 
   validates_presence_of :confirmation_code, :check_in_date, :check_out_date
   validates_uniqueness_of :confirmation_code, case_sensitive: false

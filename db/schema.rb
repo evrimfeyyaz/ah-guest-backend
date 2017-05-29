@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170524125457) do
+ActiveRecord::Schema.define(version: 20170528161554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "reservations", force: :cascade do |t|
+    t.bigint "user_id"
+    t.date "check_in_date"
+    t.date "check_out_date"
+    t.integer "room_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "confirmation_code"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "sex", limit: 2
+    t.index ["user_id"], name: "index_reservations_on_user_id"
+  end
 
   create_table "room_service_cart_items", force: :cascade do |t|
     t.integer "quantity"
@@ -101,8 +115,8 @@ ActiveRecord::Schema.define(version: 20170524125457) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.bigint "stay_id"
-    t.index ["stay_id"], name: "index_room_service_orders_on_stay_id"
+    t.bigint "reservation_id"
+    t.index ["reservation_id"], name: "index_room_service_orders_on_reservation_id"
     t.index ["user_id"], name: "index_room_service_orders_on_user_id"
   end
 
@@ -124,17 +138,6 @@ ActiveRecord::Schema.define(version: 20170524125457) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "stays", force: :cascade do |t|
-    t.bigint "user_id"
-    t.date "check_in_date"
-    t.date "check_out_date"
-    t.integer "room_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "confirmation_code"
-    t.index ["user_id"], name: "index_stays_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -147,6 +150,7 @@ ActiveRecord::Schema.define(version: 20170524125457) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "reservations", "users"
   add_foreign_key "room_service_cart_items", "room_service_items"
   add_foreign_key "room_service_cart_items", "room_service_orders"
   add_foreign_key "room_service_choices", "room_service_options"
@@ -154,9 +158,8 @@ ActiveRecord::Schema.define(version: 20170524125457) do
   add_foreign_key "room_service_choices_for_options", "room_service_options"
   add_foreign_key "room_service_items", "room_service_sections"
   add_foreign_key "room_service_options", "room_service_choices", column: "default_room_service_choice_id"
-  add_foreign_key "room_service_orders", "stays"
+  add_foreign_key "room_service_orders", "reservations"
   add_foreign_key "room_service_orders", "users"
   add_foreign_key "room_service_sections", "room_service_categories"
   add_foreign_key "room_service_sections", "room_service_categories", column: "category_id"
-  add_foreign_key "stays", "users"
 end
