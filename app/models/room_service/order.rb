@@ -4,5 +4,4 @@ class RoomService::Order < ApplicationRecord
   has_many :cart_items, dependent: :destroy, inverse_of: :order, foreign_key: 'room_service_order_id'
 
   accepts_nested_attributes_for :cart_items
-  validates_associated :cart_items
 end

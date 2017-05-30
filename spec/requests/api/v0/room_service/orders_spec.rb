@@ -164,8 +164,8 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       expect(response_json['error_type']).to eq('validation')
       expect(response_json['errors']).to include({ 'cart_items.base' => [{
                                                                            'error' => 'not_available_at_the_moment',
-                                                                           'title' => 'Item 1',
-                                                                           'message' => '"Item 1" is not available at the moment'
+                                                                           'title' => item.title,
+                                                                           'message' => "\"#{item.title}\" is not available at the moment"
                                                                          }] })
     end
   end
