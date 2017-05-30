@@ -103,7 +103,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   end
 
   context 'with a reservation ID parameter that does not belong to the current user' do
-    it 'responds with "401 Unauthorized"' do
+    it 'responds with "400 Bad Request"' do
       reservation_that_belongs_to_another_user = create(:reservation)
 
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
@@ -112,17 +112,17 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
         }
       }.to_json, headers: request_headers(user: user)
 
-      expect(response.status).to eq(401)
+      expect(response.status).to eq(400)
     end
   end
 
   context 'with a user ID in the URL that does not belong to the current user' do
-    it 'responds with "401 Unauthorized"' do
+    it 'responds with "403 Forbidden"' do
       wrong_user = create(:user)
 
       post "/api/v0/users/#{wrong_user.id}/room_service/orders", headers: request_headers(user: user)
 
-      expect(response.status).to eq(401)
+      expect(response.status).to eq(403)
     end
   end
 
@@ -167,6 +167,53 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                                                                            'title' => item.title,
                                                                            'message' => "\"#{item.title}\" is not available at the moment"
                                                                          }] })
+    end
+  end
+end
+
+describe 'GET /api/v0/users/:user_id/room_service/orders' do
+  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/users/0/room_service/orders'
+  it_behaves_like 'an endpoint that requires user authentication', :get, '/api/v0/users/%{object_id}/room_service/orders' do
+    let(:object) { user }
+  end
+
+  let(:user) { create(:user) }
+
+  context 'when user has orders' do
+    it 'returns orders and responds with "200 OK"' do
+      order = create(:room_service_order_with_cart_items, user: user, cart_items_count: 1)
+      cart_item = order.cart_items.first
+
+      get "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
+
+      expect(response.status).to eq(200)
+      expect(response_json).to eq([{
+                                     'id' => order.id,
+                                     'reservation_id' => order.reservation_id,
+                                     'user_id' => order.user_id,
+                                     'cart_items' => [{ 'id' => cart_item.id,
+                                                        'quantity' => cart_item.quantity,
+                                                        'special_request' => cart_item.special_request,
+                                                        'room_service_item_id' => cart_item.item.id }]
+                                   }])
+    end
+  end
+
+  context 'when user does not have orders' do
+    it 'responds with "204 No Content"' do
+      get "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
+
+      expect(response.status).to eq(204)
+    end
+  end
+
+  context 'when the user ID in the URL does not match the current user' do
+    it 'responds with "403 Forbidden"' do
+      another_user = create(:user)
+
+      get "/api/v0/users/#{another_user.id}/room_service/orders", headers: request_headers(user: user)
+
+      expect(response.status).to eq(403)
     end
   end
 end

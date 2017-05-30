@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v0 do
       resources :users, only: [:create] do
         namespace :room_service do
-          resources :orders, only: [:create]
+          resources :orders, only: [:index, :create]
         end
       end
       resource :authentication, only: [:create, :destroy]
