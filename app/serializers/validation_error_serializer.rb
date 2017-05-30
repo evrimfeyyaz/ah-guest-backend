@@ -9,7 +9,7 @@ class ValidationErrorSerializer < ActiveModel::Serializer
     details = object.errors.details
     messages = object.errors.messages.each { |key, messages_array|
       messages_array.map! { |element|
-        { message: object.errors.full_message(key, element) }
+        { message: element }
       }
     }
 

@@ -14,6 +14,15 @@ class RoomService::Category < ApplicationRecord
     sections.where(title: DEFAULT_SECTION_TITLE).first
   end
 
+  def available?(time)
+    if available_from.nil? || available_until.nil?
+      return true
+    end
+
+    time.utc.strftime('%H%M%S%N') >= available_from.utc.strftime('%H%M%S%N') &&
+      time.utc.strftime('%H%M%S%N') <= available_until.utc.strftime('%H%M%S%N')
+  end
+
   private
 
   def create_default_section

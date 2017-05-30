@@ -126,12 +126,12 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     end
   end
 
-  context 'when there is an item that cannot be provided at the time of creation' do
-    it 'does not create an order and responds with "400 Bad Request"' do
+  context 'when there is an item that is not available at the time of creation' do
+    it 'does not create an order and responds with "422 Unprocessable Entity"' do
       reservation = user.reservations.create(attributes_for(:reservation))
 
-      category
-      item = create(:room_service_item_with_option)
+      category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
+      item = create(:room_service_item_with_option, section: category.default_section)
       option = item.options.first
       selected_choice = option.possible_choices.first
 
@@ -160,9 +160,13 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
         }.to_json, headers: request_headers(user: user)
       }.not_to change { RoomService::Order.count }
 
-      expect(response.status).to eq(400)
-      expect(response_json.error_type).to eq('validation')
-      expect(response_json.errors).to include({ 'cart_item' => 'not_available' })
+      expect(response.status).to eq(422)
+      expect(response_json['error_type']).to eq('validation')
+      expect(response_json['errors']).to include({ 'cart_items.base' => [{
+                                                                           'error' => 'not_available_at_the_moment',
+                                                                           'title' => 'Item 1',
+                                                                           'message' => '"Item 1" is not available at the moment'
+                                                                         }] })
     end
   end
 end

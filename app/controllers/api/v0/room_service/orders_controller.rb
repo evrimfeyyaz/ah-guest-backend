@@ -18,7 +18,7 @@ class Api::V0::RoomService::OrdersController < ApiController
     if order.save
       render json: order, status: :created, include: ['cart_items.choices_for_options']
     else
-      render json: order, status: :unprocessable_entity, serializer: ActiveModel::Serializer::ErrorSerializer
+      render json: order, status: :unprocessable_entity, serializer: ValidationErrorSerializer
     end
   end
 

@@ -29,29 +29,75 @@ describe RoomService::Category do
 
           time = DateTime.parse('2017-01-01 10:00:00')
 
-          expect(subject.available?(time)).to be_true
+          expect(subject.available?(time)).to be true
         end
       end
 
       context 'and given time object is outside available hours' do
-        it 'returns false'
+        it 'returns false' do
+          subject.available_from = DateTime.parse('2000-01-01 09:00:00')
+          subject.available_until = DateTime.parse('2000-01-01 16:00:00')
+
+          time = DateTime.parse('2017-01-01 17:00:00')
+
+          expect(subject.available?(time)).to be false
+        end
       end
 
       context 'and given time object is equal to #available_from' do
-        it 'returns true'
+        it 'returns true' do
+          subject.available_from = DateTime.parse('2000-01-01 09:00:00')
+          subject.available_until = DateTime.parse('2000-01-01 16:00:00')
+
+          time = DateTime.parse('2017-01-01 09:00:00')
+
+          expect(subject.available?(time)).to be true
+        end
       end
 
       context 'and given time object is equal to #available_until' do
+        it 'returns true' do
+          subject.available_from = DateTime.parse('2000-01-01 09:00:00')
+          subject.available_until = DateTime.parse('2000-01-01 16:00:00')
 
+          time = DateTime.parse('2017-01-01 16:00:00')
+
+          expect(subject.available?(time)).to be true
+        end
       end
     end
 
     context 'when #available_from does not exist' do
-      it 'returns true'
+      it 'returns true' do
+        subject.available_from = nil
+        subject.available_until = DateTime.parse('2000-01-01 16:00:00')
+
+        time = DateTime.parse('2017-01-01 09:00:00')
+
+        expect(subject.available?(time)).to be true
+      end
     end
 
     context 'when #available_until does not exist' do
-      it 'returns true'
+      it 'returns true' do
+        subject.available_from = DateTime.parse('2000-01-01 09:00:00')
+        subject.available_until = nil
+
+        time = DateTime.parse('2017-01-01 09:00:00')
+
+        expect(subject.available?(time)).to be true
+      end
+    end
+
+    context 'when #avaiable_from and #available_to do not exist' do
+      it 'returns true' do
+        subject.available_from = nil
+        subject.available_until = nil
+
+        time = DateTime.parse('2017-01-01 09:00:00')
+
+        expect(subject.available?(time)).to be true
+      end
     end
   end
 end
