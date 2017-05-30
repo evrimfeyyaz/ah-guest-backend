@@ -47,42 +47,42 @@ RoomService::Category.create!([
                               ])
 puts "Created #{RoomService::Category.count} room service categories."
 
-# Create room service item attributes.
+# Create room service tags.
 RoomService::Tag.destroy_all
-cereals_attribute = RoomService::Tag.create!(title: 'Cereals')
-seafood_attribute = RoomService::Tag.create!(title: 'Seafood')
-dairy_attribute = RoomService::Tag.create!(title: 'Dairy')
-nuts_and_seeds_attribute = RoomService::Tag.create!(title: 'Nuts & Seeds')
-egg_attribute = RoomService::Tag.create!(title: 'Egg')
-mustard_and_celery_attribute = RoomService::Tag.create!(title: 'Mustard & Celery')
-soya_attribute = RoomService::Tag.create!(title: 'Soya')
-spicy_attribute = RoomService::Tag.create!(title: 'Spicy')
-healthy_attribute = RoomService::Tag.create!(title: 'Healthy')
-vegetarian_attribute = RoomService::Tag.create!(title: 'Vegetarian')
+cereals_tag = RoomService::Tag.create!(title: 'Cereals')
+seafood_tag = RoomService::Tag.create!(title: 'Seafood')
+dairy_tag = RoomService::Tag.create!(title: 'Dairy')
+nuts_and_seeds_tag = RoomService::Tag.create!(title: 'Nuts & Seeds')
+egg_tag = RoomService::Tag.create!(title: 'Egg')
+mustard_and_celery_tag = RoomService::Tag.create!(title: 'Mustard & Celery')
+soya_tag = RoomService::Tag.create!(title: 'Soya')
+spicy_tag = RoomService::Tag.create!(title: 'Spicy')
+healthy_tag = RoomService::Tag.create!(title: 'Healthy')
+vegetarian_tag = RoomService::Tag.create!(title: 'Vegetarian')
 puts "Created #{RoomService::Tag.count} room service item attributes."
 
 # Create room service item options.
 RoomService::Option.destroy_all
 breakfast_beverage_option = RoomService::Option.create!(title: 'Beverage', optional: false, allows_multiple_choices: false)
 breakfast_beverage_option.possible_choices.create!([
-  { title: 'Tea', price: 0 },
-  { title: 'Coffee', price: 0 },
-  { title: 'Milk', price: 0 }
-                                                  ])
+                                                     { title: 'Tea', price: 0 },
+                                                     { title: 'Coffee', price: 0 },
+                                                     { title: 'Milk', price: 0 }
+                                                   ])
 breakfast_pastry_option = RoomService::Option.create!(title: 'Pastries', optional: false, allows_multiple_choices: false)
 breakfast_pastry_option.possible_choices.create!([
-  { title: "Baker's Basket", price: 0 },
-  { title: 'Bread rolls', price: 0 }
-                                                ])
+                                                   { title: "Baker's Basket", price: 0 },
+                                                   { title: 'Bread rolls', price: 0 }
+                                                 ])
 puts "Created #{RoomService::Option.count} room service item options."
 puts "Created #{RoomService::Choice.count} room service item option choices."
 
 # Create room service items.
 breakfast_category = RoomService::Category.find_by(title: 'Breakfast')
-breakfast_category.default_section.items.create(title: 'Continental Breakfast', price: 6.000, item_attributes: [dairy_attribute],
+breakfast_category.default_section.items.create(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
                                                 long_description: 'fusion selection of tea, coffee or milk, choice of fresh seasonal juice, baker’s basket with toast, croissant, Danish or bread rolls with butter, honey, jam or marmalade',
-                                                possible_options: [breakfast_beverage_option, breakfast_pastry_option])
-breakfast_category.default_section.items.create(title: 'American Breakfast', price: 8.500, item_attributes: [dairy_attribute])
-breakfast_category.default_section.items.create(title: 'Oriental Breakfast', price: 8.500, item_attributes: [dairy_attribute])
-breakfast_category.default_section.items.create(title: 'The K Healthy Breakfast', price: 8.500, item_attributes: [dairy_attribute, healthy_attribute])
+                                                options: [breakfast_beverage_option, breakfast_pastry_option])
+breakfast_category.default_section.items.create(title: 'American Breakfast', price: 8.500, tags: [dairy_tag])
+breakfast_category.default_section.items.create(title: 'Oriental Breakfast', price: 8.500, tags: [dairy_tag])
+breakfast_category.default_section.items.create(title: 'The K Healthy Breakfast', price: 8.500, tags: [dairy_tag, healthy_tag])
 puts "Created #{breakfast_category.default_section.items.count} items in the '#{breakfast_category.default_section.title}' section of the '#{breakfast_category.title}' category."

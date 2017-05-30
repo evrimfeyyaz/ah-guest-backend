@@ -41,6 +41,7 @@ describe 'POST /api/v0/users/' do
       }.to_json, headers: request_headers
 
       expect(response.status).to eq(422)
+      expect(response_json).to include('error_type' => 'validation')
       expect(response_json).to have_key('errors')
     end
   end

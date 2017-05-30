@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528161554) do
+ActiveRecord::Schema.define(version: 20170530064237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20170528161554) do
     t.string "image_content_type"
     t.integer "image_file_size"
     t.datetime "image_updated_at"
+    t.time "available_from"
+    t.time "available_until"
   end
 
   create_table "room_service_choices", force: :cascade do |t|
@@ -127,8 +129,6 @@ ActiveRecord::Schema.define(version: 20170528161554) do
     t.bigint "room_service_category_id"
     t.boolean "default", default: false
     t.integer "room_service_items_count", default: 0
-    t.bigint "category_id"
-    t.index ["category_id"], name: "index_room_service_sections_on_category_id"
     t.index ["room_service_category_id"], name: "index_room_service_sections_on_room_service_category_id"
   end
 
@@ -161,5 +161,4 @@ ActiveRecord::Schema.define(version: 20170528161554) do
   add_foreign_key "room_service_orders", "reservations"
   add_foreign_key "room_service_orders", "users"
   add_foreign_key "room_service_sections", "room_service_categories"
-  add_foreign_key "room_service_sections", "room_service_categories", column: "category_id"
 end

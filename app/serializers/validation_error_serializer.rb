@@ -1,5 +1,9 @@
 class ValidationErrorSerializer < ActiveModel::Serializer
-  attributes :errors
+  attributes :error_type, :errors
+
+  def error_type
+    :validation
+  end
 
   def errors
     details = object.errors.details

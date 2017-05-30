@@ -98,7 +98,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
           }
         }.to_json, headers: request_headers(user: user)
       }.to change { user.room_service_orders.count }.by(1).
-          and change { wrong_user.room_service_orders.count }.by(0)
+        and change { wrong_user.room_service_orders.count }.by(0)
     end
   end
 
@@ -123,6 +123,46 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       post "/api/v0/users/#{wrong_user.id}/room_service/orders", headers: request_headers(user: user)
 
       expect(response.status).to eq(401)
+    end
+  end
+
+  context 'when there is an item that cannot be provided at the time of creation' do
+    it 'does not create an order and responds with "400 Bad Request"' do
+      reservation = user.reservations.create(attributes_for(:reservation))
+
+      category
+      item = create(:room_service_item_with_option)
+      option = item.options.first
+      selected_choice = option.possible_choices.first
+
+      cart_item_attributes = attributes_for(:room_service_cart_item)
+
+      expect {
+        post "/api/v0/users/#{user.id}/room_service/orders", params: {
+          'order' => {
+            'reservation_id' => reservation.id,
+            'cart_items_attributes' => {
+              '0' => {
+                'quantity' => cart_item_attributes[:quantity],
+                'special_request' => cart_item_attributes[:special_request],
+                'room_service_item_id' => item.id,
+                'choices_for_options_attributes' => {
+                  '0' => {
+                    'room_service_option_id' => option.id,
+                    'selected_choice_ids' => [
+                      selected_choice.id
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }.to_json, headers: request_headers(user: user)
+      }.not_to change { RoomService::Order.count }
+
+      expect(response.status).to eq(400)
+      expect(response_json.error_type).to eq('validation')
+      expect(response_json.errors).to include({ 'cart_item' => 'not_available' })
     end
   end
 end
