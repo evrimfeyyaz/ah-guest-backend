@@ -16,4 +16,8 @@ class User < ApplicationRecord
   validates_format_of :email, with: /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\z/i # Email validation regex from: http://www.regular-expressions.info/email.html
 
   validates_length_of :password, minimum: 8, maximum: 128, on: :create
+
+  def current_or_upcoming_reservation
+    reservations.where('check_out_date >= ?', Date.current).order(check_in_date: :asc).take
+  end
 end

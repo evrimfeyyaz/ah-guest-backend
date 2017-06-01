@@ -24,7 +24,8 @@ describe 'POST /api/v0/users/' do
                                   'email' => user.email,
                                   'first_name' => user.first_name,
                                   'last_name' => user.last_name,
-                                  'auth_token' => user.auth_token)
+                                  'auth_token' => user.auth_token,
+                                  'current_or_upcoming_reservation' => nil)
     end
   end
 

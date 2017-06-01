@@ -6,6 +6,12 @@ describe 'POST /api/v0/authentication/' do
   context 'with valid credentials' do
     it 'returns a user' do
       user = create(:user)
+      reservation = create(:reservation,
+                           user: user,
+                           check_in_date: 1.day.ago,
+                           check_out_date: 1.day.from_now,
+                           first_name: user.first_name,
+                           last_name: user.last_name)
 
       post '/api/v0/authentication/', params: {
         'user' => {
@@ -19,7 +25,16 @@ describe 'POST /api/v0/authentication/' do
                                   'email' => user.email,
                                   'first_name' => user.first_name,
                                   'last_name' => user.last_name,
-                                  'auth_token' => user.auth_token)
+                                  'auth_token' => user.auth_token,
+                                  'current_or_upcoming_reservation' => {
+                                    'id' => reservation.id,
+                                    'check_in_date' => reservation.check_in_date.to_s,
+                                    'check_out_date' => reservation.check_out_date.to_s,
+                                    'first_name' => reservation.first_name,
+                                    'last_name' => reservation.last_name,
+                                    'confirmation_code' => reservation.confirmation_code,
+                                    'room_number' => reservation.room_number
+                                  })
     end
   end
 

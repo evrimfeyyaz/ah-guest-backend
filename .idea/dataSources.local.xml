@@ -14,7 +14,7 @@
       <introspection-schemas>guest-api-app_test:public</introspection-schemas>
     </data-source>
     <data-source name="Rails guest-api-app: development" uuid="e066d5cc-fe8c-4ffc-8c7b-eb05bde1f95c">
-      <database-info product="PostgreSQL" version="9.6.2" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+      <database-info product="PostgreSQL" version="9.6.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
