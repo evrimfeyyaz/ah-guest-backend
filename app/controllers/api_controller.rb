@@ -18,10 +18,11 @@ class ApiController < ActionController::API
   end
 
   def authenticate_user_by_auth_token
-    auth_token = request.headers['Authorization']
+    user_authenticator = UserAuthenticator.new(request.headers['ah-user-id'], request.headers['Authorization'])
 
-    unless current_user && auth_token && ActiveSupport::SecurityUtils.secure_compare(current_user.auth_token, auth_token)
-      head :unauthorized
+    unless user_authenticator.authenticate
+      render json: user_authenticator, status: :unauthorized,
+             serializer: UserAuthenticationErrorSerializer
     end
   end
 end

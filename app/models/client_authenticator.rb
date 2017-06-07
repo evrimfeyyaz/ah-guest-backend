@@ -12,17 +12,10 @@ class ClientAuthenticator
   attr_reader   :errors
 
   def authenticate
-    if client_secret.nil?
-      errors.add(:client_secret, :blank, message: 'must exist')
-      return false
-    end
+    errors.add(:client_secret, :blank, message: 'must exist') if client_secret.nil?
+    errors.add(:client_secret, :invalid, message: 'is invalid') unless client_secret == Rails.application.secrets.client_secret
 
-    unless client_secret == Rails.application.secrets.client_secret
-      errors.add(:client_secret, :invalid, message: 'is invalid')
-      return false
-    end
-
-    true
+    errors.empty?
   end
 
   # The following methods are needed to be minimally implemented
