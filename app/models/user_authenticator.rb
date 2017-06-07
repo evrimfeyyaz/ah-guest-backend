@@ -25,8 +25,6 @@ class UserAuthenticator
     errors.empty?
   end
 
-  # The following methods are needed to be minimally implemented
-
   def read_attribute_for_validation(attr)
     send(attr)
   end

@@ -10,7 +10,7 @@ class Api::V0::AuthenticationsController < ApiController
     if user && user.authenticate(password)
       render json: user
     else
-      head :not_found
+      head :unauthorized
     end
   end
 

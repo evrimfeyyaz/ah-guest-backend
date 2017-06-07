@@ -39,7 +39,7 @@ describe 'POST /api/v0/authentication/' do
   end
 
   context 'with invalid password' do
-    it 'returns 404' do
+    it 'responds with "401 Unauthorized"' do
       user = create(:user)
 
       post '/api/v0/authentication/', params: {
@@ -49,13 +49,13 @@ describe 'POST /api/v0/authentication/' do
         }
       }.to_json, headers: request_headers
 
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(401)
       expect(response.body).to be_empty
     end
   end
 
   context 'when user does not exist' do
-    it 'returns 404' do
+    it 'responds with "401 Unauthorized"' do
       post '/api/v0/authentication/', params: {
         'user' => {
           'email' => 'wrong@email.com',
@@ -63,7 +63,7 @@ describe 'POST /api/v0/authentication/' do
         }
       }.to_json, headers: request_headers
 
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(401)
       expect(response.body).to be_empty
     end
   end
@@ -73,7 +73,7 @@ describe 'DELETE /api/v0/authentication' do
   it_behaves_like 'an endpoint that requires client secret authentication', :delete, '/api/v0/authentication/'
   it_behaves_like 'an endpoint that requires user authentication', :delete, '/api/v0/authentication'
 
-  it 'resets the authentication token of current user and responds with "204 No Content"' do
+  it 'resets the authentication token of the current user and responds with "204 No Content"' do
     user = create(:user)
     signed_in_authentication_token = user.auth_token
 
