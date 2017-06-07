@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :reservation_associations, only: [:create]
 
       namespace :room_service do
-        resources :categories, only: [:index, :show] do
+        resources :categories, only: [:index] do
           resources :sections, only: [:index]
         end
 
