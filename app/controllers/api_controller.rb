@@ -1,12 +1,15 @@
 class ApiController < ActionController::API
-  before_action :authorize_client_by_client_secret
+  before_action :authenticate_client_by_client_secret
   before_action :authenticate_user_by_auth_token
 
   private
 
-  def authorize_client_by_client_secret
-    unless request.headers['ah-client-secret'] == Rails.application.secrets.client_secret
-      head :unauthorized
+  def authenticate_client_by_client_secret
+    client_authenticator = ClientAuthenticator.new(request.headers['ah-client-secret'])
+
+    unless client_authenticator.authenticate
+      render json: client_authenticator, status: :unauthorized,
+             serializer: ClientAuthenticationErrorSerializer
     end
   end
 

@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'GET /api/v0/room_service/items/:item_id' do
+  it_behaves_like 'an endpoint that requires client secret authentication', :get, '/api/v0/room_service/items/0'
+
   let(:item) { create(:room_service_item) }
 
   context 'when item exists' do

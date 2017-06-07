@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/users/:user_id/room_service/orders' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/0/room_service/orders'
+  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/users/0/room_service/orders'
   it_behaves_like 'an endpoint that requires user authentication', :post, '/api/v0/users/%{object_id}/room_service/orders' do
     let(:object) { user }
   end
@@ -172,7 +172,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 end
 
 describe 'GET /api/v0/users/:user_id/room_service/orders' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/users/0/room_service/orders'
+  it_behaves_like 'an endpoint that requires client secret authentication', :get, '/api/v0/users/0/room_service/orders'
   it_behaves_like 'an endpoint that requires user authentication', :get, '/api/v0/users/%{object_id}/room_service/orders' do
     let(:object) { user }
   end

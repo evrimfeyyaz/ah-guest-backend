@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/users/' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/users/'
+  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/users/'
 
   context 'with valid parameters' do
     it 'creates a user' do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'GET /api/v0/room_service/categories/:category_id/sections' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :get, '/api/v0/room_service/categories/0/sections'
+  it_behaves_like 'an endpoint that requires client secret authentication', :get, '/api/v0/room_service/categories/0/sections'
 
   let!(:category) { create(:room_service_category) }
 

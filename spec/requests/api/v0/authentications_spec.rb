@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'POST /api/v0/authentication/' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :post, '/api/v0/authentication/'
+  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/authentication/'
 
   context 'with valid credentials' do
     it 'returns a user' do
@@ -70,7 +70,7 @@ describe 'POST /api/v0/authentication/' do
 end
 
 describe 'DELETE /api/v0/authentication' do
-  it_behaves_like 'an endpoint that requires client secret authorization', :delete, '/api/v0/authentication/'
+  it_behaves_like 'an endpoint that requires client secret authentication', :delete, '/api/v0/authentication/'
   it_behaves_like 'an endpoint that requires user authentication', :delete, '/api/v0/authentication'
 
   it 'resets the authentication token of current user and responds with "204 No Content"' do
