@@ -8,40 +8,14 @@ class Api::V0::ReservationAssociationsController < ApiController
     check_in_date = reservation_association_params.has_key?(:check_in_date) ?
       Date.parse(reservation_association_params[:check_in_date]) : nil
 
-    if confirmation_code
-      reservation = Reservation.where(confirmation_code: confirmation_code)
+    reservation_associator = ReservationAssociator.new(user: current_user,
+                                                       confirmation_code: confirmation_code,
+                                                       check_in_date: check_in_date)
 
-      if reservation.count == 0
-        return head :bad_request
-      end
-
-      reservation = reservation.take
-
-      reservation.user = current_user
-
-      if reservation.save
-        return head :no_content
-      end
-    elsif check_in_date
-      reservations_with_check_in_date = Reservation.where(check_in_date: check_in_date,
-                                                          user_id: nil,
-                                                          first_name: current_user.first_name,
-                                                          last_name: current_user.last_name)
-
-      reservations_count = reservations_with_check_in_date.count
-      if reservations_count > 1 || reservations_count == 0
-        return head :bad_request
-      end
-
-      reservation = reservations_with_check_in_date.first
-
-      reservation.user = current_user
-
-      if reservation.save
-        return head :no_content
-      end
+    if reservation_associator.associate
+      render json: reservation_associator.associated_reservation
     else
-      return head :bad_request
+      render json: reservation_associator, status: :unprocessable_entity, serializer: ReservationAssociationErrorSerializer
     end
   end
 
