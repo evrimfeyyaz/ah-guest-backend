@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v0 do
-      resources :users, only: [:create] do
+      resources :users, only: [:create, :show] do
         namespace :room_service do
           resources :orders, only: [:index, :create]
         end
