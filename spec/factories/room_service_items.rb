@@ -9,6 +9,12 @@ FactoryGirl.define do
       after(:create) do |item|
         item.options << create(:room_service_option_with_choices)
       end
+
+      factory :room_service_item_with_option_and_tag do
+        after(:create) do |item|
+          item.tags << create(:room_service_tag)
+        end
+      end
     end
 
     factory :available_room_service_item do

@@ -11,7 +11,12 @@ class Api::V0::RoomService::OrdersController < ApiController
     if user.room_service_orders.count == 0
       return head :no_content
     else
-      render json: user.room_service_orders
+      render json: user.room_service_orders,
+             include: ['cart_items.choices_for_options',
+                       'cart_items.item',
+                       'cart_items.item.tags',
+                       'cart_items.item.options',
+                       'cart_items.item.options.possible_choices']
     end
   end
 
