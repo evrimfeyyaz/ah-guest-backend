@@ -20,4 +20,8 @@ class User < ApplicationRecord
   def current_or_upcoming_reservation
     reservations.where('check_out_date >= ?', Date.current).order(check_in_date: :asc).take
   end
+
+  def current_reservation
+    reservations.where('check_in_date <= ? AND check_out_date >= ?', Date.current, Date.current).take
+  end
 end

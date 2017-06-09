@@ -1,6 +1,8 @@
 class Api::V0::RoomService::OrdersController < ApiController
   rescue_from ActionController::ParameterMissing, with: :respond_with_unprocessable_entity
 
+  before_action :ensure_active_reservation
+
   def index
     user = User.find(params[:user_id])
 
@@ -47,6 +49,22 @@ class Api::V0::RoomService::OrdersController < ApiController
                        'cart_items.item.options.possible_choices']
     else
       render json: order, status: :unprocessable_entity, serializer: ValidationErrorSerializer
+    end
+  end
+
+  private
+  def ensure_active_reservation
+    unless current_user.current_reservation
+      render json: {
+        'user' => [
+          {
+            'error' => 'has_no_active_reservation',
+            'full_message' => 'You need an active reservation to do this action'
+          }
+        ]
+      }, status: :forbidden, serializer: AuthorizationErrorSerializer
+
+      false
     end
   end
 

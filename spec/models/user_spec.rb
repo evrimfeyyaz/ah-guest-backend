@@ -85,4 +85,24 @@ describe User do
       end
     end
   end
+
+  describe '#current_reservation' do
+    let(:user) { create(:user) }
+
+    context 'when there is a reservation that includes the current day' do
+      it 'returns the reservation that includes the current day' do
+        reservation = create(:reservation, check_in_date: 1.day.ago, check_out_date: 1.day.from_now, user: user)
+
+        user.reload
+
+        expect(user.current_reservation).to eq(reservation)
+      end
+    end
+
+    context 'when there is no reservation that includes the current day' do
+      it 'returns nil' do
+        expect(user.current_reservation).to be_nil
+      end
+    end
+  end
 end

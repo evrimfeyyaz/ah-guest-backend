@@ -213,6 +213,28 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       ])
     end
   end
+
+  context 'when the user does not have an active reservation' do
+    it 'does not create an order and responds with "403 Forbidden"' do
+      past_reservation = create(:reservation, check_in_date: 2.days.ago, check_out_date: 1.day.ago)
+      user.reservations << past_reservation
+
+      expect {
+        post "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
+      }.not_to change { RoomService::Order.count }
+
+      expect(response.status).to eq(403)
+      expect(response_json).to eq('error_type' => 'authorization',
+                                  'errors' => {
+                                    'user' => [
+                                      {
+                                        'error' => 'has_no_active_reservation',
+                                        'full_message' => 'You need an active reservation to do this action'
+                                      }
+                                    ]
+                                  })
+    end
+  end
 end
 
 describe 'GET /api/v0/users/:user_id/room_service/orders' do
