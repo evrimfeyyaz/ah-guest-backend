@@ -6,5 +6,7 @@ class RoomService::Item < ApplicationRecord
   validates_presence_of :title
   validates_numericality_of :price, greater_than_or_equal_to: 0
 
-  delegate :available?, to: 'section.category'
+  delegate :available?, to: 'section', allow_nil: true
+  delegate :available_from, to: 'section', allow_nil: true
+  delegate :available_until, to: 'section', allow_nil: true
 end

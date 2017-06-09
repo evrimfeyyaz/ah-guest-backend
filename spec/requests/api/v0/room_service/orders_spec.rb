@@ -12,7 +12,8 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     it 'creates an order' do
       reservation = user.reservations.create(attributes_for(:reservation))
 
-      item = create(:room_service_item_with_option)
+      tag = create(:room_service_tag)
+      item = create(:room_service_item_with_option, tags: [tag])
       option = item.options.first
       selected_choice = option.possible_choices.first
       non_selected_choice = option.possible_choices.last
@@ -58,13 +59,46 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                                         'id' => cart_item.id,
                                         'quantity' => cart_item.quantity,
                                         'special_request' => cart_item.special_request,
-                                        'room_service_item_id' => item.id,
+                                        'item' => {
+                                          'id' => item.id,
+                                          'title' => item.title,
+                                          'price' => item.price.to_s,
+                                          'short_description' => item.short_description,
+                                          'long_description' => item.long_description,
+                                          'tags' => [
+                                            {
+                                              'id' => tag.id,
+                                              'title' => tag.title
+                                            }
+                                          ],
+                                          'options' => [
+                                            {
+                                              'id' => option.id,
+                                              'title' => option.title,
+                                              'optional' => option.optional,
+                                              'allows_multiple_choices' => option.allows_multiple_choices,
+                                              'default_room_service_choice_id' => option.default_room_service_choice_id,
+                                              'possible_choices' => [
+                                                {
+                                                  'id' => selected_choice.id,
+                                                  'title' => selected_choice.title,
+                                                  'price' => selected_choice.price.to_s
+                                                },
+                                                {
+                                                  'id' => non_selected_choice.id,
+                                                  'title' => non_selected_choice.title,
+                                                  'price' => non_selected_choice.price.to_s
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
                                         'choices_for_options' => [
                                           {
                                             'id' => choices_for_option.id,
                                             'room_service_option_id' => choices_for_option.option.id,
                                             'selected_choice_ids' => [
-                                              choices_for_option.selected_choices.first.id
+                                              selected_choice.id
                                             ]
                                           }
                                         ]
@@ -75,7 +109,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   end
 
   context 'with a user ID parameter different than the one of the current user' do
-    it 'wrong user ID is ignored' do
+    it 'responds with "403 Forbidden"' do
       wrong_user = create(:user)
 
       reservation = user.reservations.create(attributes_for(:reservation))
@@ -97,13 +131,15 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
             }
           }
         }.to_json, headers: request_headers(user: user)
-      }.to change { user.room_service_orders.count }.by(1).
+      }.to change { user.room_service_orders.count }.by(0).
         and change { wrong_user.room_service_orders.count }.by(0)
+
+      expect(response.status).to eq(403)
     end
   end
 
   context 'with a reservation ID parameter that does not belong to the current user' do
-    it 'responds with "400 Bad Request"' do
+    it 'responds with "403 Forbidden"' do
       reservation_that_belongs_to_another_user = create(:reservation)
 
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
@@ -112,7 +148,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
         }
       }.to_json, headers: request_headers(user: user)
 
-      expect(response.status).to eq(400)
+      expect(response.status).to eq(403)
     end
   end
 
@@ -126,7 +162,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     end
   end
 
-  context 'when there is an item that is not available at the time of creation' do
+  context 'when the order includes an item that is not available at the time of creation' do
     it 'does not create an order and responds with "422 Unprocessable Entity"' do
       reservation = user.reservations.create(attributes_for(:reservation))
 
@@ -160,13 +196,21 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
         }.to_json, headers: request_headers(user: user)
       }.not_to change { RoomService::Order.count }
 
+      available_from_time_only = item.available_from.strftime('%H:%M')
+      available_until_time_only = item.available_until.strftime('%H:%M')
+
       expect(response.status).to eq(422)
       expect(response_json['error_type']).to eq('validation')
-      expect(response_json['errors']).to include({ 'cart_items.base' => [{
-                                                                           'error' => 'not_available_at_the_moment',
-                                                                           'title' => item.title,
-                                                                           'message' => "\"#{item.title}\" is not available at the moment"
-                                                                         }] })
+      expect(response_json['errors']).to include('cart_items.base' => [
+        {
+          'error' => 'not_available_at_the_moment',
+          'item_title' => item.title,
+          'item_id' => item.id,
+          'item_available_from' => available_from_time_only,
+          'item_available_until' => available_until_time_only,
+          'full_message' => "Cart items base \"#{item.title}\" is not available at the moment (only available from #{available_from_time_only} to #{available_until_time_only})"
+        }
+      ])
     end
   end
 end

@@ -16,21 +16,30 @@ class Api::V0::RoomService::OrdersController < ApiController
   end
 
   def create
+    if params[:order].include?(:user_id)
+      return head :forbidden
+    end
+
     user = User.find(params[:user_id])
 
     if user != current_user
       return head :forbidden
     end
 
-    reservation_id = params[:order][:reservation_id]
+    reservation_id = order_params[:reservation_id]
     unless reservation_id.nil? || user.reservation_ids.include?(reservation_id)
-      return head :bad_request
+      return head :forbidden
     end
 
     order = user.room_service_orders.build(order_params)
 
     if order.save
-      render json: order, status: :created, include: ['cart_items.choices_for_options']
+      render json: order, status: :created,
+             include: ['cart_items.choices_for_options',
+                       'cart_items.item',
+                       'cart_items.item.tags',
+                       'cart_items.item.options',
+                       'cart_items.item.options.possible_choices']
     else
       render json: order, status: :unprocessable_entity, serializer: ValidationErrorSerializer
     end

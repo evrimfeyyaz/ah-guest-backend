@@ -19,8 +19,8 @@ class RoomService::Category < ApplicationRecord
       return true
     end
 
-    time.utc.strftime('%H%M%S%N') >= available_from.utc.strftime('%H%M%S%N') &&
-      time.utc.strftime('%H%M%S%N') <= available_until.utc.strftime('%H%M%S%N')
+    time.strftime('%H%M') >= available_from.strftime('%H%M') &&
+      time.strftime('%H%M') <= available_until.strftime('%H%M')
   end
 
   private

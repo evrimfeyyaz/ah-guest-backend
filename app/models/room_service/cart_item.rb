@@ -8,14 +8,14 @@ class RoomService::CartItem < ApplicationRecord
 
   accepts_nested_attributes_for :choices_for_options
 
-  delegate :title, to: :item, allow_nil: true
-
   private
 
   def availability_at_the_moment
-    # TODO: Add available times to error details.
     errors.add(:base, :not_available_at_the_moment,
-               message: '"%{title}" is not available at the moment',
-               title: title) unless item.nil? || item.available?(DateTime.current)
+               message: '"%{item_title}" is not available at the moment (only available from %{item_available_from} to %{item_available_until})',
+               item_title: item.title,
+               item_available_from: item.available_from.strftime('%H:%M'),
+               item_available_until: item.available_until.strftime('%H:%M'),
+               item_id: item.id) unless item.nil? || item.available?(DateTime.current)
   end
 end

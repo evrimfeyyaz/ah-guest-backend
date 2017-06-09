@@ -3,7 +3,9 @@ class RoomService::OrderSerializer < ActiveModel::Serializer
 
   has_many :cart_items
   class CartItemSerializer < ActiveModel::Serializer
-    attributes :id, :quantity, :special_request, :room_service_item_id
+    attributes :id, :quantity, :special_request
+
+    belongs_to :item
 
     has_many :choices_for_options
     class ChoicesForOptionSerializer < ActiveModel::Serializer

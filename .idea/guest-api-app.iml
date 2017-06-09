@@ -110,7 +110,7 @@
         <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
         <method />
       </configuration>
-      <configuration default="false" name="POST /api/v0/reservation_associations with check-in date when there is an associated reservation that matches the check-in date and the name responds with &quot;422 Unprocessable Entity&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <configuration default="false" name="POST /api/v0/users/:user_id/room_service/orders with a reservation ID parameter that does not belong to the current user responds with &quot;403 Forbidden&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
         <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="guest-api-app" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -130,10 +130,10 @@
           </COVERAGE_PATTERN>
         </EXTENSION>
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/reservation_associations_spec.rb" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/room_service/orders_spec.rb" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/reservation_associations with check-in date when there is an associated reservation that matches the check-in date and the name responds with &quot;422 Unprocessable Entity&quot;" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/users/:user_id/room_service/orders with a reservation ID parameter that does not belong to the current user responds with &quot;403 Forbidden&quot;" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
@@ -144,7 +144,7 @@
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
         <method />
       </configuration>
-      <configuration default="false" name="POST /api/v0/reservation_associations with check-in date when there is one reservation that matches the check-in date but not the first name responds with &quot;422 Unprocessable Entity&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <configuration default="false" name="POST /api/v0/users/:user_id/room_service/orders with a user ID in the URL that does not belong to the current user responds with &quot;403 Forbidden&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
         <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="guest-api-app" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -164,10 +164,10 @@
           </COVERAGE_PATTERN>
         </EXTENSION>
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/reservation_associations_spec.rb" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/room_service/orders_spec.rb" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/reservation_associations with check-in date when there is one reservation that matches the check-in date but not the first name responds with &quot;422 Unprocessable Entity&quot;" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/users/:user_id/room_service/orders with a user ID in the URL that does not belong to the current user responds with &quot;403 Forbidden&quot;" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
@@ -178,7 +178,7 @@
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
         <method />
       </configuration>
-      <configuration default="false" name="POST /api/v0/reservation_associations with check-in date when there is one reservation that matches the check-in date but not the last name responds with &quot;422 Unprocessable Entity&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <configuration default="false" name="RoomService::CartItem validates availability of the item: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
         <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="guest-api-app" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -198,10 +198,10 @@
           </COVERAGE_PATTERN>
         </EXTENSION>
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/reservation_associations_spec.rb" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/models/room_service/cart_item_spec.rb" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/reservation_associations with check-in date when there is one reservation that matches the check-in date but not the last name responds with &quot;422 Unprocessable Entity&quot;" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="RoomService::CartItem validates availability of the item" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
@@ -212,7 +212,7 @@
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
         <method />
       </configuration>
-      <configuration default="false" name="POST /api/v0/reservation_associations with confirmation code when there is a reservation with the given confirmation code and it is not associated with a user associates the reservation with the user and responds with &quot;200 OK&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <configuration default="false" name="RoomService::CartItem validates availability of the item when item is not available has a validation error: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
         <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="guest-api-app" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -232,10 +232,10 @@
           </COVERAGE_PATTERN>
         </EXTENSION>
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/reservation_associations_spec.rb" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/models/room_service/cart_item_spec.rb" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/reservation_associations with confirmation code when there is a reservation with the given confirmation code and it is not associated with a user associates the reservation with the user and responds with &quot;200 OK&quot;" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="RoomService::CartItem validates availability of the item when item is not available has a validation error" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
@@ -246,7 +246,7 @@
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
         <method />
       </configuration>
-      <configuration default="false" name="POST /api/v0/reservation_associations: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
+      <configuration default="false" name="POST /api/v0/users/:user_id/room_service/orders when the order includes an item that is not available at the time of creation does not create an order and responds with &quot;422 Unprocessable Entity&quot;: guest-api-app" type="RSpecRunConfigurationType" factoryName="RSpec" temporary="true">
         <predefined_log_file id="RUBY_RSPEC" enabled="true" />
         <module name="guest-api-app" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -266,10 +266,10 @@
           </COVERAGE_PATTERN>
         </EXTENSION>
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/reservation_associations_spec.rb" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="$MODULE_DIR$/spec/requests/api/v0/room_service/orders_spec.rb" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
-        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/reservation_associations" />
+        <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="POST /api/v0/users/:user_id/room_service/orders when the order includes an item that is not available at the time of creation does not create an order and responds with &quot;422 Unprocessable Entity&quot;" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
         <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
