@@ -1,7 +1,7 @@
 class Api::V0::RoomService::OrdersController < ApiController
   rescue_from ActionController::ParameterMissing, with: :respond_with_unprocessable_entity
 
-  before_action :ensure_active_reservation
+  before_action :ensure_active_reservation, except: [:index]
 
   def index
     user = User.find(params[:user_id])
