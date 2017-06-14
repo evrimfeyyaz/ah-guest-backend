@@ -4,7 +4,7 @@ describe User do
   it { should have_secure_password }
   it { should have_db_column(:auth_token) }
   it { should have_many(:room_service_orders).dependent(:destroy).inverse_of(:user).class_name('RoomService::Order') }
-  it { should have_many(:reservations).dependent(:destroy).inverse_of(:user) }
+  it { should have_many(:reservations).dependent(:nullify).inverse_of(:user) }
 
   it { should validate_presence_of :email }
   it { should validate_uniqueness_of(:email).case_insensitive }
