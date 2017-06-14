@@ -4,6 +4,7 @@ describe RoomService::Order do
   it { should belong_to(:user).inverse_of(:room_service_orders) }
   it { should belong_to(:reservation).inverse_of(:room_service_orders) }
   it { should have_many(:cart_items).dependent(:destroy).inverse_of(:order).with_foreign_key('room_service_order_id') }
+  it { should validate_presence_of :cart_items }
 
   it 'validates that the reservation belongs to the user' do
     subject.user = create(:user)
