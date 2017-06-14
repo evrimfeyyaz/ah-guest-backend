@@ -5,6 +5,7 @@ class RoomService::Order < ApplicationRecord
 
   validate :reservation_belongs_to_user
   validate :reservation_includes_current_day
+  validates_length_of :cart_items, minimum: 1
 
   accepts_nested_attributes_for :cart_items
 
