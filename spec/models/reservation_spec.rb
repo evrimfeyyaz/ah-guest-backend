@@ -31,4 +31,20 @@ describe Reservation do
       expect(reservation).to be_valid
     end
   end
+
+  context '#includes_current_day?' do
+    it 'returns true when the reservation includes the current day' do
+      subject.check_in_date = 1.day.ago
+      subject.check_out_date = Date.current
+
+      expect(subject.includes_current_day?).to be true
+    end
+
+    it 'returns false when the reservation does not include the current day' do
+      subject.check_in_date = 2.days.ago
+      subject.check_out_date = 1.day.ago
+
+      expect(subject.includes_current_day?).to be false
+    end
+  end
 end

@@ -10,7 +10,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
   context 'with valid parameters' do
     it 'creates an order' do
-      reservation = user.reservations.create(attributes_for(:reservation))
+      reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       tag = create(:room_service_tag)
       item = create(:room_service_item_with_option, tags: [tag])
@@ -138,20 +138,6 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     end
   end
 
-  context 'with a reservation ID parameter that does not belong to the current user' do
-    it 'responds with "403 Forbidden"' do
-      reservation_that_belongs_to_another_user = create(:reservation)
-
-      post "/api/v0/users/#{user.id}/room_service/orders", params: {
-        'order' => {
-          'reservation_id' => reservation_that_belongs_to_another_user.id
-        }
-      }.to_json, headers: request_headers(user: user)
-
-      expect(response.status).to eq(403)
-    end
-  end
-
   context 'with a user ID in the URL that does not belong to the current user' do
     it 'responds with "403 Forbidden"' do
       wrong_user = create(:user)
@@ -164,7 +150,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
   context 'when the order includes an item that is not available at the time of creation' do
     it 'does not create an order and responds with "422 Unprocessable Entity"' do
-      reservation = user.reservations.create(attributes_for(:reservation))
+      reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
       item = create(:room_service_item_with_option, section: category.default_section)
@@ -215,7 +201,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   end
 
   context 'when the user does not have an active reservation' do
-    it 'does not create an order and responds with "403 Forbidden"' do
+    it 'does not create an order and responds with "422 Unprocessable Entity"' do
       past_reservation = create(:reservation, check_in_date: 2.days.ago, check_out_date: 1.day.ago)
       user.reservations << past_reservation
 
@@ -223,16 +209,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
         post "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
       }.not_to change { RoomService::Order.count }
 
-      expect(response.status).to eq(403)
-      expect(response_json).to eq('error_type' => 'authorization',
-                                  'errors' => {
-                                    'user' => [
-                                      {
-                                        'error' => 'has_no_active_reservation',
-                                        'full_message' => 'You need an active reservation to do this action'
-                                      }
-                                    ]
-                                  })
+      expect(response.status).to eq(422)
     end
   end
 end
@@ -247,8 +224,8 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
 
   context 'when user has orders' do
     it 'returns orders and responds with "200 OK"' do
-      order = create(:room_service_order_with_cart_items, user: user, cart_items_count: 1)
-      reservation = order.reservation
+      reservation = create(:reservation_including_current_day, user: user)
+      order = create(:room_service_order_with_cart_items, user: user, cart_items_count: 1, reservation: reservation)
       cart_item = order.cart_items.first
       cart_item.item = create(:room_service_item_with_option_and_tag)
       cart_item.save

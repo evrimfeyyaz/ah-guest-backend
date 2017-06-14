@@ -1,10 +1,7 @@
 FactoryGirl.define do
   factory :room_service_order, class: 'RoomService::Order' do
     user
-
-    after(:build) do |order|
-      order.reservation = create(:reservation, user: order.user)
-    end
+    association :reservation, factory: :reservation_including_current_day
 
     factory :room_service_order_with_cart_items do
       transient do

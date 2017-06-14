@@ -5,5 +5,9 @@ FactoryGirl.define do
     last_name 'Doe'
     password 'secret12345'
     password_confirmation 'secret12345'
+
+    factory :user_with_current_reservation do
+      association :reservation, factory: :current_reservation
+    end
   end
 end

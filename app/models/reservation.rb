@@ -6,6 +6,10 @@ class Reservation < ApplicationRecord
   validates_uniqueness_of :confirmation_code, case_sensitive: false
   validate :check_out_date_cannot_be_before_check_in_date
 
+  def includes_current_day?
+    check_in_date <= Date.current && check_out_date >= Date.current
+  end
+
   private
 
   def check_out_date_cannot_be_before_check_in_date
