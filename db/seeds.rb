@@ -32,7 +32,7 @@ RoomService::Category.create!([
                                   title: "Burgers & Wraps",
                                   image: Rails.root.join('seed/burgers-and-wraps.jpg').open
                                 }, {
-                                  title: "Kids Choice"
+                                  title: "Kids ItemChoice"
                                 }, {
                                   title: "Our Pastry Chef's Delights",
                                   image: Rails.root.join('seed/our-pastry-chefs-delights.jpg').open
@@ -62,20 +62,20 @@ vegetarian_tag = RoomService::Tag.create!(title: 'Vegetarian')
 puts "Created #{RoomService::Tag.count} room service item attributes."
 
 # Create room service item options.
-RoomService::Option.destroy_all
-breakfast_beverage_option = RoomService::Option.create!(title: 'Beverage', optional: false, allows_multiple_choices: false)
+RoomService::ItemChoice.destroy_all
+breakfast_beverage_option = RoomService::ItemChoice.create!(title: 'Beverage', optional: false, allows_multiple_choices: false)
 breakfast_beverage_option.possible_choices.create!([
                                                      { title: 'Tea', price: 0 },
                                                      { title: 'Coffee', price: 0 },
                                                      { title: 'Milk', price: 0 }
                                                    ])
-breakfast_pastry_option = RoomService::Option.create!(title: 'Pastries', optional: false, allows_multiple_choices: false)
+breakfast_pastry_option = RoomService::ItemChoice.create!(title: 'Pastries', optional: false, allows_multiple_choices: false)
 breakfast_pastry_option.possible_choices.create!([
                                                    { title: "Baker's Basket", price: 0 },
                                                    { title: 'Bread rolls', price: 0 }
                                                  ])
-puts "Created #{RoomService::Option.count} room service item options."
-puts "Created #{RoomService::Choice.count} room service item option choices."
+puts "Created #{RoomService::ItemChoice.count} room service item options."
+puts "Created #{RoomService::ItemChoiceOption.count} room service item option choices."
 
 # Create room service items.
 breakfast_category = RoomService::Category.find_by(title: 'Breakfast')

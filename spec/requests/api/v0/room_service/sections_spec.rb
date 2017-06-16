@@ -31,7 +31,7 @@ describe 'GET /api/v0/room_service/categories/:category_id/sections' do
 
   context 'when a section has no items' do
     it 'does not return that section' do
-      section_with_item = category.sections.create(attributes_for(:room_service_section))
+      section_with_item = category.sections.create(attributes_for(:room_service_sub_category))
       item = section_with_item.items.create(attributes_for(:room_service_item))
 
       get "/api/v0/room_service/categories/#{category.id}/sections/", headers: request_headers

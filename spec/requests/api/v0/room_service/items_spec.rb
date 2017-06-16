@@ -48,7 +48,7 @@ describe 'GET /api/v0/room_service/items/:item_id' do
 
   context 'when item has options' do
     it 'includes the options (and associated choices)' do
-      option = create(:room_service_option_with_choices, choices_count: 2)
+      option = create(:room_service_item_choice_with_multiple_options, choices_count: 2)
       choice1 = option.possible_choices.first
       choice2 = option.possible_choices.last
 

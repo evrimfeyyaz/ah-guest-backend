@@ -3,7 +3,7 @@ class Api::V0::RoomService::SectionsController < ApiController
 
   def index
     if params[:category_id]
-      sections = ::RoomService::Section.where(category: params[:category_id]).where('room_service_items_count > 0')
+      sections = ::RoomService::SubCategory.where(category: params[:category_id]).where('room_service_items_count > 0')
 
       if sections.empty?
         head :no_content

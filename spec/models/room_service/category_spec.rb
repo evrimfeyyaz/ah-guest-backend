@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RoomService::Category do
-  it { should have_many(:sections).
+  it { should have_many(:sub_categories).
     dependent(:destroy).
     inverse_of(:category).
     with_foreign_key('room_service_category_id') }
@@ -11,10 +11,10 @@ describe RoomService::Category do
   it { should validate_attachment_size(:image).less_than(2.megabytes) }
 
   context 'when created' do
-    it 'creates a default section' do
+    it 'creates a default sub-category' do
       category = create(:room_service_category)
 
-      expect(category.default_section).not_to be_nil
+      expect(category.default_sub_category).not_to be_nil
     end
   end
 
