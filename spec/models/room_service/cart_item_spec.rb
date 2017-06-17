@@ -15,7 +15,7 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:base]).not_to include("\"#{subject.item.title}\" is not available at the moment")
+        expect(subject.errors[:item]).not_to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
       end
     end
 
@@ -25,7 +25,7 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:base]).to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
+        expect(subject.errors[:item]).to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
       end
     end
   end
@@ -39,7 +39,7 @@ describe RoomService::CartItem do
 
           subject.validate
 
-          expect(subject.errors[:base]).to include("\"#{choice.title}\" requires at least one selection")
+          expect(subject.errors[:selected_options]).to include("should include a selection for \"#{choice.title}\"")
         end
       end
 
@@ -51,7 +51,7 @@ describe RoomService::CartItem do
 
           subject.validate
 
-          expect(subject.errors[:base]).not_to include("\"#{choice.title}\" requires at least one selection")
+          expect(subject.errors[:selected_options]).not_to include("should include a selection for \"#{choice.title}\"")
         end
       end
     end
@@ -63,7 +63,7 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:base]).not_to include("\"#{choice.title}\" requires at least one selection")
+        expect(subject.errors[:selected_options]).not_to include("should include a selection for \"#{choice.title}\"")
       end
     end
   end
@@ -78,7 +78,7 @@ describe RoomService::CartItem do
 
           subject.validate
 
-          expect(subject.errors[:base]).to include("Only a single selection allowed for \"#{choice.title}\"")
+          expect(subject.errors[:selected_options]).to include("can only include one selection for \"#{choice.title}\"")
         end
       end
 
@@ -90,7 +90,7 @@ describe RoomService::CartItem do
 
           subject.validate
 
-          expect(subject.errors[:base]).not_to include("Only a single selection allowed for \"#{choice.title}\"")
+          expect(subject.errors[:selected_options]).not_to include("can only include one selection for \"#{choice.title}\"")
         end
       end
     end
@@ -103,7 +103,7 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:base]).not_to include("Only a single selection allowed for \"#{choice.title}\"")
+        expect(subject.errors[:selected_options]).not_to include("can only include one selection for \"#{choice.title}\"")
       end
     end
   end

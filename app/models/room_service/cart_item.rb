@@ -6,7 +6,7 @@ class RoomService::CartItem < ApplicationRecord
                           association_foreign_key: 'room_service_item_choice_option_id'
 
   validates_numericality_of :quantity, greater_than: 0
-  validate :availability_at_the_moment
+  validate :availability_of_item_at_the_moment
   validate :existence_of_selection_for_non_optional_choices
   validate :single_selection_for_single_option_choices
 
@@ -20,19 +20,19 @@ class RoomService::CartItem < ApplicationRecord
     (choice.option_ids & selected_option_ids).length <= 1
   end
 
-  def availability_at_the_moment
-    errors.add(:base, :not_available_at_the_moment,
-               message: '"%{item_title}" is not available at the moment (only available from %{item_available_from} to %{item_available_until})',
-               item_title: item.title,
-               item_available_from: item.available_from.strftime('%H:%M'),
-               item_available_until: item.available_until.strftime('%H:%M'),
-               item_id: item.id) unless item.nil? || item.available?(DateTime.current)
+  def availability_of_item_at_the_moment
+    errors.add(:item, :not_available_at_the_moment,
+               message: '"%{title}" is not available at the moment (only available from %{available_from} to %{available_until})',
+               title: item.title,
+               available_from: item.available_from.strftime('%H:%M'),
+               available_until: item.available_until.strftime('%H:%M'),
+               id: item.id) unless item.nil? || item.available?(DateTime.current)
   end
 
   def existence_of_selection_for_non_optional_choices
     item&.choices&.each do |choice|
-      errors.add(:base, :selection_required_for_non_optional_choice,
-                 message: '"%{choice_title}" requires at least one selection',
+      errors.add(:selected_options, :does_not_include_selection_for_non_optional_choice,
+                 message: 'should include a selection for "%{choice_title}"',
                  choice_title: choice.title,
                  choice_id: choice.id) unless choice.optional || has_selected_option_for_choice(choice)
     end
@@ -40,8 +40,8 @@ class RoomService::CartItem < ApplicationRecord
 
   def single_selection_for_single_option_choices
     item&.choices&.each do |choice|
-      errors.add(:base, :only_single_selection_allowed_for_choice,
-                 message: 'Only a single selection allowed for "%{choice_title}"',
+      errors.add(:selected_options, :includes_multiple_selections_for_single_option_choice,
+                 message: 'can only include one selection for "%{choice_title}"',
                  choice_title: choice.title,
                  choice_id: choice.id) unless choice.allows_multiple_options || has_single_or_no_selected_option_for_choice(choice)
     end

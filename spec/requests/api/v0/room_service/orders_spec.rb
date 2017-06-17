@@ -163,14 +163,14 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       expect(response.status).to eq(422)
       expect(response_json['error_type']).to eq('validation')
-      expect(response_json['errors']).to include('cart_items.base' => [
+      expect(response_json['errors']).to include('cart_items.item' => [
         {
           'error' => 'not_available_at_the_moment',
-          'item_title' => item.title,
-          'item_id' => item.id,
-          'item_available_from' => available_from_time_only,
-          'item_available_until' => available_until_time_only,
-          'full_message' => "Cart items base \"#{item.title}\" is not available at the moment (only available from #{available_from_time_only} to #{available_until_time_only})"
+          'title' => item.title,
+          'id' => item.id,
+          'available_from' => available_from_time_only,
+          'available_until' => available_until_time_only,
+          'full_message' => "Cart items item \"#{item.title}\" is not available at the moment (only available from #{available_from_time_only} to #{available_until_time_only})"
         }
       ])
     end
