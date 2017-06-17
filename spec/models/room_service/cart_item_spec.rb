@@ -29,4 +29,82 @@ describe RoomService::CartItem do
       end
     end
   end
+
+  describe 'validates all non-optional choices has at least one selected option' do
+    context 'when there is a non-optional choice' do
+      context 'and no selected option' do
+        it 'does have a validation error' do
+          subject.item = create(:room_service_item_with_non_optional_choice)
+          choice = subject.item.choices.first
+
+          subject.validate
+
+          expect(subject.errors[:base]).to include("\"#{choice.title}\" requires at least one selection")
+        end
+      end
+
+      context 'and a selected option' do
+        it 'does not have a validation error' do
+          subject.item = create(:room_service_item_with_non_optional_choice)
+          choice = subject.item.choices.first
+          subject.selected_options << choice.options.first
+
+          subject.validate
+
+          expect(subject.errors[:base]).not_to include("\"#{choice.title}\" requires at least one selection")
+        end
+      end
+    end
+
+    context 'when there is an optional choice and no selected choice' do
+      it 'does not have a validation error' do
+        subject.item = create(:room_service_item_with_optional_choice)
+        choice = subject.item.choices.first
+
+        subject.validate
+
+        expect(subject.errors[:base]).not_to include("\"#{choice.title}\" requires at least one selection")
+      end
+    end
+  end
+
+  describe 'validates all single-option choices does not have more than one option selected' do
+    context 'when there is a single-option choice' do
+      context 'and more than one selected option' do
+        it 'does have a validation error' do
+          subject.item = create(:room_service_item_with_single_option_choice)
+          choice = subject.item.choices.first
+          subject.selected_option_ids = choice.option_ids
+
+          subject.validate
+
+          expect(subject.errors[:base]).to include("Only a single selection allowed for \"#{choice.title}\"")
+        end
+      end
+
+      context 'and one selected option' do
+        it 'does not have a validation error' do
+          subject.item = create(:room_service_item_with_single_option_choice)
+          choice = subject.item.choices.first
+          subject.selected_options << choice.options.first
+
+          subject.validate
+
+          expect(subject.errors[:base]).not_to include("Only a single selection allowed for \"#{choice.title}\"")
+        end
+      end
+    end
+
+    context 'when there is a multiple-option choice and multiple selections' do
+      it 'does not have a validation error' do
+        subject.item = create(:room_service_item_with_multiple_option_choice)
+        choice = subject.item.choices.first
+        subject.selected_option_ids = choice.option_ids
+
+        subject.validate
+
+        expect(subject.errors[:base]).not_to include("Only a single selection allowed for \"#{choice.title}\"")
+      end
+    end
+  end
 end

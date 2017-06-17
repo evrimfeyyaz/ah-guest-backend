@@ -13,10 +13,10 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       tag = create(:room_service_tag)
-      item = create(:room_service_item_with_option, tags: [tag])
-      option = item.options.first
-      selected_choice = option.possible_choices.first
-      unselected_choice = option.possible_choices.last
+      item = create(:room_service_item_with_optional_choice, tags: [tag])
+      choice = item.choices.first
+      selected_option = choice.options.first
+      unselected_option = choice.options.last
 
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
@@ -28,14 +28,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
               'quantity' => cart_item_attributes[:quantity],
               'special_request' => cart_item_attributes[:special_request],
               'room_service_item_id' => item.id,
-              'choices_for_options_attributes' => {
-                '0' => {
-                  'room_service_option_id' => option.id,
-                  'selected_choice_ids' => [
-                    selected_choice.id
-                  ]
-                }
-              }
+              'selected_option_ids' => [selected_option.id]
             }
           }
         }
@@ -45,11 +38,9 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       order = user.room_service_orders.last
       cart_item = order.cart_items.first
-      choices_for_option = cart_item.choices_for_options.first
 
-      expect(choices_for_option.option).to eq(option)
-      expect(choices_for_option.selected_choices).to include(selected_choice)
-      expect(choices_for_option.selected_choices).not_to include(unselected_choice)
+      expect(cart_item.selected_options).to include(selected_option)
+      expect(cart_item.selected_options).not_to include(unselected_option)
 
       expect(response_json).to eq({ 'id' => order.id,
                                     'reservation_id' => reservation.id,
@@ -64,44 +55,36 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                                           'title' => item.title,
                                           'price' => item.price.to_s,
                                           'short_description' => item.short_description,
-                                          'long_description' => item.long_description,
+                                          'description' => item.description,
                                           'tags' => [
                                             {
                                               'id' => tag.id,
                                               'title' => tag.title
                                             }
                                           ],
-                                          'options' => [
+                                          'choices' => [
                                             {
-                                              'id' => option.id,
-                                              'title' => option.title,
-                                              'optional' => option.optional,
-                                              'allows_multiple_choices' => option.allows_multiple_choices,
-                                              'default_room_service_choice_id' => option.default_room_service_choice_id,
-                                              'possible_choices' => [
+                                              'id' => choice.id,
+                                              'title' => choice.title,
+                                              'optional' => choice.optional,
+                                              'allows_multiple_options' => choice.allows_multiple_options,
+                                              'default_option_id' => choice.default_option_id,
+                                              'options' => [
                                                 {
-                                                  'id' => selected_choice.id,
-                                                  'title' => selected_choice.title,
-                                                  'price' => selected_choice.price.to_s
+                                                  'id' => selected_option.id,
+                                                  'title' => selected_option.title,
+                                                  'price' => selected_option.price.to_s
                                                 },
                                                 {
-                                                  'id' => unselected_choice.id,
-                                                  'title' => unselected_choice.title,
-                                                  'price' => unselected_choice.price.to_s
+                                                  'id' => unselected_option.id,
+                                                  'title' => unselected_option.title,
+                                                  'price' => unselected_option.price.to_s
                                                 }
                                               ]
                                             }
                                           ]
                                         },
-                                        'choices_for_options' => [
-                                          {
-                                            'id' => choices_for_option.id,
-                                            'room_service_option_id' => choices_for_option.option.id,
-                                            'selected_choice_ids' => [
-                                              selected_choice.id
-                                            ]
-                                          }
-                                        ]
+                                        'selected_option_ids' => [selected_option.id]
                                       }
                                     ]
                                   })
@@ -114,7 +97,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       reservation = user.reservations.create(attributes_for(:reservation))
 
-      item = create(:room_service_item_with_option)
+      item = create(:room_service_item_with_optional_choice)
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
       expect {
@@ -153,9 +136,9 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
-      item = create(:room_service_item_with_option, section: category.default_section)
-      option = item.options.first
-      selected_choice = option.possible_choices.first
+      item = create(:room_service_item_with_optional_choice, sub_category: category.default_sub_category)
+      choice = item.choices.first
+      selected_option = choice.options.first
 
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
@@ -168,14 +151,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                 'quantity' => cart_item_attributes[:quantity],
                 'special_request' => cart_item_attributes[:special_request],
                 'room_service_item_id' => item.id,
-                'choices_for_options_attributes' => {
-                  '0' => {
-                    'room_service_option_id' => option.id,
-                    'selected_choice_ids' => [
-                      selected_choice.id
-                    ]
-                  }
-                }
+                'selected_option_ids' => [ selected_option.id ]
               }
             }
           }
@@ -227,16 +203,14 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
       reservation = create(:reservation_including_current_day, user: user)
       order = create(:room_service_order, user: user, cart_items_count: 1, reservation: reservation)
       cart_item = order.cart_items.first
-      cart_item.item = create(:room_service_item_with_option_and_tag)
-      cart_item.save
+      cart_item.item = create(:room_service_item_with_choice_and_tag)
       item = cart_item.item
+      choice = item.choices.first
+      selected_option = choice.options.first
+      unselected_option = choice.options.last
+      cart_item.selected_options << selected_option
+      cart_item.save
       tag = item.tags.first
-      option = item.options.first
-      choices_for_option = create(:room_service_choices_for_option, option: option, cart_item: cart_item)
-      choices_for_option.selected_choices << option.possible_choices.first
-      choices_for_option.save
-      selected_choice = option.possible_choices.first
-      unselected_choice = option.possible_choices.last
 
       get "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
 
@@ -255,44 +229,36 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
                                             'title' => item.title,
                                             'price' => item.price.to_s,
                                             'short_description' => item.short_description,
-                                            'long_description' => item.long_description,
+                                            'description' => item.description,
                                             'tags' => [
                                               {
                                                 'id' => tag.id,
                                                 'title' => tag.title
                                               }
                                             ],
-                                            'options' => [
+                                            'choices' => [
                                               {
-                                                'id' => option.id,
-                                                'title' => option.title,
-                                                'optional' => option.optional,
-                                                'allows_multiple_choices' => option.allows_multiple_choices,
-                                                'default_room_service_choice_id' => option.default_room_service_choice_id,
-                                                'possible_choices' => [
+                                                'id' => choice.id,
+                                                'title' => choice.title,
+                                                'optional' => choice.optional,
+                                                'allows_multiple_options' => choice.allows_multiple_options,
+                                                'default_option_id' => choice.default_option_id,
+                                                'options' => [
                                                   {
-                                                    'id' => selected_choice.id,
-                                                    'title' => selected_choice.title,
-                                                    'price' => selected_choice.price.to_s
+                                                    'id' => selected_option.id,
+                                                    'title' => selected_option.title,
+                                                    'price' => selected_option.price.to_s
                                                   },
                                                   {
-                                                    'id' => unselected_choice.id,
-                                                    'title' => unselected_choice.title,
-                                                    'price' => unselected_choice.price.to_s
+                                                    'id' => unselected_option.id,
+                                                    'title' => unselected_option.title,
+                                                    'price' => unselected_option.price.to_s
                                                   }
                                                 ]
                                               }
                                             ]
                                           },
-                                          'choices_for_options' => [
-                                            {
-                                              'id' => choices_for_option.id,
-                                              'room_service_option_id' => choices_for_option.option.id,
-                                              'selected_choice_ids' => [
-                                                selected_choice.id
-                                              ]
-                                            }
-                                          ]
+                                          'selected_option_ids' => [selected_option.id]
                                         }
                                       ]
                                     }

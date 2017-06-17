@@ -14,10 +14,10 @@ describe 'GET /api/v0/room_service/items/:item_id' do
                                     'id' => item.id,
                                     'title' => item.title,
                                     'short_description' => item.short_description,
-                                    'long_description' => item.long_description,
+                                    'description' => item.description,
                                     'price' => item.price.to_s,
                                     'tags' => [],
-                                    'options' => []
+                                    'choices' => []
                                   })
     end
   end
@@ -47,32 +47,32 @@ describe 'GET /api/v0/room_service/items/:item_id' do
   end
 
   context 'when item has options' do
-    it 'includes the options (and associated choices)' do
-      option = create(:room_service_item_choice_with_multiple_options, choices_count: 2)
-      choice1 = option.possible_choices.first
-      choice2 = option.possible_choices.last
+    it 'includes the choices (and associated options)' do
+      choice = create(:room_service_item_choice_with_options, options_count: 2)
+      option1 = choice.options.first
+      option2 = choice.options.last
 
-      item.options << option
+      item.choices << choice
 
       get "/api/v0/room_service/items/#{item.id}", headers: request_headers
 
       # noinspection RubyResolve
-      expect(response_json).to include('options' => [{
-                                                       'id' => option.id,
-                                                       'title' => option.title,
-                                                       'optional' => option.optional?,
-                                                       'allows_multiple_choices' => option.allows_multiple_choices,
-                                                       'default_room_service_choice_id' => option.default_room_service_choice_id,
-                                                       'possible_choices' => [{
-                                                                                'id' => choice1.id,
-                                                                                'title' => choice1.title,
-                                                                                'price' => choice1.price.to_s
-                                                                              },
-                                                                              {
-                                                                                'id' => choice2.id,
-                                                                                'title' => choice2.title,
-                                                                                'price' => choice2.price.to_s
-                                                                              }]
+      expect(response_json).to include('choices' => [{
+                                                       'id' => choice.id,
+                                                       'title' => choice.title,
+                                                       'optional' => choice.optional?,
+                                                       'allows_multiple_options' => choice.allows_multiple_options,
+                                                       'default_option_id' => choice.default_option_id,
+                                                       'options' => [{
+                                                                       'id' => option1.id,
+                                                                       'title' => option1.title,
+                                                                       'price' => option1.price.to_s
+                                                                     },
+                                                                     {
+                                                                       'id' => option2.id,
+                                                                       'title' => option2.title,
+                                                                       'price' => option2.price.to_s
+                                                                     }]
                                                      }])
     end
   end

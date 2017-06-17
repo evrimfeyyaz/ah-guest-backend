@@ -12,11 +12,11 @@ class Api::V0::RoomService::OrdersController < ApiController
       return head :no_content
     else
       render json: user.room_service_orders,
-             include: ['cart_items.choices_for_options',
+             include: ['cart_items',
                        'cart_items.item',
                        'cart_items.item.tags',
-                       'cart_items.item.options',
-                       'cart_items.item.options.possible_choices']
+                       'cart_items.item.choices',
+                       'cart_items.item.choices.options']
     end
   end
 
@@ -40,11 +40,11 @@ class Api::V0::RoomService::OrdersController < ApiController
 
     if order.save
       render json: order, status: :created,
-             include: ['cart_items.choices_for_options',
+             include: ['cart_items',
                        'cart_items.item',
                        'cart_items.item.tags',
-                       'cart_items.item.options',
-                       'cart_items.item.options.possible_choices']
+                       'cart_items.item.choices',
+                       'cart_items.item.choices.options']
     else
       render json: order, status: :unprocessable_entity, serializer: ValidationErrorSerializer
     end
@@ -57,8 +57,7 @@ class Api::V0::RoomService::OrdersController < ApiController
                                   cart_items_attributes: [:quantity,
                                                           :special_request,
                                                           :room_service_item_id,
-                                                          choices_for_options_attributes: [:room_service_option_id,
-                                                                                           selected_choice_ids: []]])
+                                                          selected_option_ids: []])
   end
 
   def respond_with_unprocessable_entity

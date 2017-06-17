@@ -6,7 +6,7 @@ class Api::V0::RoomService::ItemsController < ApiController
   def show
     item = ::RoomService::Item.find(params[:id])
 
-    render json: item, include: [:tags, 'options.possible_choices']
+    render json: item, include: ['tags', 'choices', 'choices.options']
   end
 
   private

@@ -9,8 +9,8 @@
     </database>
     <schema id="3" parent="2" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2017-06-16.16:01:33.408</IntrospectionTimestamp>
-      <IntrospectionStateNumber>47788</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2017-06-16.20:32:30.852</IntrospectionTimestamp>
+      <IntrospectionStateNumber>48289</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -115,7 +115,7 @@
     </table>
     <table id="25" parent="3" name="room_service_item_choices">
       <ObjectId>28904</ObjectId>
-      <StateNumber>47236</StateNumber>
+      <StateNumber>48289</StateNumber>
     </table>
     <table id="26" parent="3" name="room_service_item_choices_items">
       <ObjectId>29208</ObjectId>
@@ -499,19 +499,19 @@ room_service_cart_item_id</ColNames>
       <DataType>boolean|0</DataType>
       <StateNumber>46457</StateNumber>
     </column>
-    <column id="97" parent="25" name="default_room_service_item_choice_option_id">
-      <Position>9</Position>
+    <column id="97" parent="25" name="default_option_id">
+      <Position>10</Position>
       <DataType>bigint|0</DataType>
-      <StateNumber>47236</StateNumber>
+      <StateNumber>48289</StateNumber>
     </column>
     <index id="98" parent="25" name="room_service_item_choices_pkey">
       <ObjectId>28911</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="99" parent="25" name="by_r_s_item_choice_option_id">
-      <ObjectId>29822</ObjectId>
-      <ColNames>default_room_service_item_choice_option_id</ColNames>
+    <index id="99" parent="25" name="index_room_service_item_choices_on_default_option_id">
+      <ObjectId>32144</ObjectId>
+      <ColNames>default_option_id</ColNames>
     </index>
     <key id="100" parent="25" name="room_service_item_choices_pkey">
       <ObjectId>28912</ObjectId>

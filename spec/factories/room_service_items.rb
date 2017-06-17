@@ -5,15 +5,33 @@ FactoryGirl.define do
 
     association :sub_category, factory: :room_service_sub_category
 
-    factory :room_service_item_with_option do
+    factory :room_service_item_with_non_optional_choice do
       after(:create) do |item|
-        item.options << create(:room_service_item_choice_with_multiple_options)
+        item.choices << create(:room_service_item_choice_with_options)
+      end
+    end
+
+    factory :room_service_item_with_optional_choice do
+      after(:create) do |item|
+        item.choices << create(:room_service_item_choice_with_options, :optional)
       end
 
-      factory :room_service_item_with_option_and_tag do
+      factory :room_service_item_with_choice_and_tag do
         after(:create) do |item|
           item.tags << create(:room_service_tag)
         end
+      end
+    end
+
+    factory :room_service_item_with_single_option_choice do
+      after(:create) do |item|
+        item.choices << create(:room_service_item_choice_with_options, :single_option)
+      end
+    end
+
+    factory :room_service_item_with_multiple_option_choice do
+      after(:create) do |item|
+        item.choices << create(:room_service_item_choice_with_options, :multiple_option)
       end
     end
 

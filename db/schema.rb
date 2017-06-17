@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616130011) do
+ActiveRecord::Schema.define(version: 20170616175210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,8 @@ ActiveRecord::Schema.define(version: 20170616130011) do
     t.string "title"
     t.boolean "optional"
     t.boolean "allows_multiple_options"
-    t.bigint "default_room_service_item_choice_option_id"
-    t.index ["default_room_service_item_choice_option_id"], name: "by_r_s_item_choice_option_id"
+    t.bigint "default_option_id"
+    t.index ["default_option_id"], name: "index_room_service_item_choices_on_default_option_id"
   end
 
   create_table "room_service_item_choices_items", id: false, force: :cascade do |t|
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20170616130011) do
     t.decimal "price", precision: 19, scale: 4, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.text "long_description"
+    t.text "description"
     t.bigint "room_service_sub_category_id"
     t.index ["room_service_sub_category_id"], name: "index_room_service_items_on_room_service_sub_category_id"
   end
