@@ -7,6 +7,7 @@ Paperclip::Attachment.default_options.update(
 if Rails.env.production?
   Paperclip::Attachment.default_options.merge!(storage: :s3,
                                                s3_protocol: :https,
+                                               s3_host_name: 's3-ap-south-1.amazonaws.com',
                                                s3_credentials: {
                                                  access_key_id: ENV['AWS_ACCESS_KEY_ID'],
                                                  secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
