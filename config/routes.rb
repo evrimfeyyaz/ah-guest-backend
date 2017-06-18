@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  devise_for :admins, path: 'admin'
+  devise_scope :admin do
+    authenticated do
+      root to: 'admin/room_service/orders#index', as: :authenticated_admin_root
+    end
+
+    unauthenticated do
+      root to: redirect('admin/sign_in'), as: :unauthenticated_admin_root
+    end
+  end
+
   namespace :api, defaults: { format: :json } do
     namespace :v0 do
       resources :users, only: [:create, :show] do
