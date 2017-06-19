@@ -1,4 +1,4 @@
-class Admin::RoomService::OrdersController < Admin::BaseController
+class Admin::OrdersController < Admin::BaseController
   def index
     @orders = RoomService::Order.order(created_at: :desc)
   end
