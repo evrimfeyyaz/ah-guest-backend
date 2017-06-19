@@ -21,9 +21,9 @@
         <td><%= order_summary(order) %></td>
         <td><%= order.reservation.room_number %></td>
         <td><%= order.reservation.confirmation_code %></td>
-        <td><%= link_to 'Details', admin_room_service_order_path(order), class: 'btn btn-info' %></td>
+        <td><%= link_to 'Details', admin_order_path(order), class: 'btn btn-info' %></td>
         <td>
-          <%= link_to 'Mark as Complete', complete_admin_room_service_order_path(order),
+          <%= link_to 'Mark as Complete', complete_admin_order_path(order),
                         method: :put, class: 'btn btn-success',
                         data: { confirm: 'Are you sure you would like to mark this order as complete?' } unless order.reservation.room_number.present? %>
         </td>
