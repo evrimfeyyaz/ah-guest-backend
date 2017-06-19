@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :reservations, except: [:show, :destroy]
+    resource :reservation_import, only: [:new, :create]
 
     namespace :room_service do
       resources :orders, only: [:index, :show] do
