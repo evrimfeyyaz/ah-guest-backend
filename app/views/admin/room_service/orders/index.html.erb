@@ -10,7 +10,7 @@
     <th>Summary</th>
     <th>Guest Room Number</th>
     <th>Reservation Confirmation</th>
-    <th>Actions</th>
+    <th colspan="2">Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -22,9 +22,11 @@
         <td><%= order.reservation.room_number %></td>
         <td><%= order.reservation.confirmation_code %></td>
         <td><%= link_to 'Details', admin_room_service_order_path(order), class: 'btn btn-info' %></td>
-        <td><%= link_to 'Mark as Complete', complete_admin_room_service_order_path(order),
+        <td>
+          <%= link_to 'Mark as Complete', complete_admin_room_service_order_path(order),
                         method: :put, class: 'btn btn-success',
-                        data: { confirm: 'Are you sure you would like to mark this order as complete?' } %></td>
+                        data: { confirm: 'Are you sure you would like to mark this order as complete?' } unless order.reservation.room_number.present? %>
+        </td>
       </tr>
   <% end %>
   </tbody>
