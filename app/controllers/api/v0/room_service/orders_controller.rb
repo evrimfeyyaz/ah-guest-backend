@@ -39,7 +39,13 @@ class Api::V0::RoomService::OrdersController < ApiController
     order = user.room_service_orders.build(order_params)
 
     if order.save
-      ::Admin::OrderNotifierMailer.new_order_email(order).deliver
+      mg_client = Mailgun::Client.new 'key-c8d28752e6f50c0e73cc6eb02c0a4918'
+      message_params =  { from: 'no-reply@automatedhotel.com',
+                          to:   ENV['ORDER_NOTIFICATION_EMAIL'],
+                          subject: "New Room Service Order \##{order.id}",
+                          text:    "A new room service order has been placed on #{order.created_at}. Please check the system to see the details of the order."
+      }
+      mg_client.send_message 'appe37b8bf4de1747ceada15be949f9a522.mailgun.org', message_params
 
       render json: order, status: :created,
              include: ['cart_items',
