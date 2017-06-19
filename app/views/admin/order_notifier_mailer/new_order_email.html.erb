@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h1>New Room Service Order Arrived</h1>
+<ul>
+  <li>Order date: <%= @order.created_at %></li>
+  <li>Special request: <%= @order.special_request %></li>
+  <li>Summary: <%= order_summary(@order) %></li>
+</ul>
+</body>
+</html>
