@@ -39,7 +39,7 @@ class Api::V0::RoomService::OrdersController < ApiController
     order = user.room_service_orders.build(order_params)
 
     if order.save
-      ::Admin::OrderNotifierMailer.new_order_email.deliver
+      ::Admin::OrderNotifierMailer.new_order_email(order).deliver
 
       render json: order, status: :created,
              include: ['cart_items',
