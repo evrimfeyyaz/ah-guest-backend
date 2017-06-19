@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :reservations, except: [:show, :destroy]
+
     namespace :room_service do
       resources :orders, only: [:index, :show] do
         member do

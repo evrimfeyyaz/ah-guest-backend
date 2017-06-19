@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h1>Reservations</h1>
+  <%= link_to 'New Reservation', new_admin_reservation_path, class: 'btn btn-default' %>
+  <%= link_to 'Import Reservations from File', authenticated_admin_root_path, class: 'btn btn-default' %>
+</div>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Check-In Date</th>
+    <th>Check-Out Date</th>
+    <th>Room Number</th>
+    <th>Confirmation Code</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @reservations.each do |reservation| %>
+      <tr data-reservation-id="<%= reservation.id %>">
+        <td><%= reservation.id %></td>
+        <td><%= reservation.check_in_date.to_s(:long_ordinal) %></td>
+        <td><%= reservation.check_out_date.to_s(:long_ordinal) %></td>
+        <td><%= reservation.room_number %></td>
+        <td><%= reservation.confirmation_code %></td>
+        <td><%= reservation.first_name %></td>
+        <td><%= reservation.last_name %></td>
+        <td><%= link_to 'Edit', edit_admin_reservation_path(reservation) %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
