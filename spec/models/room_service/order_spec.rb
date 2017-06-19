@@ -24,4 +24,19 @@ describe RoomService::Order do
     expect(subject).not_to be_valid
     expect(subject.errors.details[:reservation]).to include(error: :does_not_include_current_day)
   end
+
+  describe '#total' do
+    it 'returns the sum total of all cart items' do
+      cart_item1 = build(:room_service_cart_item)
+      cart_item2 = build(:room_service_cart_item)
+
+      cart_item1.item.price = 1.000
+      cart_item2.item.price = 2.000
+      cart_item2.quantity = 2
+
+      subject.cart_items << [cart_item1, cart_item2]
+
+      expect(subject.total).to eq(5.000)
+    end
+  end
 end

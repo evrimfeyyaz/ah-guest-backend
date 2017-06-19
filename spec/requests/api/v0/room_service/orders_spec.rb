@@ -200,8 +200,8 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
 
   context 'when user has orders' do
     it 'returns orders and responds with "200 OK"' do
-      reservation = create(:reservation_including_current_day, user: user)
-      order = create(:room_service_order, user: user, cart_items_count: 1, reservation: reservation)
+      order = create(:room_service_order, user: user, cart_items_count: 1)
+      reservation = order.reservation
       cart_item = order.cart_items.first
       cart_item.item = create(:room_service_item_with_choice_and_tag)
       item = cart_item.item

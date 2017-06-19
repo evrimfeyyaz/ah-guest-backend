@@ -9,6 +9,10 @@ class RoomService::Order < ApplicationRecord
 
   accepts_nested_attributes_for :cart_items
 
+  def total
+    cart_items.map(&:total).reduce(:+)
+  end
+
   private
 
   def reservation_belongs_to_user

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :admins, path: 'admin'
+  devise_for :admins, path: 'admin', skip: :registrations
   devise_scope :admin do
     authenticated do
       root to: 'admin/room_service/orders#index', as: :authenticated_admin_root
@@ -7,6 +7,16 @@ Rails.application.routes.draw do
 
     unauthenticated do
       root to: redirect('admin/sign_in'), as: :unauthenticated_admin_root
+    end
+  end
+
+  namespace :admin do
+    namespace :room_service do
+      resources :orders, only: [:index, :show] do
+        member do
+          put :complete
+        end
+      end
     end
   end
 

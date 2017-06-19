@@ -13,6 +13,7 @@ gem 'active_model_serializers', '~> 0.10.6'
 gem 'paperclip', '~> 5.1'
 gem 'rubocop', '~> 0.48.1'
 gem 'sass-rails', '~> 5.0'
+gem 'jquery-rails', '~> 4.3'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.7'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
@@ -30,6 +31,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.6'
   gem 'factory_girl_rails', '~> 4.8'
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'capybara', '~> 2.13'
+  gem 'capybara-webkit', '~> 1.14'
 end
 
 group :development do

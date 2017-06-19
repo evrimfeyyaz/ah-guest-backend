@@ -10,6 +10,14 @@ class RoomService::CartItem < ApplicationRecord
   validate :existence_of_selection_for_non_optional_choices
   validate :single_selection_for_single_option_choices
 
+  def unit_price
+    item.price + selected_options.reduce(0) { |sum, option| sum + option.price }
+  end
+
+  def total
+    unit_price * quantity
+  end
+
   private
 
   def has_selected_option_for_choice(choice)

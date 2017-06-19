@@ -57,6 +57,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   config.include Paperclip::Shoulda::Matchers
+  config.include Devise::Test::IntegrationHelpers, type: :feature
 end
 
 Shoulda::Matchers.configure do |config|
@@ -64,4 +65,8 @@ Shoulda::Matchers.configure do |config|
     with.test_framework :rspec
     with.library :rails
   end
+end
+
+Capybara.configure do |config|
+  config.javascript_driver = :webkit
 end

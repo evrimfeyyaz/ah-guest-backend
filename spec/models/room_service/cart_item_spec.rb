@@ -107,4 +107,33 @@ describe RoomService::CartItem do
       end
     end
   end
+
+  describe '#unit_price' do
+    it 'returns the unit price of the item with selected options' do
+      choice = create(:room_service_item_choice_with_options)
+      selected_option = choice.options.first
+      selected_option.price = 0.500
+      item = create(:room_service_item, choices: [choice], price: 1.000)
+
+      subject.selected_options << selected_option
+      subject.item = item
+
+      expect(subject.unit_price).to eq(1.500)
+    end
+  end
+
+  describe '#total' do
+    it 'returns the total price of the cart item taking quantity into account' do
+      choice = create(:room_service_item_choice_with_options)
+      selected_option = choice.options.first
+      selected_option.price = 0.500
+      item = create(:room_service_item, choices: [choice], price: 1.000)
+
+      subject.selected_options << selected_option
+      subject.item = item
+      subject.quantity = 2
+
+      expect(subject.total).to eq(3.000)
+    end
+  end
 end
