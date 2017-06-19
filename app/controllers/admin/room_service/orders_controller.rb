@@ -1,14 +1,14 @@
 class Admin::RoomService::OrdersController < Admin::BaseController
   def index
-    @orders = ::RoomService::Order.order(created_at: :desc)
+    @orders = RoomService::Order.order(created_at: :desc)
   end
 
   def show
-    @order = ::RoomService::Order.find(params[:id])
+    @order = RoomService::Order.find(params[:id])
   end
 
   def complete
-    @order = ::RoomService::Order.find(params[:id])
+    @order = RoomService::Order.find(params[:id])
 
     if reservation_params[:room_number].present?
       @order.reservation.room_number = reservation_params[:room_number]
