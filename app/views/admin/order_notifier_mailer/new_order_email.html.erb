@@ -7,7 +7,7 @@
 <h1>New Room Service Order Arrived</h1>
 <ul>
   <li>Order date: <%= @order.created_at %></li>
-  <li>Summary: <%= order_summary(@order) %></li>
+  <li>Summary: <%= ::RoomService::OrdersHelper.order_summary(@order) %></li>
 </ul>
 </body>
 </html>
