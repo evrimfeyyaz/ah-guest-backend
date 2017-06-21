@@ -12,4 +12,6 @@ class RoomService::Item < ApplicationRecord
   delegate :available?, to: 'sub_category', allow_nil: true
   delegate :available_from, to: 'sub_category', allow_nil: true
   delegate :available_until, to: 'sub_category', allow_nil: true
+  delegate :available_from_local, to: 'sub_category', allow_nil: true
+  delegate :available_until_local, to: 'sub_category', allow_nil: true
 end

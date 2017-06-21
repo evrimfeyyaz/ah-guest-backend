@@ -30,10 +30,12 @@ class RoomService::CartItem < ApplicationRecord
 
   def availability_of_item_at_the_moment
     errors.add(:item, :not_available_at_the_moment,
-               message: '"%{title}" is not available at the moment (only available from %{available_from_utc} to %{available_until_utc})',
+               message: '"%{title}" is not available at the moment (only available from %{available_from_local} to %{available_until_local} in local time)',
                title: item.title,
                available_from_utc: item.available_from.utc.strftime('%H:%M'),
                available_until_utc: item.available_until.utc.strftime('%H:%M'),
+               available_from_local: item.available_from.in_time_zone('Riyadh').strftime('%H%M'),
+               available_until_local: item.available_until.in_time_zone('Riyadh').strftime('%H%M'),
                id: item.id) unless item.nil? || item.available?(DateTime.current)
   end
 

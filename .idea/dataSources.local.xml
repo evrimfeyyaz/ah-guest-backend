@@ -7,7 +7,7 @@
       <user-name>guest-api-app</user-name>
     </data-source>
     <data-source name="Rails guest-api-app: test" uuid="2e929cd9-e0ac-4f33-a5a1-0680594722ee">
-      <database-info product="PostgreSQL" version="9.6.2" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+      <database-info product="PostgreSQL" version="9.6.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
