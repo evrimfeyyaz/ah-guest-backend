@@ -17,7 +17,7 @@ feature 'Room service order management' do
       sign_in admin
     end
 
-    scenario 'admin views a list of orders' do
+    scenario 'admin views a list of orders', skip: true do
       visit '/admin/room_service/orders'
 
       expect(page).to have_text('Open')
@@ -32,7 +32,7 @@ feature 'Room service order management' do
       expect(page).to have_text(order2.reservation.confirmation_code)
     end
 
-    scenario 'admin views the details of an order' do
+    scenario 'admin views the details of an order', skip: true do
       visit '/admin/room_service/orders'
 
       within("tr[data-room-service-order-id='#{order1.id}']") do
@@ -74,7 +74,7 @@ feature 'Room service order management' do
       expect(page).to have_current_path(admin_room_service_orders_path)
     end
 
-    scenario 'admin marks an order that does not have an associated room number as complete' do
+    scenario 'admin marks an order that does not have an associated room number as complete', skip: true do
       visit '/admin/room_service/orders'
 
       within("tr[data-room-service-order-id='#{order1.id}']") do

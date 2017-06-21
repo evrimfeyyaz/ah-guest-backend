@@ -19,7 +19,7 @@ describe RoomService::Category do
   end
 
   describe '#available?' do
-    context 'when #available_from and #available_until exist' do
+    context 'when #available_from_utc and #available_until_utc exist' do
       context 'and given time object is within available hours' do
         it 'returns true' do
           # Check out https://stackoverflow.com/questions/34978905/rails-activerecord-postgres-time-format
@@ -44,7 +44,7 @@ describe RoomService::Category do
         end
       end
 
-      context 'and given time object is equal to #available_from' do
+      context 'and given time object is equal to #available_from_utc' do
         it 'returns true' do
           subject.available_from = DateTime.parse('2000-01-01 09:00:00')
           subject.available_until = DateTime.parse('2000-01-01 16:00:00')
@@ -55,7 +55,7 @@ describe RoomService::Category do
         end
       end
 
-      context 'and given time object is equal to #available_until' do
+      context 'and given time object is equal to #available_until_utc' do
         it 'returns true' do
           subject.available_from = DateTime.parse('2000-01-01 09:00:00')
           subject.available_until = DateTime.parse('2000-01-01 16:00:00')
@@ -67,7 +67,7 @@ describe RoomService::Category do
       end
     end
 
-    context 'when #available_from does not exist' do
+    context 'when #available_from_utc_utc does not exist' do
       it 'returns true' do
         subject.available_from = nil
         subject.available_until = DateTime.parse('2000-01-01 16:00:00')
@@ -78,7 +78,7 @@ describe RoomService::Category do
       end
     end
 
-    context 'when #available_until does not exist' do
+    context 'when #available_until_utc does not exist' do
       it 'returns true' do
         subject.available_from = DateTime.parse('2000-01-01 09:00:00')
         subject.available_until = nil
