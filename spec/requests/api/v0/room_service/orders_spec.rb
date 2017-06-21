@@ -161,8 +161,8 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       available_from_time_only = item.available_from.utc.strftime('%H:%M')
       available_until_time_only = item.available_until.utc.strftime('%H:%M')
 
-      available_from_local_time_only = item.available_from.in_time_zone('Riyadh').strftime('%H%M')
-      available_until_local_time_only = item.available_until.in_time_zone('Riyadh').strftime('%H%M')
+      available_from_local_time_only = item.available_from.in_time_zone('Riyadh').strftime('%H:%M')
+      available_until_local_time_only = item.available_until.in_time_zone('Riyadh').strftime('%H:%M')
 
       expect(response.status).to eq(422)
       expect(response_json['error_type']).to eq('validation')

@@ -18,8 +18,8 @@ describe 'GET /api/v0/room_service/categories/' do
                                      '@2x' => nil,
                                      '@1x' => nil
                                    },
-                                   'available_from_utc' => category.available_from.utc.strftime('%H%M'),
-                                   'available_until_utc' => category.available_until.utc.strftime('%H%M'),
+                                   'available_from_utc' => category.available_from.utc.strftime('%H:%M'),
+                                   'available_until_utc' => category.available_until.utc.strftime('%H:%M'),
                                  }])
   end
 

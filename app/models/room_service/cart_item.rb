@@ -34,8 +34,8 @@ class RoomService::CartItem < ApplicationRecord
                title: item.title,
                available_from_utc: item.available_from.utc.strftime('%H:%M'),
                available_until_utc: item.available_until.utc.strftime('%H:%M'),
-               available_from_local: item.available_from.in_time_zone('Riyadh').strftime('%H%M'),
-               available_until_local: item.available_until.in_time_zone('Riyadh').strftime('%H%M'),
+               available_from_local: item.available_from.in_time_zone('Riyadh').strftime('%H:%M'),
+               available_until_local: item.available_until.in_time_zone('Riyadh').strftime('%H:%M'),
                id: item.id) unless item.nil? || item.available?(DateTime.current)
   end
 
