@@ -19,13 +19,20 @@ class RoomService::Category < ApplicationRecord
       return true
     end
 
-    time.utc.strftime('%H:%M') >= available_from.utc.strftime('%H:%M') &&
-      time.utc.strftime('%H:%M') <= available_until.utc.strftime('%H:%M')
+    is_time_between(time.utc.strftime('%H:%M'), available_from.utc.strftime('%H:%M'), available_until.utc.strftime('%H:%M'))
   end
 
   private
 
   def create_default_sub_category
     sub_categories.create(title: DEFAULT_SUB_CATEGORY_TITLE)
+  end
+
+  def is_time_between(time, from, til)
+    if from <= til
+      time >= from && time <= til
+    else
+      time >= from || time <= til
+    end
   end
 end

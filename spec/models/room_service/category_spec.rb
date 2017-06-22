@@ -99,5 +99,29 @@ describe RoomService::Category do
         expect(subject.available?(time)).to be true
       end
     end
+
+    context 'when #available_from is before midnight and #available_until is after midnight' do
+      context 'and given time is between those times' do
+        it 'returns true' do
+          subject.available_from = DateTime.parse('2000-01-01 21:00:00')
+          subject.available_until = DateTime.parse('2000-01-01 03:00:00')
+
+          time = DateTime.parse('2017-01-01 23:00:00')
+
+          expect(subject.available?(time)).to be true
+        end
+      end
+
+      context 'and given time is outside those times' do
+        it 'returns false' do
+          subject.available_from = DateTime.parse('2000-01-01 21:00:00')
+          subject.available_until = DateTime.parse('2000-01-01 03:00:00')
+
+          time = DateTime.parse('2017-01-01 04:00:00')
+
+          expect(subject.available?(time)).to be false
+        end
+      end
+    end
   end
 end
