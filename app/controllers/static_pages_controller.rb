@@ -3,4 +3,7 @@ class StaticPagesController < ApplicationController
 
   def privacy_policy
   end
+
+  def support
+  end
 end
