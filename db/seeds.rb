@@ -33,8 +33,8 @@ healthy_tag = RoomService::Tag.create!(title: 'Healthy')
 vegetarian_tag = RoomService::Tag.create!(title: 'Vegetarian')
 puts "Created #{RoomService::Tag.count} room service item attributes."
 
-# Create room service item choices for breakfast items.
 RoomService::ItemChoice.destroy_all
+# Create room service item choices for breakfast items.
 breakfast_beverage_choice = RoomService::ItemChoice.create!(title: 'Beverage', optional: false, allows_multiple_options: false)
 breakfast_beverage_choice.options.create!([
                                             { title: 'Tea', price: 0 },
@@ -73,7 +73,6 @@ breakfast_category.default_sub_category.items.create!(title: 'The K Healthy Brea
 puts "Created #{breakfast_category.default_sub_category.items.count} items in the '#{breakfast_category.default_sub_category.title}' sub-category of the '#{breakfast_category.title}' category."
 
 # Create room service item choices for main fares.
-RoomService::ItemChoice.destroy_all
 meat_choice = RoomService::ItemChoice.create!(title: 'Meat', optional: false, allows_multiple_options: false)
 meat_choice.options.create!([
                               { title: 'Chicken', price: 0 },
