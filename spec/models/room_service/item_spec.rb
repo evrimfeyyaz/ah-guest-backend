@@ -7,6 +7,7 @@ describe RoomService::Item do
     with_foreign_key('room_service_sub_category_id') }
   it { should have_and_belong_to_many(:tags).inverse_of(:items) }
   it { should have_and_belong_to_many(:choices).inverse_of(:items) }
+  it { should have_many(:cart_items).inverse_of(:item).dependent(:destroy) }
 
   it { should validate_presence_of :title }
   it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
