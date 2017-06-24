@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'privacy_policy', controller: :static_pages
+
   devise_for :admins, path: 'admin', skip: :registrations
   devise_scope :admin do
     authenticated do
