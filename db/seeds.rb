@@ -1,102 +1,100 @@
 # Create room service categories.
 RoomService::Category.destroy_all
 
-Time.use_zone('Riyadh') do
-  RoomService::Category.create!([
-                                  {
-                                    title: 'Breakfast',
-                                    description: 'Served from 6am to 11am',
-                                    image: Rails.root.join('seed/breakfast.jpg').open,
-                                    available_from: Time.parse('6am'),
-                                    available_until: Time.parse('11am')
-                                  }, {
-                                    title: 'Breakfast A La Carte',
-                                    description: 'Served from 6am to 11am',
-                                    image: Rails.root.join('seed/breakfast-a-la-carte.jpg').open,
-                                    available_from: Time.parse('6am'),
-                                    available_until: Time.parse('11am')
-                                  }, {
-                                    title: 'Starters & Salads',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/starters-and-salads.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Arabic Mezzeh Selection',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/arabic-mezzeh-selection.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Homemade Soups',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/homemade-soups.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Main Fares',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/main-fares.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'From the Grill',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/from-the-grill.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Pasta',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/pasta.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Pizza Corner',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/pizza-corner.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Burgers & Wraps',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/burgers-and-wraps.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: 'Kids Choice',
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/kids-choice.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: "Our Pastry Chef's Delights",
-                                    description: 'Served from 11am to 12am',
-                                    image: Rails.root.join('seed/our-pastry-chefs-delights.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('12am')
-                                  }, {
-                                    title: "Round O'Clock Menu",
-                                    description: 'Served 24/7',
-                                    image: Rails.root.join('seed/round-o-clock-menu-24-7.jpg').open
-                                  }, {
-                                    title: 'Beverages Hot & Cold',
-                                    description: 'Served 24/7',
-                                    image: Rails.root.join('seed/beverages-hot-and-cold.jpg').open
-                                  }, {
-                                    title: 'Cocktails',
-                                    description: 'Served from 11am to 2am',
-                                    image: Rails.root.join('seed/cocktails.jpg').open,
-                                    available_from: Time.parse('11am'),
-                                    available_until: Time.parse('2am')
-                                  }, {
-                                    title: 'Mocktails',
-                                    description: 'Served 24/7',
-                                    image: Rails.root.join('seed/mocktails.jpg').open
-                                  }
-                                ])
-  puts "Created #{RoomService::Category.count} room service categories."
-end
+RoomService::Category.create!([
+                                {
+                                  title: 'Breakfast',
+                                  description: 'Served from 6am to 11am',
+                                  image: Rails.root.join('seed/breakfast.jpg').open,
+                                  available_from: Time.parse('03:00Z'),
+                                  available_until: Time.parse('08:00Z')
+                                }, {
+                                  title: 'Breakfast A La Carte',
+                                  description: 'Served from 6am to 11am',
+                                  image: Rails.root.join('seed/breakfast-a-la-carte.jpg').open,
+                                  available_from: Time.parse('03:00Z'),
+                                  available_until: Time.parse('08:00Z')
+                                }, {
+                                  title: 'Starters & Salads',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/starters-and-salads.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Arabic Mezzeh Selection',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/arabic-mezzeh-selection.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Homemade Soups',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/homemade-soups.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Main Fares',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/main-fares.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'From the Grill',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/from-the-grill.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Pasta',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/pasta.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Pizza Corner',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/pizza-corner.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Burgers & Wraps',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/burgers-and-wraps.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: 'Kids Choice',
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/kids-choice.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: "Our Pastry Chef's Delights",
+                                  description: 'Served from 11am to 12am',
+                                  image: Rails.root.join('seed/our-pastry-chefs-delights.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('21:00Z')
+                                }, {
+                                  title: "Round O'Clock Menu",
+                                  description: 'Served 24/7',
+                                  image: Rails.root.join('seed/round-o-clock-menu-24-7.jpg').open
+                                }, {
+                                  title: 'Beverages Hot & Cold',
+                                  description: 'Served 24/7',
+                                  image: Rails.root.join('seed/beverages-hot-and-cold.jpg').open
+                                }, {
+                                  title: 'Cocktails',
+                                  description: 'Served from 11am to 2am',
+                                  image: Rails.root.join('seed/cocktails.jpg').open,
+                                  available_from: Time.parse('08:00Z'),
+                                  available_until: Time.parse('23:00Z')
+                                }, {
+                                  title: 'Mocktails',
+                                  description: 'Served 24/7',
+                                  image: Rails.root.join('seed/mocktails.jpg').open
+                                }
+                              ])
+puts "Created #{RoomService::Category.count} room service categories."
 
 # Create room service tags.
 RoomService::Tag.destroy_all
