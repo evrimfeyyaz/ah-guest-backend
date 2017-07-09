@@ -1,6 +1,6 @@
 class Admin::OrdersController < Admin::BaseController
   def index
-    @orders = RoomService::Order.order(created_at: :desc)
+    @orders = RoomService::Order.order(created_at: :desc).page params[:page]
   end
 
   def show

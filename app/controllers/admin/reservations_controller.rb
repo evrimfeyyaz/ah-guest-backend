@@ -1,6 +1,6 @@
 class Admin::ReservationsController < Admin::BaseController
   def index
-    @reservations = Reservation.order(check_in_date: :desc)
+    @reservations = Reservation.order(check_in_date: :desc).page params[:page]
   end
 
   def edit
