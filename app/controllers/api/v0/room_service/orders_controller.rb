@@ -39,7 +39,7 @@ class Api::V0::RoomService::OrdersController < ApiController
     order = user.room_service_orders.build(order_params)
 
     if order.save
-      mg_client = Mailgun::Client.new 'key-c8d28752e6f50c0e73cc6eb02c0a4918'
+      mg_client = ::Mailgun::Client.new 'key-c8d28752e6f50c0e73cc6eb02c0a4918'
       message_params =  { from: 'notification@mail.automatedhotel.com',
                           to:   ENV['ORDER_NOTIFICATION_EMAIL'],
                           subject: "New Room Service Order \##{order.id}",
