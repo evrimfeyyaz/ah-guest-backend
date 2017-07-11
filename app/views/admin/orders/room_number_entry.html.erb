@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-4 col-md-offset-5">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Please enter the room number of the guest.
+      </div>
+      <div class="panel-body">
+        <%= form_tag(complete_admin_order_path, method: :put) do %>
+            <div class="form-group">
+              <%= label_tag :room_number, 'Room Number' %>
+              <%= text_field_tag :room_number, nil, class: 'form-control' %>
+            </div>
+            <%= submit_tag('Save Room Number', class: 'btn btn-primary') %>
+            <%= link_to 'Cancel', admin_orders_path, class: 'btn btn-link' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

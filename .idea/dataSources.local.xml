@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Rails guest-api-app: production" uuid="a226b241-44c2-4512-9b90-6f566d05d885">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <first-sync>true</first-sync>
+      <user-name>guest-api-app</user-name>
+    </data-source>
+    <data-source name="Rails guest-api-app: test" uuid="2e929cd9-e0ac-4f33-a5a1-0680594722ee">
+      <database-info product="PostgreSQL" version="9.6.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <introspection-schemas>guest-api-app_test:public</introspection-schemas>
+    </data-source>
+    <data-source name="Rails guest-api-app: development" uuid="e066d5cc-fe8c-4ffc-8c7b-eb05bde1f95c">
+      <database-info product="PostgreSQL" version="9.6.3" jdbc-version="4.0" driver-name="PostgreSQL Native Driver" driver-version="PostgreSQL 9.4 JDBC4 (build 1201)">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <introspection-schemas>guest-api-app_development:public</introspection-schemas>
+    </data-source>
+  </component>
+</project>

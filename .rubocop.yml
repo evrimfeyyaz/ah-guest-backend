@@ -1,0 +1,8 @@
+Style/IndentationConsistency:
+  Enabled: false
+Style/FirstParameterIndentation:
+  EnforcedStyle: special_for_inner_method_call
+Metrics/LineLength:
+  Max: 120
+Metrics/BlockLength:
+  ExcludeMethods: [:describe, :it]

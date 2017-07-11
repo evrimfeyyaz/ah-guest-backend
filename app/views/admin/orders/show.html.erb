@@ -1,0 +1,66 @@
+<div class="page-header">
+  <h1>Order Details</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Status</th>
+        <th>Ordered At</th>
+        <th>Guest Room Number</th>
+        <th>Reservation Confirmation</th>
+        <th>Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><%= @order.id %></td>
+        <td><%= order_status_label(@order) %></td>
+        <td><%= @order.created_at.to_s(:long_ordinal) %></td>
+        <td><%= @order.reservation.room_number %></td>
+        <td><%= @order.reservation.confirmation_code %></td>
+        <td><%= number_to_currency(@order.total, precision: 3, unit: 'BHD') %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Items</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Title</th>
+            <th>Quantity</th>
+            <th>Selected Options</th>
+            <th>Special Request</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @order.cart_items.each do |cart_item| %>
+              <tr>
+                <td><%= cart_item.item.title %></td>
+                <td><%= cart_item.quantity %></td>
+                <td><%= render 'selected_options_by_choices', selected_options: cart_item.selected_options %></td>
+                <td><%= cart_item.special_request %></td>
+                <td><%= number_to_currency(cart_item.unit_price, precision: 3, unit: 'BHD') %></td>
+                <td><%= number_to_currency(cart_item.total, precision: 3, unit: 'BHD') %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

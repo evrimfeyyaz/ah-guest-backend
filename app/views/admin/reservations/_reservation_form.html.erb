@@ -1,0 +1,28 @@
+<%= form_for [:admin, @reservation] do |f| %>
+    <div class="form-group">
+      <%= f.label :check_in_date, 'Check-In Date' %>
+      <%= f.text_field :check_in_date, class: 'form-control', data: { provide: 'datepicker', :'date-format' => 'yyyy-mm-dd' } %>
+    </div>
+    <div class="form-group">
+      <%= f.label :check_out_date, 'Check-Out Date' %>
+      <%= f.text_field :check_out_date, class: 'form-control', data: { provide: 'datepicker', :'date-format' => 'yyyy-mm-dd' } %>
+    </div>
+    <div class="form-group">
+      <%= f.label :room_number, 'Room Number' %>
+      <%= f.text_field :room_number, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :confirmation_code, 'Confirmation Code' %>
+      <%= f.text_field :confirmation_code, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :first_name, 'First Name' %>
+      <%= f.text_field :first_name, class: 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :last_name, 'Last Name' %>
+      <%= f.text_field :last_name, class: 'form-control' %>
+    </div>
+    <%= submit_tag nil, class: 'btn btn-primary' %>
+    <%= link_to 'Cancel', admin_reservations_path, class: 'btn btn-link' %>
+<% end %>
