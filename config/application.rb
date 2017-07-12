@@ -1,5 +1,7 @@
 require_relative 'boot'
 
+VERSION = '0.1.0'
+
 require "rails"
 # Pick the frameworks you want:
 require "active_model/railtie"
