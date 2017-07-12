@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<h1>New Room Service Order Arrived</h1>
+<ul>
+  <li>Order date: <%= @order.created_at %></li>
+  <li>Items:
+    <ul>
+      <% @order.cart_items.each do |cart_item| %>
+        <li><%= cart_item.item.title %></li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+</body>
+</html>
