@@ -9,7 +9,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   let(:user) { create(:user) }
 
   context 'with valid parameters' do
-    it 'creates an order' do
+    xit 'creates an order' do
       reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       tag = create(:room_service_tag)
