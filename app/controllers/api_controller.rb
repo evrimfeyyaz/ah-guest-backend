@@ -1,6 +1,11 @@
 class ApiController < ActionController::API
+  include Pundit
+
   before_action :authenticate_client_by_client_secret
   before_action :authenticate_user_by_auth_token
+
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from Pundit::NotAuthorizedError, with: :forbidden
 
   private
 
@@ -24,5 +29,17 @@ class ApiController < ActionController::API
       render json: user_authenticator, status: :unauthorized,
              serializer: UserAuthenticationErrorSerializer
     end
+  end
+
+  def not_found
+    return head :not_found
+  end
+
+  def forbidden
+    return head :forbidden
+  end
+
+  def render_validation_error_json(object)
+    render json: object, status: :unprocessable_entity, serializer: ValidationErrorSerializer
   end
 end

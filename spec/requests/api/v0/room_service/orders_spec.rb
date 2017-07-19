@@ -9,7 +9,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   let(:user) { create(:user) }
 
   context 'with valid parameters' do
-    xit 'creates an order' do
+    it 'creates an order' do
       reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       tag = create(:room_service_tag)
@@ -88,46 +88,6 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                                       }
                                     ]
                                   })
-    end
-  end
-
-  context 'with a user ID parameter different than the one of the current user' do
-    it 'responds with "403 Forbidden"' do
-      wrong_user = create(:user)
-
-      reservation = user.reservations.create(attributes_for(:reservation))
-
-      item = create(:room_service_item_with_optional_choice)
-      cart_item_attributes = attributes_for(:room_service_cart_item)
-
-      expect {
-        post "/api/v0/users/#{user.id}/room_service/orders", params: {
-          'order' => {
-            'reservation_id' => reservation.id,
-            'user_id' => wrong_user.id,
-            'cart_items_attributes' => {
-              '0' => {
-                'quantity' => cart_item_attributes[:quantity],
-                'special_request' => cart_item_attributes[:special_request],
-                'room_service_item_id' => item.id,
-              }
-            }
-          }
-        }.to_json, headers: request_headers(user: user)
-      }.to change { user.room_service_orders.count }.by(0).
-        and change { wrong_user.room_service_orders.count }.by(0)
-
-      expect(response.status).to eq(403)
-    end
-  end
-
-  context 'with a user ID in the URL that does not belong to the current user' do
-    it 'responds with "403 Forbidden"' do
-      wrong_user = create(:user)
-
-      post "/api/v0/users/#{wrong_user.id}/room_service/orders", headers: request_headers(user: user)
-
-      expect(response.status).to eq(403)
     end
   end
 
