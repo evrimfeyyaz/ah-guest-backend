@@ -6,7 +6,7 @@ class Api::V0::UsersController < ApiController
   def show
     load_user
     authorize @user
-    render_user_json or not_found
+    render_user_json
   end
 
   def create
