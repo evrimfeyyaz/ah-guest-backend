@@ -9,11 +9,7 @@ class Api::V0::RoomService::CategoriesController < ApiController
   private
 
   def load_categories
-    @categories ||= categories_scope.to_a
-  end
-
-  def categories_scope
-    RoomService::Category.all
+    @categories ||= policy_scope(RoomService::Category).to_a
   end
 
   def render_categories_json
