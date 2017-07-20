@@ -1,7 +1,6 @@
 class Api::V0::RoomService::OrdersController < ApiController
   def index
-    load_user
-    authorize @user, :current_user?
+    authorize order_scope.build
     load_orders
     render_orders_json or no_content
   end
@@ -14,16 +13,12 @@ class Api::V0::RoomService::OrdersController < ApiController
 
   private
 
-  def load_user
-    @user = User.find(params[:user_id])
-  end
-
   def load_orders
-    @orders ||= policy_scope(RoomService::Order).to_a
+    @orders ||= order_scope.to_a
   end
 
   def build_order
-    @order ||= policy_scope(RoomService::Order).build
+    @order ||= order_scope.build
     @order.attributes = order_params
   end
 
@@ -45,27 +40,27 @@ class Api::V0::RoomService::OrdersController < ApiController
   end
 
   def order_params
-    params.require(:order).permit([:reservation_id,
-                                   cart_items_attributes: [:quantity,
-                                                           :special_request,
-                                                           :room_service_item_id,
-                                                           selected_option_ids: []]])
-  end
-
-  def no_content
-    return head :no_content
+    params.require(:order).permit(:reservation_id,
+                                  cart_items_attributes: [:quantity,
+                                                          :special_request,
+                                                          :room_service_item_id,
+                                                          selected_option_ids: []])
   end
 
   def send_admin_notification_email
     # TODO: Refactor this.
     Time.use_zone('Riyadh') do
       mg_client = ::Mailgun::Client.new 'key-c8d28752e6f50c0e73cc6eb02c0a4918'
-      message_params =  { from: 'notification@mail.automatedhotel.com',
-                          to:   ENV['ORDER_NOTIFICATION_EMAIL'],
-                          subject: "New Room Service Order \##{order.id}",
-                          text:    "A new room service order has been placed on #{order.created_at.to_s(:short)}. Please check the system to see the details of the order."
+      message_params = { from: 'notification@mail.automatedhotel.com',
+                         to: ENV['ORDER_NOTIFICATION_EMAIL'],
+                         subject: "New Room Service Order \##{order.id}",
+                         text: "A new room service order has been placed on #{order.created_at.to_s(:short)}. Please check the system to see the details of the order."
       }
       mg_client.send_message 'mail.automatedhotel.com', message_params
     end unless Rails.env.development?
+  end
+
+  def order_scope
+    ::RoomService::Order.where(user_id: params[:user_id])
   end
 end

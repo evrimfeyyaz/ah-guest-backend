@@ -33,15 +33,19 @@ class ApiController < ActionController::API
   end
 
   def not_found
-    return head :not_found
+    head :not_found
   end
 
   def forbidden
-    return head :forbidden
+    head :forbidden
   end
 
   def unprocessable_entity
-    return head :unprocessable_entity
+    head :unprocessable_entity
+  end
+
+  def no_content
+    head :no_content
   end
 
   def render_validation_error_json(object)

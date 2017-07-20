@@ -2,14 +2,22 @@ class Api::V0::RoomService::SubCategoriesController < ApiController
   skip_before_action :authenticate_user_by_auth_token, only: [:index]
 
   def index
-    if params[:category_id]
-      sub_categories = ::RoomService::SubCategory.where(category: params[:category_id]).where('room_service_items_count > 0')
+    load_sub_categories
+    render_sub_categories or no_content
+  end
 
-      if sub_categories.empty?
-        head :no_content
-      else
-        render json: sub_categories, include: :items
-      end
-    end
+  private
+
+  def load_sub_categories
+    @sub_categories ||= sub_category_scope.to_a
+  end
+
+  def render_sub_categories
+    render json: @sub_categories, include: :items if @sub_categories.any?
+  end
+
+  def sub_category_scope
+    @category ||= ::RoomService::Category.find(params[:category_id])
+    @category.sub_categories.where('room_service_items_count > 0')
   end
 end

@@ -1,12 +1,6 @@
 class RoomService::OrderPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      scope.where(user_id: user)
-    end
-  end
-
   def index?
-    user == record unless record == nil
+    record.user == user
   end
 
   def create?

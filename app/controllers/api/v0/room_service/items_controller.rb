@@ -9,10 +9,14 @@ class Api::V0::RoomService::ItemsController < ApiController
   private
 
   def load_item
-    @item ||= policy_scope(RoomService::Item).find(params[:id])
+    @item ||= item_scope.find(params[:id])
   end
 
   def render_item_json
     render json: @item, include: %w(tags choices choices.options)
+  end
+
+  def item_scope
+    ::RoomService::Item.all
   end
 end

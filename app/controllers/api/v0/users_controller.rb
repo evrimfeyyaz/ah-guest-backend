@@ -17,11 +17,11 @@ class Api::V0::UsersController < ApiController
   private
 
   def load_user
-    @user ||= policy_scope(User).find(params[:id])
+    @user ||= user_scope.find(params[:id])
   end
 
   def build_user
-    @user ||= policy_scope(User).build
+    @user ||= user_scope.build
     @user.attributes = permitted_attributes(@user)
   end
 
@@ -34,5 +34,9 @@ class Api::V0::UsersController < ApiController
 
   def render_user_json
     render json: @user
+  end
+
+  def user_scope
+    User.all
   end
 end
