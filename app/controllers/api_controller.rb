@@ -6,6 +6,7 @@ class ApiController < ActionController::API
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
+  rescue_from ActionController::ParameterMissing, with: :unprocessable_entity
 
   private
 
@@ -37,6 +38,10 @@ class ApiController < ActionController::API
 
   def forbidden
     return head :forbidden
+  end
+
+  def unprocessable_entity
+    return head :unprocessable_entity
   end
 
   def render_validation_error_json(object)

@@ -1,6 +1,4 @@
 class Api::V0::RoomService::OrdersController < ApiController
-  rescue_from ActionController::ParameterMissing, with: :respond_with_unprocessable_entity
-
   def index
     load_user
     authorize @user, :current_user?
@@ -16,10 +14,6 @@ class Api::V0::RoomService::OrdersController < ApiController
 
   private
 
-  def respond_with_unprocessable_entity
-    head :unprocessable_entity
-  end
-
   def load_user
     @user = User.find(params[:user_id])
   end
@@ -34,15 +28,13 @@ class Api::V0::RoomService::OrdersController < ApiController
   end
 
   def save_order
-    if @order.save
-      response.status = :created
-      render json: @order,
-             include: ['cart_items',
-                       'cart_items.item',
-                       'cart_items.item.tags',
-                       'cart_items.item.choices',
-                       'cart_items.item.choices.options']
-    end
+    response.status = :created unless @order.persisted?
+    render_order_json if @order.save
+  end
+
+  def render_order_json
+    render json: @order,
+           include: %w(cart_items cart_items.item cart_items.item.tags cart_items.item.choices cart_items.item.choices.options)
   end
 
   def render_orders_json
