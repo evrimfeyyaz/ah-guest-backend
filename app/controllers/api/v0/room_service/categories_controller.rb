@@ -17,6 +17,6 @@ class Api::V0::RoomService::CategoriesController < ApiController
   end
 
   def category_scope
-    ::RoomService::Category.all
+    policy_scope(RoomService::Category)
   end
 end

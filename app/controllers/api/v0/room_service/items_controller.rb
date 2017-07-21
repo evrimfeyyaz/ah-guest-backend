@@ -17,6 +17,6 @@ class Api::V0::RoomService::ItemsController < ApiController
   end
 
   def item_scope
-    ::RoomService::Item.all
+    policy_scope(RoomService::Item)
   end
 end

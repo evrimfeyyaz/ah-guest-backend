@@ -61,6 +61,6 @@ class Api::V0::RoomService::OrdersController < ApiController
   end
 
   def order_scope
-    ::RoomService::Order.where(user_id: params[:user_id])
+    policy_scope(RoomService::Order).where(user_id: params[:user_id])
   end
 end

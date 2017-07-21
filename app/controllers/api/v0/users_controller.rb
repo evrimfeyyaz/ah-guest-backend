@@ -1,6 +1,8 @@
 class Api::V0::UsersController < ApiController
   skip_before_action :authenticate_user_by_auth_token, only: [:create]
 
+  # We rescue with "not found" instead of "forbidden"
+  # to not give away existing user IDs.
   rescue_from Pundit::NotAuthorizedError, with: :not_found
 
   def show
@@ -37,6 +39,6 @@ class Api::V0::UsersController < ApiController
   end
 
   def user_scope
-    User.all
+    policy_scope(User)
   end
 end
