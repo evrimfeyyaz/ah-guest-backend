@@ -23,6 +23,7 @@ gem 'bcrypt', '~> 3.1', '>= 3.1.11'
 gem 'devise', '~> 4.3'
 gem 'mailgun-ruby', '~>1.1.6'
 gem 'kaminari', '~> 1.0', '>= 1.0.1'
+gem 'pundit', '~> 1.1'
 
 group :production do
   gem 'aws-sdk', '~> 2.9', '>= 2.9.15'
