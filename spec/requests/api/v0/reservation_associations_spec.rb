@@ -109,9 +109,31 @@ describe 'POST /api/v0/users/:user_id/reservation_associations' do
   end
 
   context 'with confirmation code' do
-    it 'associates the found reservation with the current user'
+    it 'associates the found reservation with the current user' do
+      post "/api/v0/users/#{user.id}/reservation_associations", params: {
+        'reservation_association' => {
+          'reservation_attributes' => {
+            'confirmation_code' => reservation.confirmation_code
+          }
+        }
+      }.to_json, headers: request_headers(user: user)
 
-    it 'does not associate a reservation with the current user when the reservation is not found'
+      expect(reservation.users).to include(user)
+    end
+
+    it 'does not associate a reservation with the current user when the reservation is not found' do
+      wrong_confirmation_code = 'WRONG'
+
+      expect {
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'reservation_association' => {
+            'reservation_attributes' => {
+              'confirmation_code' => wrong_confirmation_code
+            }
+          }
+        }.to_json, headers: request_headers(user: user)
+      }.not_to change { ReservationAssociation.count }
+    end
   end
 
   context 'with check-in date' do

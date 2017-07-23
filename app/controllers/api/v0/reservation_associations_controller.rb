@@ -26,7 +26,14 @@ class Api::V0::ReservationAssociationsController < ApiController
   private
 
   def load_reservation
+    load_reservation_by_confirmation_code
     load_reservation_by_check_in_date
+  end
+
+  def load_reservation_by_confirmation_code
+    confirmation_code = permitted_attributes(ReservationAssociation)[:reservation_attributes][:confirmation_code]
+
+    @reservation ||= Reservation.find_by(confirmation_code: confirmation_code) if confirmation_code.present?
   end
 
   def load_reservation_by_check_in_date
