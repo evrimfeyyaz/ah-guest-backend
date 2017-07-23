@@ -1,4 +1,6 @@
 class Api::V0::ReservationAssociationsController < ApiController
+  rescue_from Pundit::NotAuthorizedError, with: :not_found
+
   def create
     # confirmation_code = reservation_association_params.has_key?(:confirmation_code) ?
     #   reservation_association_params[:confirmation_code] : nil
@@ -17,15 +19,23 @@ class Api::V0::ReservationAssociationsController < ApiController
     # end
     load_reservation
     build_reservation_association
+    authorize @reservation_association
     save_reservation_association or render_validation_error_json(@reservation_association)
   end
 
   private
 
   def load_reservation
+    load_reservation_by_check_in_date
+  end
+
+  def load_reservation_by_check_in_date
     check_in_date = permitted_attributes(ReservationAssociation)[:reservation_attributes][:check_in_date]
     room_number = permitted_attributes(ReservationAssociation)[:reservation_attributes][:room_number]
-    @reservation = Reservation.where(check_in_date: check_in_date, room_number: room_number).take
+
+    if check_in_date.present? && room_number.present?
+      @reservation ||= Reservation.where(check_in_date: check_in_date, room_number: room_number).take
+    end
   end
 
   def build_reservation_association
@@ -42,6 +52,6 @@ class Api::V0::ReservationAssociationsController < ApiController
   end
 
   def reservation_association_scope
-    policy_scope(ReservationAssociation)
+    policy_scope(ReservationAssociation).where(user_id: params[:user_id])
   end
 end
