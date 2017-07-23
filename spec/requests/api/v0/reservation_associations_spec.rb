@@ -92,7 +92,20 @@ describe 'POST /api/v0/users/:user_id/reservation_associations' do
       end
     end
 
-    it 'does not associate a reservation with the current user when the reservation is not found'
+    it 'does not associate a reservation with the current user when the reservation is not found' do
+      wrong_date = reservation.check_in_date + 1.day
+
+      expect {
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'reservation_association' => {
+            'reservation_attributes' => {
+              'check_in_date' => wrong_date.iso8601,
+              'room_number' => reservation.room_number
+            }
+          }
+        }.to_json, headers: request_headers(user: user)
+      }.not_to change { ReservationAssociation.count }
+    end
   end
 
   context 'with confirmation code' do
