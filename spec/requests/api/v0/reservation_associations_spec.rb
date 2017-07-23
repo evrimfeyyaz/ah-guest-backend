@@ -9,7 +9,7 @@ describe 'POST /api/v0/users/:user_id/reservation_associations' do
   let(:user) { create(:user) }
   let(:reservation) { create(:reservation, room_number: '1') }
 
-  context 'when the user ID in the URL does not match of the current user' do
+  context 'when the user ID in the URL does not match the current user' do
     it 'responds with "404 Not Found"' do
       wrong_user_id = user.id + 1
 
@@ -74,7 +74,22 @@ describe 'POST /api/v0/users/:user_id/reservation_associations' do
     end
 
     context 'when the reservation is associated with a user' do
-      it 'associates the found reservation with the current user while keeping the previous associations'
+      it 'associates the found reservation with the current user while keeping the previous associations' do
+        other_user = create(:user)
+        reservation.users << other_user
+
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'reservation_association' => {
+            'reservation_attributes' => {
+              'check_in_date' => reservation.check_in_date.iso8601,
+              'room_number' => reservation.room_number
+            }
+          }
+        }.to_json, headers: request_headers(user: user)
+
+        expect(reservation.users).to include(user)
+        expect(reservation.users).to include(other_user)
+      end
     end
 
     it 'does not associate a reservation with the current user when the reservation is not found'
