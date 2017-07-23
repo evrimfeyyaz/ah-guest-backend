@@ -1,10 +1,54 @@
 require 'rails_helper'
 
-describe 'POST /api/v0/reservation_associations' do
-  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/reservation_associations'
-  it_behaves_like 'an endpoint that requires user authentication', :post, '/api/v0/reservation_associations'
+describe 'POST /api/v0/users/:user_id/reservation_associations' do
+  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/users/0/reservation_associations'
+  it_behaves_like 'an endpoint that requires user authentication', :post, '/api/v0/users/%{object_id}/reservation_associations' do
+    let(:object) { user }
+  end
 
   let(:user) { create(:user) }
+  let(:reservation) { create(:reservation, room_number: '1') }
+
+  context 'with check-in date and room number' do
+    context 'when the reservation is not associated with a user' do
+      it 'associates the found reservation with the current user' do
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'reservation_association' => {
+            'reservation_attributes' => {
+              'check_in_date' => reservation.check_in_date.iso8601,
+              'room_number' => reservation.room_number
+            }
+          }
+        }.to_json, headers: request_headers(user: user)
+
+        reservation.reload
+
+        expect(reservation.users).to include(user)
+        expect(response.status).to eq(200)
+        expect(response_json).to eq('id' => reservation.reservation_associations.first.id,
+                                    'user_id' => user.id,
+                                    'reservation' => {
+                                      'id' => reservation.id,
+                                      'check_in_date' => reservation.check_in_date.iso8601,
+                                      'check_out_date' => reservation.check_out_date.iso8601,
+                                      'room_number' => reservation.room_number,
+                                      'confirmation_code' => reservation.confirmation_code
+                                    })
+      end
+    end
+
+    context 'when the reservation is associated with a user' do
+      it 'associates the found reservation with the current user while keeping the previous associations'
+    end
+
+    it 'does not associate a reservation with the current user when the reservation is not found'
+  end
+
+  context 'with confirmation code' do
+    it 'associates the found reservation with the current user'
+
+    it 'does not associate a reservation with the current user when the reservation is not found'
+  end
 
   context 'with check-in date' do
     context 'when there is only one unassociated reservation that matches the check-in date and the name' do
