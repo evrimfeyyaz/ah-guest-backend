@@ -4,12 +4,20 @@ class RoomService::OrderPolicy < ApplicationPolicy
       scope.where(user_id: user.id)
     end
   end
-  
+
   def index?
     record.user == user
   end
 
   def create?
-    record.reservation.user == user
+    record.reservation.users.include?(user)
+  end
+
+  def permitted_attributes
+    [:reservation_id,
+     cart_items_attributes: [:quantity,
+                             :special_request,
+                             :room_service_item_id,
+                             selected_option_ids: []]]
   end
 end

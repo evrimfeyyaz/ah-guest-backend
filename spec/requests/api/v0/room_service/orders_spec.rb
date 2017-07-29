@@ -21,7 +21,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
-        'order' => {
+        'room_service_order' => {
           'reservation_id' => reservation.id,
           'cart_items_attributes' => {
             '0' => {
@@ -104,7 +104,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       expect {
         post "/api/v0/users/#{user.id}/room_service/orders", params: {
-          'order' => {
+          'room_service_order' => {
             'reservation_id' => reservation.id,
             'cart_items_attributes' => {
               '0' => {
