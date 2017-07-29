@@ -1,6 +1,4 @@
 class Api::V0::ReservationAssociationsController < ApiController
-  rescue_from Pundit::NotAuthorizedError, with: :not_found
-
   def create
     # confirmation_code = reservation_association_params.has_key?(:confirmation_code) ?
     #   reservation_association_params[:confirmation_code] : nil

@@ -10,7 +10,7 @@ describe 'POST /api/v0/users/:user_id/reservation_associations' do
   let(:reservation) { create(:reservation, room_number: '1') }
 
   context 'when the user ID in the URL does not match the current user' do
-    it 'responds with "404 Not Found"' do
+    it 'responds with "403 Forbidden"' do
       wrong_user_id = user.id + 1
 
       expect {
@@ -24,7 +24,7 @@ describe 'POST /api/v0/users/:user_id/reservation_associations' do
         }.to_json, headers: request_headers(user: user)
       }.not_to change { ReservationAssociation.count }
 
-      expect(response.status).to eq(404)
+      expect(response.status).to eq(403)
     end
   end
 
