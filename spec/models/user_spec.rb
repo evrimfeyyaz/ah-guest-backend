@@ -3,8 +3,9 @@ require 'rails_helper'
 describe User do
   it { should have_secure_password }
   it { should have_db_column(:auth_token) }
+  it { should have_many(:reservation_associations).dependent(:destroy) }
   it { should have_many(:room_service_orders).dependent(:destroy).inverse_of(:user).class_name('RoomService::Order') }
-  it { should have_many(:reservations).dependent(:destroy).inverse_of(:user) }
+  it { should have_many(:reservations).inverse_of(:users) }
 
   it { should validate_presence_of :email }
   it { should validate_uniqueness_of(:email).case_insensitive }
@@ -36,11 +37,11 @@ describe User do
     let(:user) { create(:user) }
 
     context 'when there is a reservation that includes the current day' do
-      let!(:reservation) { create(:reservation, check_in_date: 1.day.ago, check_out_date: 1.day.from_now, user: user) }
+      let!(:reservation) { create(:reservation, check_in_date: 1.day.ago, check_out_date: 1.day.from_now, users: [user]) }
 
       context 'and there is a reservation after that' do
         it 'returns the reservation that includes the current day' do
-          create(:reservation, check_in_date: 2.days.from_now, check_out_date: 3.days.from_now, user: user)
+          create(:reservation, check_in_date: 2.days.from_now, check_out_date: 3.days.from_now, users: [user])
 
           user.reload
 
@@ -58,8 +59,8 @@ describe User do
     context 'when there is no current reservation but there is an upcoming reservation' do
       it 'returns the nearest upcoming reservation' do
         nearest_upcoming_reservation = create(:reservation, check_in_date: 2.days.from_now,
-                                              check_out_date: 3.days.from_now, user: user)
-        create(:reservation, check_in_date: 4.days.from_now, check_out_date: 5.days.from_now, user: user)
+                                              check_out_date: 3.days.from_now, users: [user])
+        create(:reservation, check_in_date: 4.days.from_now, check_out_date: 5.days.from_now, users: [user])
 
         user.reload
 
@@ -76,7 +77,7 @@ describe User do
 
       context 'and there are past reservations' do
         it 'returns nil' do
-          create(:reservation, check_in_date: 3.days.ago, check_out_date: 2.days.ago, user: user)
+          create(:reservation, check_in_date: 3.days.ago, check_out_date: 2.days.ago, users: [user])
 
           user.reload
 
@@ -91,7 +92,7 @@ describe User do
 
     context 'when there is a reservation that includes the current day' do
       it 'returns the reservation that includes the current day' do
-        reservation = create(:reservation, check_in_date: 1.day.ago, check_out_date: 1.day.from_now, user: user)
+        reservation = create(:reservation, check_in_date: 1.day.ago, check_out_date: 1.day.from_now, users: [user])
 
         user.reload
 
