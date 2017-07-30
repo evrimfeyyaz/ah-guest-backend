@@ -14,7 +14,7 @@ class RoomService::OrderPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:reservation_id,
+    [:reservation_id, :payment_type,
      cart_items_attributes: [:quantity,
                              :special_request,
                              :room_service_item_id,
