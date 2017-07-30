@@ -6,6 +6,7 @@ class RoomService::Order < ApplicationRecord
   validate :reservation_belongs_to_user
   validate :reservation_includes_current_day
   validates_presence_of :cart_items
+  validates_presence_of :payment_type
 
   accepts_nested_attributes_for :cart_items
 

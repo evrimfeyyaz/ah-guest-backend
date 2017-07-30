@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe Reservation do
-  it { should belong_to(:user).inverse_of(:reservations) }
+  it { should have_many :reservation_associations }
+  it { should have_many(:users).inverse_of(:reservations) }
   it { should have_many(:room_service_orders).inverse_of(:reservation).class_name('RoomService::Order').dependent(:destroy) }
 
   it { should validate_presence_of :confirmation_code }

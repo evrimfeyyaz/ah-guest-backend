@@ -19,7 +19,7 @@ class Api::V0::RoomService::OrdersController < ApiController
 
   def build_order
     @order ||= order_scope.build
-    @order.attributes = order_params
+    @order.attributes = permitted_attributes(@order)
   end
 
   def save_order
@@ -37,14 +37,6 @@ class Api::V0::RoomService::OrdersController < ApiController
       render json: @orders,
              include: %w(cart_items cart_items.item cart_items.item.tags cart_items.item.choices cart_items.item.choices.options)
     end
-  end
-
-  def order_params
-    params.require(:order).permit(:reservation_id,
-                                  cart_items_attributes: [:quantity,
-                                                          :special_request,
-                                                          :room_service_item_id,
-                                                          selected_option_ids: []])
   end
 
   def send_admin_notification_email

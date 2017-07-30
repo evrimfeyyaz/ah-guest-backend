@@ -21,8 +21,9 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       cart_item_attributes = attributes_for(:room_service_cart_item)
 
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
-        'order' => {
+        'room_service_order' => {
           'reservation_id' => reservation.id,
+          'payment_type' => 0,
           'cart_items_attributes' => {
             '0' => {
               'quantity' => cart_item_attributes[:quantity],
@@ -44,6 +45,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       expect(response_json).to eq({ 'id' => order.id,
                                     'reservation_id' => reservation.id,
+                                    'payment_type' => order.payment_type,
                                     'user_id' => user.id,
                                     'cart_items' => [
                                       {
@@ -104,8 +106,9 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       expect {
         post "/api/v0/users/#{user.id}/room_service/orders", params: {
-          'order' => {
+          'room_service_order' => {
             'reservation_id' => reservation.id,
+            'payment_type' => 0,
             'cart_items_attributes' => {
               '0' => {
                 'quantity' => cart_item_attributes[:quantity],
@@ -183,6 +186,7 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
       expect(response_json).to eq([
                                     { 'id' => order.id,
                                       'reservation_id' => reservation.id,
+                                      'payment_type' => order.payment_type,
                                       'user_id' => user.id,
                                       'cart_items' => [
                                         {

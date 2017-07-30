@@ -7,7 +7,7 @@ describe 'POST /api/v0/authentication/' do
     it 'returns a user' do
       user = create(:user)
       reservation = create(:reservation,
-                           user: user,
+                           users: [user],
                            check_in_date: 1.day.ago,
                            check_out_date: 1.day.from_now,
                            first_name: user.first_name,
