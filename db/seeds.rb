@@ -1,3 +1,26 @@
+# Create an admin user.
+Admin.destroy_all
+Admin.create!(email: 'admin@example.com', password: '12345678',
+              confirmed_at: Date.current)
+puts "Created #{Admin.count} admin user."
+
+# Create a demo user.
+User.destroy_all
+User.create!(email: 'demo@example.com', password: '12345678',
+             first_name: 'Demo', last_name: 'User')
+existing_user = User.create!(email: 'existinguser@example.com', password: '12345678',
+                             first_name: 'Existing', last_name: 'User')
+puts "Created #{User.count} demo users."
+
+# Create a demo reservation.
+Reservation.destroy_all
+Reservation.create!(check_in_date: 1.day.ago, check_out_date: 10.years.from_now,
+                    confirmation_code: '12345678', room_number: '1')
+Reservation.create!(check_in_date: 1.day.ago, check_out_date: 10.years.from_now,
+                    confirmation_code: '123456789', room_number: '2', users: [existing_user])
+
+puts "Created #{Reservation.count} reservations."
+
 # Create room service categories.
 RoomService::Category.destroy_all
 
@@ -134,7 +157,7 @@ breakfast_beverage_choice_with_decaf.options.create!([
 
 # Create room service items for breakfast.
 breakfast_category = RoomService::Category.find_by(title: 'Breakfast')
-breakfast_category.default_sub_category.items.create!(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
+continental_breakfast = breakfast_category.default_sub_category.items.create!(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
                                                       description: 'Fusion selection of tea, coffee or milk, choice of fresh seasonal juice, baker’s basket with toast, croissant, Danish or bread rolls with butter, honey, jam or marmalade.',
                                                       choices: [breakfast_beverage_choice, bakers_basket_choice])
 breakfast_category.default_sub_category.items.create!(title: 'American Breakfast', price: 8.500, tags: [dairy_tag],
@@ -234,7 +257,7 @@ puts "Created #{starters_and_salads_category.default_sub_category.items.count} i
 
 # Create room service items for mezzehs.
 arabic_mezzeh_selection_category = RoomService::Category.find_by(title: 'Arabic Mezzeh Selection')
-arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Hummus', price: 2.000, tags: [vegetarian_tag, nuts_and_seeds_tag],
+hummus = arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Hummus', price: 2.000, tags: [vegetarian_tag, nuts_and_seeds_tag],
                                                                     description: 'Chickpeas mousse with tahini, fresh lemon juice and garlic.',
                                                                     choices: [])
 arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Moutabel', price: 2.000, tags: [vegetarian_tag, healthy_tag, nuts_and_seeds_tag],
@@ -520,3 +543,16 @@ puts "Created #{mocktails_category.default_sub_category.items.count} items in th
 
 puts "Created #{RoomService::ItemChoice.count} room service item choices."
 puts "Created #{RoomService::ItemChoiceOption.count} room service item choice options."
+
+# Create a sample room service order.
+existing_user.orders.create!(
+  reservation: existing_user.reservations.first,
+  cart_items: [
+    RoomService::CartItem.new(quantity: 1, room_service_item: continental_breakfast,
+                              special_request: 'Test request', selected_options: []),
+    RoomService::CartItem.new(quantity: 2, room_service_item: hummus)
+  ]
+)
+
+puts "Created #{RoomService::CartItem.count} room service cart items."
+puts "Created #{RoomService::Order.count} room service orders."
