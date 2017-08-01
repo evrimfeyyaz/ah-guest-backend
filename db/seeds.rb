@@ -157,7 +157,7 @@ breakfast_beverage_choice_with_decaf.options.create!([
 
 # Create room service items for breakfast.
 breakfast_category = RoomService::Category.find_by(title: 'Breakfast')
-continental_breakfast = breakfast_category.default_sub_category.items.create!(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
+breakfast_category.default_sub_category.items.create!(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
                                                       description: 'Fusion selection of tea, coffee or milk, choice of fresh seasonal juice, baker’s basket with toast, croissant, Danish or bread rolls with butter, honey, jam or marmalade.',
                                                       choices: [breakfast_beverage_choice, bakers_basket_choice])
 breakfast_category.default_sub_category.items.create!(title: 'American Breakfast', price: 8.500, tags: [dairy_tag],
@@ -258,8 +258,8 @@ puts "Created #{starters_and_salads_category.default_sub_category.items.count} i
 # Create room service items for mezzehs.
 arabic_mezzeh_selection_category = RoomService::Category.find_by(title: 'Arabic Mezzeh Selection')
 hummus = arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Hummus', price: 2.000, tags: [vegetarian_tag, nuts_and_seeds_tag],
-                                                                    description: 'Chickpeas mousse with tahini, fresh lemon juice and garlic.',
-                                                                    choices: [])
+                                                                             description: 'Chickpeas mousse with tahini, fresh lemon juice and garlic.',
+                                                                             choices: [])
 arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Moutabel', price: 2.000, tags: [vegetarian_tag, healthy_tag, nuts_and_seeds_tag],
                                                                     description: 'Roasted eggplant pulp, mixed with sesame paste and seasoning.',
                                                                     choices: [])
@@ -389,9 +389,9 @@ side_choice.options.create!([
 
 # Create room service items for burgers and wraps.
 burgers_and_wraps_category = RoomService::Category.find_by(title: 'Burgers & Wraps')
-burgers_and_wraps_category.default_sub_category.items.create!(title: 'The K Beef Burger', price: 6.000, tags: [dairy_tag, egg_tag],
-                                                              description: 'Topped with sautéed mushrooms, smothered onions, fresh avocados, cheese and fried egg.',
-                                                              choices: [side_choice])
+the_k_beef_burger = burgers_and_wraps_category.default_sub_category.items.create!(title: 'The K Beef Burger', price: 6.000, tags: [dairy_tag, egg_tag],
+                                                                                  description: 'Topped with sautéed mushrooms, smothered onions, fresh avocados, cheese and fried egg.',
+                                                                                  choices: [side_choice])
 burgers_and_wraps_category.default_sub_category.items.create!(title: 'Vegetarian Burger', price: 4.000, tags: [vegetarian_tag, egg_tag],
                                                               description: 'Made of fresh vegetables served with crisp lettuce, tomatoes, pickle relish and caramelized onions.',
                                                               choices: [side_choice])
@@ -545,12 +545,13 @@ puts "Created #{RoomService::ItemChoice.count} room service item choices."
 puts "Created #{RoomService::ItemChoiceOption.count} room service item choice options."
 
 # Create a sample room service order.
-existing_user.orders.create!(
+existing_user.room_service_orders.create!(
   reservation: existing_user.reservations.first,
   cart_items: [
-    RoomService::CartItem.new(quantity: 1, room_service_item: continental_breakfast,
-                              special_request: 'Test request', selected_options: []),
-    RoomService::CartItem.new(quantity: 2, room_service_item: hummus)
+    RoomService::CartItem.new(quantity: 1, item: the_k_beef_burger,
+                              special_request: 'Test request',
+                              selected_options: [side_choice.options.first]),
+    RoomService::CartItem.new(quantity: 2, item: hummus)
   ]
 )
 
