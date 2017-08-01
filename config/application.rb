@@ -1,6 +1,6 @@
 require_relative 'boot'
 
-VERSION = '0.3.1'
+VERSION = '0.3.2'
 
 require "rails"
 # Pick the frameworks you want:
