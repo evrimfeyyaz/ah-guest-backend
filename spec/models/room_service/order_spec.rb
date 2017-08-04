@@ -40,4 +40,18 @@ describe RoomService::Order do
       expect(subject.total).to eq(5.000)
     end
   end
+
+  describe '#completed?' do
+    it 'returns true when completed' do
+      subject.status = 1
+
+      expect(subject.completed?).to eq(true)
+    end
+
+    it 'returns false when not completed' do
+      subject.status = 0
+
+      expect(subject.completed?).to eq(false)
+    end
+  end
 end

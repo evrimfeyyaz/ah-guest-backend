@@ -14,6 +14,10 @@ class RoomService::Order < ApplicationRecord
     cart_items.map(&:total).reduce(:+)
   end
 
+  def completed?
+    status == 1
+  end
+
   private
 
   def reservation_belongs_to_user
