@@ -18,7 +18,15 @@ class Admin::ReservationImportsController < Admin::BaseController
 
       Reservation.transaction do
         begin
-          reservations.each(&:save!)
+          reservations.each do |reservation|
+            existing_reservation = Reservation.find_by(confirmation_code: reservation.confirmation_code)
+
+            if existing_reservation.present?
+              existing_reservation.update!(reservation.attributes.compact!)
+            else
+              reservation.save!
+            end
+          end
         rescue ActiveRecord::RecordInvalid
         end
       end
