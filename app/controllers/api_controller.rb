@@ -20,7 +20,9 @@ class ApiController < ActionController::API
   end
 
   def current_user
-    @current_user ||= User.find_by(id: request.headers['ah-user-id'])
+    user_id = request.headers['ah-user-id']
+
+    @current_user ||= User.find(user_id) unless user_id.blank?
   end
 
   def authenticate_user_by_auth_token
