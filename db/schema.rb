@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170729170354) do
+ActiveRecord::Schema.define(version: 20170805215010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,8 +100,8 @@ ActiveRecord::Schema.define(version: 20170729170354) do
 
   create_table "room_service_item_choices", force: :cascade do |t|
     t.string "title"
-    t.boolean "optional"
-    t.boolean "allows_multiple_options"
+    t.boolean "optional", default: true
+    t.boolean "allows_multiple_options", default: false
     t.bigint "default_option_id"
     t.index ["default_option_id"], name: "index_room_service_item_choices_on_default_option_id"
   end

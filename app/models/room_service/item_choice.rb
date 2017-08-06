@@ -11,4 +11,5 @@ class RoomService::ItemChoice < ApplicationRecord
              optional: true
 
   validates_presence_of :title
+  validates_length_of :options, minimum: 2
 end

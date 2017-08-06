@@ -7,7 +7,7 @@ FactoryGirl.define do
 
     factory :room_service_item_with_non_optional_choice do
       after(:create) do |item|
-        item.choices << create(:room_service_item_choice_with_options)
+        item.choices << create(:room_service_item_choice_with_options, :non_optional)
       end
     end
 
