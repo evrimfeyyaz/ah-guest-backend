@@ -8,6 +8,8 @@ class RoomService::Item < ApplicationRecord
   has_many :cart_items, inverse_of: :item, class_name: 'RoomService::CartItem', foreign_key: 'room_service_item_id', dependent: :destroy
 
   validates_presence_of :title
+  validates_length_of :title, maximum: 50
+  validates_length_of :short_description, maximum: 100
   validates_numericality_of :price, greater_than_or_equal_to: 0
 
   delegate :available?, to: 'sub_category', allow_nil: true

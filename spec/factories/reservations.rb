@@ -14,7 +14,13 @@ FactoryGirl.define do
       check_out_date 2.days.from_now
     end
 
+    trait :past do
+      check_in_date 2.days.ago
+      check_out_date 1.day.ago
+    end
+
     factory :reservation_including_current_day, traits: [:including_current_day]
     factory :upcoming_reservation, traits: [:upcoming]
+    factory :past_reservation, traits: [:past]
   end
 end

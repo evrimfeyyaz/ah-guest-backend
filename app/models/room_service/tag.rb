@@ -3,4 +3,5 @@ class RoomService::Tag < ApplicationRecord
                           association_foreign_key: 'room_service_item_id'
 
   validates_presence_of :title
+  validates_length_of :title, maximum: 30
 end

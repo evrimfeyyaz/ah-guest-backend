@@ -3,6 +3,7 @@ class RoomService::SubCategory < ApplicationRecord
   has_many    :items, foreign_key: 'room_service_sub_category_id', inverse_of: :sub_category, dependent: :destroy
 
   validates_presence_of :title
+  validates_length_of :title, maximum: 50
 
   delegate :available?, to: 'category', allow_nil: true
   delegate :available_from, to: 'category', allow_nil: true

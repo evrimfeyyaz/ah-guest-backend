@@ -7,8 +7,10 @@ describe Reservation do
 
   it { should validate_presence_of :confirmation_code }
   it { should validate_uniqueness_of(:confirmation_code).case_insensitive }
+  it { should validate_length_of(:confirmation_code).is_at_most(30) }
   it { should validate_presence_of :check_in_date }
   it { should validate_presence_of :check_out_date }
+  it { should validate_length_of(:room_number).is_at_most(5) }
 
   context 'when check-in date is after check-out date' do
     it 'should be invalid' do

@@ -5,6 +5,7 @@ class RoomService::Category < ApplicationRecord
   has_attached_file :image, styles: { three_x: '1200x300', two_x: '600x150', one_x: '300x75' }
 
   validates_presence_of :title
+  validates_length_of :title, maximum: 50
   validates_attachment :image, content_type: { content_type: %w(image/jpeg image/png) },
                        size: { in: 0..2.megabytes }
 

@@ -3,5 +3,6 @@ class RoomService::ItemChoiceOption < ApplicationRecord
              inverse_of: :options, class_name: 'RoomService::ItemChoice'
 
   validates_presence_of :title
+  validates_length_of :title, maximum: 50
   validates_numericality_of :price, greater_than_or_equal_to: 0
 end
