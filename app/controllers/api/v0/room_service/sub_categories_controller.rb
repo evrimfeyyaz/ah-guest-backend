@@ -17,7 +17,7 @@ class Api::V0::RoomService::SubCategoriesController < ApiController
   end
 
   def sub_category_scope
-    policy_scope(RoomService::SubCategory)
+    ::RoomService::SubCategory
       .where(room_service_category_id: params[:category_id])
       .where('room_service_items_count > 0')
   end

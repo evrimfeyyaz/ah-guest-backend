@@ -39,6 +39,6 @@ class Api::V0::UsersController < ApiController
   end
 
   def user_scope
-    policy_scope(User)
+    User.all
   end
 end

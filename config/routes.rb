@@ -22,10 +22,6 @@ Rails.application.routes.draw do
         put :complete
       end
     end
-
-    # namespace :room_service do
-    #
-    # end
   end
 
   namespace :api, defaults: { format: :json } do

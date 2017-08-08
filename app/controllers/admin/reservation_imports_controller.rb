@@ -1,4 +1,4 @@
-class Admin::ReservationImportsController < Admin::BaseController
+class Admin::ReservationImportsController < AdminController
   def new
   end
 

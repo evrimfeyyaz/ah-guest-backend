@@ -1,4 +1,4 @@
-class Admin::ReservationsController < Admin::BaseController
+class Admin::ReservationsController < AdminController
   def index
     @reservations = Reservation.order(check_in_date: :desc).page params[:page]
   end
@@ -37,8 +37,11 @@ class Admin::ReservationsController < Admin::BaseController
 
   private
 
-  def reservation_params
-    params.require(:reservation).permit(:check_in_date, :check_out_date, :room_number,
-                                        :confirmation_code, :first_name, :last_name)
+  def load_reservations
+    @reservations ||= reservation_scope.to_a
+  end
+
+  def reservation_scope
+    Reservation.all
   end
 end
