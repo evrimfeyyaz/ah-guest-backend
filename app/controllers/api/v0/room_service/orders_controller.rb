@@ -8,7 +8,11 @@ class Api::V0::RoomService::OrdersController < ApiController
   def create
     build_order
     authorize @order
-    save_order or render_validation_error_json(@order)
+    if save_order
+      send_admin_notification_email
+    else
+      render_validation_error_json(@order)
+    end
   end
 
   private
@@ -55,4 +59,5 @@ class Api::V0::RoomService::OrdersController < ApiController
   def order_scope
     policy_scope(RoomService::Order).where(user_id: params[:user_id])
   end
+
 end
