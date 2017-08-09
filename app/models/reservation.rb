@@ -15,7 +15,7 @@ class Reservation < ApplicationRecord
 
   private
 
-  def check_out_date_cannot_be_before_check_in_date
+  def check_out_date_is_not_before_check_in_date
     errors.add(:check_out_date, :before_check_in_date, message: "can't be before check-in date") unless
       check_out_date.nil? || check_in_date.nil? || check_in_date <= check_out_date
   end

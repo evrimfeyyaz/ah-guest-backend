@@ -12,26 +12,28 @@ describe Reservation do
   it { should validate_presence_of :check_out_date }
   it { should validate_length_of(:room_number).is_at_most(5) }
 
-  context 'when check-in date is after check-out date' do
-    it 'should be invalid' do
-      check_in_date = Date.strptime('24-05-2017', '%d-%m-%Y')
-      check_out_date = check_in_date - 1
+  describe 'validate check_out_date is not before check_in_date' do
+    context 'when check-in date is after check-out date' do
+      it 'should be invalid' do
+        check_in_date = Date.strptime('24-05-2017', '%d-%m-%Y')
+        check_out_date = check_in_date - 1
 
-      reservation = build(:reservation, check_in_date: check_in_date, check_out_date: check_out_date)
+        reservation = build(:reservation, check_in_date: check_in_date, check_out_date: check_out_date)
 
-      expect(reservation).not_to be_valid
-      expect(reservation.errors.details).to include(check_out_date: [{ error: :before_check_in_date }])
+        expect(reservation).not_to be_valid
+        expect(reservation.errors.details).to include(check_out_date: [{ error: :before_check_in_date }])
+      end
     end
-  end
 
-  context 'when check-in date and check-out date are the same' do
-    it 'should be valid' do
-      check_in_date = Date.strptime('24-05-2017', '%d-%m-%Y')
-      check_out_date = check_in_date
+    context 'when check-in date and check-out date are the same' do
+      it 'should be valid' do
+        check_in_date = Date.strptime('24-05-2017', '%d-%m-%Y')
+        check_out_date = check_in_date
 
-      reservation = build(:reservation, check_in_date: check_in_date, check_out_date: check_out_date)
+        reservation = build(:reservation, check_in_date: check_in_date, check_out_date: check_out_date)
 
-      expect(reservation).to be_valid
+        expect(reservation).to be_valid
+      end
     end
   end
 
