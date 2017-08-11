@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe RoomService::CartItem do
-  it { should belong_to(:order).inverse_of(:cart_items).with_foreign_key('room_service_order_id') }
-  it { should belong_to(:item).with_foreign_key('room_service_item_id') }
-  it { should have_and_belong_to_many(:selected_options).class_name('RoomService::ItemChoiceOption').
-    with_foreign_key('room_service_cart_item_id') }
+  it { should belong_to(:order).inverse_of(:cart_items) }
+  it { should belong_to(:item) }
+  it { should have_many :selected_options_for_cart_items }
+  it { should have_many :selected_options }
 
   it { should validate_numericality_of(:quantity).is_greater_than(0) }
 

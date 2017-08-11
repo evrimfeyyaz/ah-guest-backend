@@ -1,9 +1,8 @@
 class RoomService::CartItem < ApplicationRecord
   belongs_to :order, inverse_of: :cart_items, foreign_key: 'room_service_order_id'
   belongs_to :item, foreign_key: 'room_service_item_id'
-  has_and_belongs_to_many :selected_options, class_name: 'RoomService::ItemChoiceOption',
-                          foreign_key: 'room_service_cart_item_id',
-                          association_foreign_key: 'room_service_item_choice_option_id'
+  has_many :selected_options_for_cart_items, class_name: 'RoomService::SelectedOptionsForCartItems'
+  has_many :selected_options, through: :selected_options_for_cart_items
 
   validates_numericality_of :quantity, greater_than: 0
   validate :availability_of_item_at_the_moment
