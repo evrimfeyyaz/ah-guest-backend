@@ -3,8 +3,8 @@ require 'rails_helper'
 describe RoomService::CartItem do
   it { should belong_to(:order).inverse_of(:cart_items) }
   it { should belong_to(:item) }
-  it { should have_many :selected_options_for_cart_items }
-  it { should have_many :selected_options }
+  it { should have_many(:selected_option_associations).inverse_of(:cart_item) }
+  it { should have_many(:selected_options).through(:selected_option_associations) }
 
   it { should validate_numericality_of(:quantity).is_greater_than(0) }
 

@@ -1,8 +1,8 @@
 class RoomService::Item < ApplicationRecord
   belongs_to :sub_category, foreign_key: 'room_service_sub_category_id', counter_cache: 'room_service_items_count', inverse_of: :items
-  has_many :tag_associations, inverse_of: :item, class_name: 'RoomService::Item::TagAssociation'
+  has_many :tag_associations, inverse_of: :item, class_name: 'RoomService::Item::TagAssociation', foreign_key: 'room_service_item_id'
   has_many :tags, through: :tag_associations
-  has_many :choice_associations, inverse_of: :item, class_name: 'RoomService::Item::ChoiceAssociation'
+  has_many :choice_associations, inverse_of: :item, class_name: 'RoomService::Item::ChoiceAssociation', foreign_key: 'room_service_item_id'
   has_many :choices, through: :choice_associations
   has_many :cart_items, inverse_of: :item, class_name: 'RoomService::CartItem', foreign_key: 'room_service_item_id', dependent: :destroy
 

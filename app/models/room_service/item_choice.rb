@@ -6,7 +6,8 @@ class RoomService::ItemChoice < ApplicationRecord
   belongs_to :default_option,
              class_name: 'RoomService::ItemChoiceOption',
              optional: true
-  has_many :item_choice_associations, class_name: 'RoomService::Item::ChoiceAssociation', inverse_of: :choice
+  has_many :item_choice_associations, class_name: 'RoomService::Item::ChoiceAssociation',
+           inverse_of: :choice, foreign_key: 'room_service_item_choice_id'
   has_many :items, through: :item_choice_associations
 
   validates_presence_of :title
