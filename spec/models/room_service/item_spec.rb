@@ -5,8 +5,10 @@ describe RoomService::Item do
     counter_cache('room_service_items_count').
     inverse_of(:items).
     with_foreign_key('room_service_sub_category_id') }
-  it { should have_and_belong_to_many(:tags).inverse_of(:items) }
-  it { should have_and_belong_to_many(:choices).inverse_of(:items) }
+  it { should have_many(:tag_associations).inverse_of(:item) }
+  it { should have_many(:tags).through(:tag_associations) }
+  it { should have_many(:choice_associations).inverse_of(:item) }
+  it { should have_many(:choices).through(:choice_associations) }
   it { should have_many(:cart_items).inverse_of(:item).dependent(:destroy) }
 
   it { should validate_presence_of :title }

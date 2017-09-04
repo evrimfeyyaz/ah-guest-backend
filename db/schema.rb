@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811141523) do
+ActiveRecord::Schema.define(version: 20170904144518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,13 @@ ActiveRecord::Schema.define(version: 20170811141523) do
     t.time "available_until"
   end
 
+  create_table "room_service_item_choice_associations", force: :cascade do |t|
+    t.bigint "room_service_item_id", null: false
+    t.bigint "room_service_item_choice_id", null: false
+    t.index ["room_service_item_choice_id", "room_service_item_id"], name: "by_r_s_item_choice_id_and_r_s_item_id"
+    t.index ["room_service_item_id", "room_service_item_choice_id"], name: "by_r_s_item_id_and_r_s_item_choice_id"
+  end
+
   create_table "room_service_item_choice_options", force: :cascade do |t|
     t.string "title"
     t.decimal "price"
@@ -99,11 +106,13 @@ ActiveRecord::Schema.define(version: 20170811141523) do
     t.index ["default_option_id"], name: "index_room_service_item_choices_on_default_option_id"
   end
 
-  create_table "room_service_item_choices_items", id: false, force: :cascade do |t|
+  create_table "room_service_item_tag_associations", force: :cascade do |t|
     t.bigint "room_service_item_id", null: false
-    t.bigint "room_service_item_choice_id", null: false
-    t.index ["room_service_item_choice_id", "room_service_item_id"], name: "by_r_s_item_choice_id_and_r_s_item_id"
-    t.index ["room_service_item_id", "room_service_item_choice_id"], name: "by_r_s_item_id_and_r_s_item_choice_id"
+    t.bigint "room_service_tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_service_item_id", "room_service_tag_id"], name: "by_item_id_and_tag_id", unique: true
+    t.index ["room_service_tag_id", "room_service_item_id"], name: "by_tag_id_and_item_id", unique: true
   end
 
   create_table "room_service_items", force: :cascade do |t|
@@ -115,13 +124,6 @@ ActiveRecord::Schema.define(version: 20170811141523) do
     t.text "description"
     t.bigint "room_service_sub_category_id"
     t.index ["room_service_sub_category_id"], name: "index_room_service_items_on_room_service_sub_category_id"
-  end
-
-  create_table "room_service_items_tags", id: false, force: :cascade do |t|
-    t.bigint "room_service_item_id", null: false
-    t.bigint "room_service_tag_id", null: false
-    t.index ["room_service_item_id", "room_service_tag_id"], name: "by_item_id_and_tag_id", unique: true
-    t.index ["room_service_tag_id", "room_service_item_id"], name: "by_tag_id_and_item_id", unique: true
   end
 
   create_table "room_service_orders", force: :cascade do |t|

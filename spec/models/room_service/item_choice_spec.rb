@@ -2,8 +2,9 @@ require 'rails_helper'
 
 describe RoomService::ItemChoice do
   it { should have_many(:options).dependent(:destroy).inverse_of(:choice) }
-  it { should have_and_belong_to_many(:items).inverse_of(:choices) }
   it { should belong_to(:default_option) }
+  it { should have_many(:item_choice_associations).inverse_of(:choice) }
+  it { should have_many(:items).through(:item_choice_associations) }
 
   it { should validate_presence_of :title }
   it { should validate_length_of(:title).is_at_most(50) }
