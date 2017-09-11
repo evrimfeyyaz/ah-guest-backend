@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RoomService::ItemChoice do
+describe RoomService::Item::Choice do
   it { should have_many(:options).dependent(:destroy).inverse_of(:choice) }
   it { should belong_to(:default_option) }
   it { should have_many(:item_choice_associations).inverse_of(:choice) }

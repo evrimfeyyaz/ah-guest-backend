@@ -7,7 +7,7 @@ class RoomService::ItemSerializer < ActiveModel::Serializer
   end
 
   has_many :choices
-  class ItemChoiceSerializer < ActiveModel::Serializer
+  class ChoiceSerializer < ActiveModel::Serializer
     attributes :id, :title, :optional, :allows_multiple_options, :default_option_id
 
     has_many :options

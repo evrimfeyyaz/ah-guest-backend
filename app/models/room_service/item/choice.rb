@@ -1,4 +1,4 @@
-class RoomService::ItemChoice < ApplicationRecord
+class RoomService::Item::Choice < ApplicationRecord
   has_many :options,
            foreign_key: 'room_service_item_choice_id',
            class_name: 'RoomService::ItemChoiceOption',

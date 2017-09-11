@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :room_service_item_choice, class: 'RoomService::ItemChoice' do
+  factory :room_service_item_choice, class: 'RoomService::Item::Choice' do
     sequence(:title) { |n| "Choice #{n}" }
 
     trait :optional do

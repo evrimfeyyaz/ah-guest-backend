@@ -133,9 +133,9 @@ healthy_tag = RoomService::Tag.create!(title: 'Healthy')
 vegetarian_tag = RoomService::Tag.create!(title: 'Vegetarian')
 puts "Created #{RoomService::Tag.count} room service item attributes."
 
-RoomService::ItemChoice.destroy_all
+RoomService::Item::Choice.destroy_all
 # Create room service item choices for breakfast items.
-breakfast_beverage_choice = RoomService::ItemChoice.new(title: 'Beverage', optional: false, allows_multiple_options: false)
+breakfast_beverage_choice = RoomService::Item::Choice.new(title: 'Beverage', optional: false, allows_multiple_options: false)
 breakfast_beverage_choice.options.new([
                                         { title: 'Tea', price: 0 },
                                         { title: 'Coffee', price: 0 },
@@ -143,14 +143,14 @@ breakfast_beverage_choice.options.new([
                                       ])
 breakfast_beverage_choice.save!
 
-bakers_basket_choice = RoomService::ItemChoice.new(title: "Baker's Basket", optional: false, allows_multiple_options: false)
+bakers_basket_choice = RoomService::Item::Choice.new(title: "Baker's Basket", optional: false, allows_multiple_options: false)
 bakers_basket_choice.options.new([
                                    { title: "With Danish", price: 0 },
                                    { title: 'With bread rolls', price: 0 }
                                  ])
 bakers_basket_choice.save!
 
-breakfast_beverage_choice_with_decaf = RoomService::ItemChoice.new(title: 'Beverage', optional: false, allows_multiple_options: false)
+breakfast_beverage_choice_with_decaf = RoomService::Item::Choice.new(title: 'Beverage', optional: false, allows_multiple_options: false)
 breakfast_beverage_choice_with_decaf.options.new([
                                                    { title: 'Tea', price: 0 },
                                                    { title: 'Coffee', price: 0 },
@@ -177,14 +177,14 @@ breakfast_category.default_sub_category.items.create!(title: 'The K Healthy Brea
 puts "Created #{breakfast_category.default_sub_category.items.count} items in the '#{breakfast_category.default_sub_category.title}' sub-category of the '#{breakfast_category.title}' category."
 
 # Create room service item choices for breakfast a la carte.
-filling_choice = RoomService::ItemChoice.new(title: 'Filling', optional: false, allows_multiple_options: false)
+filling_choice = RoomService::Item::Choice.new(title: 'Filling', optional: false, allows_multiple_options: false)
 filling_choice.options.new([
                              { title: 'Cheese', price: 0 },
                              { title: 'No filling', price: 0 }
                            ])
 filling_choice.save!
 
-egg_style_choice = RoomService::ItemChoice.new(title: 'Eggs', optional: false, allows_multiple_options: false)
+egg_style_choice = RoomService::Item::Choice.new(title: 'Eggs', optional: false, allows_multiple_options: false)
 egg_style_choice.options.new([
                                { title: 'Sunny side up', price: 0 },
                                { title: 'Scrambled', price: 0 },
@@ -197,7 +197,7 @@ egg_style_choice.options.new([
                              ])
 egg_style_choice.save!
 
-cereal_choice = RoomService::ItemChoice.new(title: 'Cereal', optional: false, allows_multiple_options: false)
+cereal_choice = RoomService::Item::Choice.new(title: 'Cereal', optional: false, allows_multiple_options: false)
 cereal_choice.options.new([
                             { title: 'Corn flakes', price: 0 },
                             { title: 'Rice Crisps', price: 0 },
@@ -209,7 +209,7 @@ cereal_choice.options.new([
                           ])
 cereal_choice.save!
 
-milk_choice = RoomService::ItemChoice.new(title: 'Milk', optional: false, allows_multiple_options: false)
+milk_choice = RoomService::Item::Choice.new(title: 'Milk', optional: false, allows_multiple_options: false)
 milk_choice.options.new([
                           { title: 'Whole milk', price: 0 },
                           { title: 'Skim milk', price: 0 }
@@ -237,7 +237,7 @@ breakfast_a_la_carte_category.default_sub_category.items.create!(title: 'Fresh F
 puts "Created #{breakfast_a_la_carte_category.default_sub_category.items.count} items in the '#{breakfast_a_la_carte_category.default_sub_category.title}' sub-category of the '#{breakfast_a_la_carte_category.title}' category."
 
 # Create room service item choices for starters and salads.
-chicken_or_prawn_choice = RoomService::ItemChoice.new(title: 'Meat', optional: false, allows_multiple_options: false)
+chicken_or_prawn_choice = RoomService::Item::Choice.new(title: 'Meat', optional: false, allows_multiple_options: false)
 chicken_or_prawn_choice.options.new([
                                       { title: 'Chicken', price: 0 },
                                       { title: 'Prawn', price: 0.500 }
@@ -302,7 +302,7 @@ homemade_soups_category.default_sub_category.items.create!(title: 'Cream of Mush
 puts "Created #{homemade_soups_category.default_sub_category.items.count} items in the '#{homemade_soups_category.default_sub_category.title}' sub-category of the '#{homemade_soups_category.title}' category."
 
 # Create room service item choices for main fares.
-meat_choice = RoomService::ItemChoice.new(title: 'Meat', optional: false, allows_multiple_options: false)
+meat_choice = RoomService::Item::Choice.new(title: 'Meat', optional: false, allows_multiple_options: false)
 meat_choice.options.new([
                           { title: 'Chicken', price: 0 },
                           { title: 'Lamb', price: 0 }
@@ -345,7 +345,7 @@ from_the_grill_category.default_sub_category.items.create!(title: 'Darne of Salm
 puts "Created #{from_the_grill_category.default_sub_category.items.count} items in the '#{from_the_grill_category.default_sub_category.title}' sub-category of the '#{from_the_grill_category.title}' category."
 
 # Create room service item choices for pasta.
-pasta_choice = RoomService::ItemChoice.new(title: 'Pasta', optional: false, allows_multiple_options: false)
+pasta_choice = RoomService::Item::Choice.new(title: 'Pasta', optional: false, allows_multiple_options: false)
 pasta_choice.options.new([
                            { title: 'Spaghetti', price: 0 },
                            { title: 'Penne', price: 0 },
@@ -392,7 +392,7 @@ pizza_corner_category.default_sub_category.items.create!(title: 'Nawabi', price:
 puts "Created #{pizza_corner_category.default_sub_category.items.count} items in the '#{pizza_corner_category.default_sub_category.title}' sub-category of the '#{pizza_corner_category.title}' category."
 
 # Create room service item choices for burgers and wraps.
-side_choice = RoomService::ItemChoice.new(title: 'Side', optional: false, allows_multiple_options: false)
+side_choice = RoomService::Item::Choice.new(title: 'Side', optional: false, allows_multiple_options: false)
 side_choice.options.new([
                           { title: 'Fries', price: 0 },
                           { title: 'Salad', price: 0 }
@@ -417,7 +417,7 @@ burgers_and_wraps_category.default_sub_category.items.create!(title: 'Chicken an
 puts "Created #{burgers_and_wraps_category.default_sub_category.items.count} items in the '#{burgers_and_wraps_category.default_sub_category.title}' sub-category of the '#{burgers_and_wraps_category.title}' category."
 
 # Create room service item choices for kids choice.
-kids_choice_meat_choice = RoomService::ItemChoice.new(title: 'Meat', optional: false, allows_multiple_options: false)
+kids_choice_meat_choice = RoomService::Item::Choice.new(title: 'Meat', optional: false, allows_multiple_options: false)
 kids_choice_meat_choice.options.new([
                                       { title: 'Beef', price: 0 },
                                       { title: 'Chicken', price: 0 }
@@ -458,7 +458,7 @@ pastries_category.default_sub_category.items.create!(title: 'Assorted Cheese Pla
 puts "Created #{pastries_category.default_sub_category.items.count} items in the '#{pastries_category.default_sub_category.title}' sub-category of the '#{pastries_category.title}' category."
 
 # Create room service item choices for round o'clock menu.
-sauce_choice = RoomService::ItemChoice.new(title: 'Sauce', optional: false, allows_multiple_options: false)
+sauce_choice = RoomService::Item::Choice.new(title: 'Sauce', optional: false, allows_multiple_options: false)
 sauce_choice.options.new([
                            { title: 'Napolitana', price: 0 },
                            { title: 'Bolognese', price: 0 }
@@ -555,7 +555,7 @@ mocktails_category.default_sub_category.items.create!(title: 'Sunrise', price: 2
 
 puts "Created #{mocktails_category.default_sub_category.items.count} items in the '#{mocktails_category.default_sub_category.title}' sub-category of the '#{mocktails_category.title}' category."
 
-puts "Created #{RoomService::ItemChoice.count} room service item choices."
+puts "Created #{RoomService::Item::Choice.count} room service item choices."
 puts "Created #{RoomService::ItemChoiceOption.count} room service item choice options."
 
 # Create a sample room service order.
