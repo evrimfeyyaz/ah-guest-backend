@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe RoomService::Item do
-  it { should belong_to(:sub_category).
+  it { should belong_to(:category_section).
     counter_cache('room_service_items_count').
     inverse_of(:items).
-    with_foreign_key('room_service_sub_category_id') }
+    with_foreign_key('room_service_category_section_id') }
   it { should have_many(:tag_associations).inverse_of(:item) }
   it { should have_many(:tags).through(:tag_associations) }
   it { should have_many(:choice_associations).inverse_of(:item) }

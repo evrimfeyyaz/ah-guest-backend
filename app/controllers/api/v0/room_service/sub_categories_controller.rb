@@ -9,15 +9,15 @@ class Api::V0::RoomService::SubCategoriesController < ApiController
   private
 
   def load_sub_categories
-    @sub_categories ||= sub_category_scope.to_a
+    @sections ||= sub_category_scope.to_a
   end
 
   def render_sub_categories
-    render json: @sub_categories, include: :items if @sub_categories.any?
+    render json: @sections, include: :items if @sections.any?
   end
 
   def sub_category_scope
-    ::RoomService::SubCategory
+    ::RoomService::Category::Section
       .where(room_service_category_id: params[:category_id])
       .where('room_service_items_count > 0')
   end

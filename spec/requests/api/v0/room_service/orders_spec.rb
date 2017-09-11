@@ -98,7 +98,7 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
       reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
 
       category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
-      item = create(:room_service_item_with_optional_choice, sub_category: category.default_sub_category)
+      item = create(:room_service_item_with_optional_choice, category_section: category.default_section)
       choice = item.choices.first
       selected_option = choice.options.first
 

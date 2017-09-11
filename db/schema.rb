@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904160604) do
+ActiveRecord::Schema.define(version: 20170911124459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,16 @@ ActiveRecord::Schema.define(version: 20170904160604) do
     t.time "available_until"
   end
 
+  create_table "room_service_category_sections", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "room_service_category_id"
+    t.boolean "default", default: false
+    t.integer "room_service_items_count", default: 0
+    t.index ["room_service_category_id"], name: "index_room_service_sections_on_category_id"
+  end
+
   create_table "room_service_item_choice_associations", force: :cascade do |t|
     t.bigint "room_service_item_id", null: false
     t.bigint "room_service_item_choice_id", null: false
@@ -131,8 +141,8 @@ ActiveRecord::Schema.define(version: 20170904160604) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
-    t.bigint "room_service_sub_category_id"
-    t.index ["room_service_sub_category_id"], name: "index_room_service_items_on_room_service_sub_category_id"
+    t.bigint "room_service_category_section_id"
+    t.index ["room_service_category_section_id"], name: "index_room_service_items_on_room_service_category_section_id"
   end
 
   create_table "room_service_orders", force: :cascade do |t|
@@ -144,16 +154,6 @@ ActiveRecord::Schema.define(version: 20170904160604) do
     t.integer "payment_type", limit: 2, default: 0, null: false
     t.index ["reservation_id"], name: "index_room_service_orders_on_reservation_id"
     t.index ["user_id"], name: "index_room_service_orders_on_user_id"
-  end
-
-  create_table "room_service_sub_categories", force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "room_service_category_id"
-    t.boolean "default", default: false
-    t.integer "room_service_items_count", default: 0
-    t.index ["room_service_category_id"], name: "index_room_service_sub_categories_on_room_service_category_id"
   end
 
   create_table "room_service_tags", force: :cascade do |t|
@@ -179,9 +179,9 @@ ActiveRecord::Schema.define(version: 20170904160604) do
   add_foreign_key "reservations", "users"
   add_foreign_key "room_service_cart_items", "room_service_items"
   add_foreign_key "room_service_cart_items", "room_service_orders"
+  add_foreign_key "room_service_category_sections", "room_service_categories"
   add_foreign_key "room_service_item_choice_options", "room_service_item_choices"
-  add_foreign_key "room_service_items", "room_service_sub_categories"
+  add_foreign_key "room_service_items", "room_service_category_sections"
   add_foreign_key "room_service_orders", "reservations"
   add_foreign_key "room_service_orders", "users"
-  add_foreign_key "room_service_sub_categories", "room_service_categories"
 end

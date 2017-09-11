@@ -1,7 +1,8 @@
 class RoomService::Category < ApplicationRecord
-  DEFAULT_SUB_CATEGORY_TITLE = '__default'
+  DEFAULT_SECTION_TITLE = '__default'
 
-  has_many :sub_categories, foreign_key: 'room_service_category_id', dependent: :destroy, inverse_of: :category
+  has_many :sections, foreign_key: 'room_service_category_id',
+           dependent: :destroy, inverse_of: :category, class_name: 'RoomService::Category::Section'
   has_attached_file :image, styles: { three_x: '1200x300', two_x: '600x150', one_x: '300x75' }
 
   validates_presence_of :title
@@ -9,10 +10,10 @@ class RoomService::Category < ApplicationRecord
   validates_attachment :image, content_type: { content_type: %w(image/jpeg image/png) },
                        size: { in: 0..2.megabytes }
 
-  after_create :create_default_sub_category
+  after_create :create_default_section
 
-  def default_sub_category
-    sub_categories.where(title: DEFAULT_SUB_CATEGORY_TITLE).first
+  def default_section
+    sections.where(title: DEFAULT_SECTION_TITLE).first
   end
 
   def available?(time)
@@ -25,8 +26,8 @@ class RoomService::Category < ApplicationRecord
 
   private
 
-  def create_default_sub_category
-    sub_categories.create(title: DEFAULT_SUB_CATEGORY_TITLE)
+  def create_default_section
+    sections.create(title: DEFAULT_SECTION_TITLE)
   end
 
   def is_time_between(time, from, til)

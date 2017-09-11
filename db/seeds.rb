@@ -161,9 +161,9 @@ breakfast_beverage_choice_with_decaf.save!
 
 # Create room service items for breakfast.
 breakfast_category = RoomService::Category.find_by(title: 'Breakfast')
-breakfast_category.default_sub_category.items.create!(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
-                                                      description: 'Fusion selection of tea, coffee or milk, choice of fresh seasonal juice, baker’s basket with toast, croissant, Danish or bread rolls with butter, honey, jam or marmalade.',
-                                                      choices: [breakfast_beverage_choice, bakers_basket_choice])
+breakfast_category.default_section.items.create!(title: 'Continental Breakfast', price: 6.000, tags: [dairy_tag],
+                                                 description: 'Fusion selection of tea, coffee or milk, choice of fresh seasonal juice, baker’s basket with toast, croissant, Danish or bread rolls with butter, honey, jam or marmalade.',
+                                                 choices: [breakfast_beverage_choice, bakers_basket_choice])
 breakfast_category.default_sub_category.items.create!(title: 'American Breakfast', price: 8.500, tags: [dairy_tag],
                                                       description: 'Fusion selection of tea, coffee or milk, choice of fresh seasonal juice, baker’s basket with toast, two eggs, sausages, veal bacon, hash brown potatoes, baked beans and toasted bread.',
                                                       choices: [breakfast_beverage_choice])
@@ -218,9 +218,9 @@ milk_choice.save!
 
 # Create room service items for breakfast a la carte.
 breakfast_a_la_carte_category = RoomService::Category.find_by(title: 'Breakfast A La Carte')
-breakfast_a_la_carte_category.default_sub_category.items.create!(title: 'Spanish or Swiss', price: 3.000, tags: [],
-                                                                 description: 'Cheese filling or plain, served with toasted bread and butter.',
-                                                                 choices: [filling_choice])
+breakfast_a_la_carte_category.default_section.items.create!(title: 'Spanish or Swiss', price: 3.000, tags: [],
+                                                            description: 'Cheese filling or plain, served with toasted bread and butter.',
+                                                            choices: [filling_choice])
 breakfast_a_la_carte_category.default_sub_category.items.create!(title: 'Two Eggs Any Style', price: 3.500, tags: [egg_tag],
                                                                  description: 'With cheese, grilled beef bacon, breakfast potatoes and sausage.',
                                                                  choices: [egg_style_choice])
@@ -246,9 +246,9 @@ chicken_or_prawn_choice.save!
 
 # Create room service items for starters and salads.
 starters_and_salads_category = RoomService::Category.find_by(title: 'Starters & Salads')
-starters_and_salads_category.default_sub_category.items.create!(title: 'Prawn Tempura', price: 4.000, tags: [spicy_tag, seafood_tag, nuts_and_seeds_tag],
-                                                                description: 'Green papaya salad, cashew nuts, chili and scallions.',
-                                                                choices: [])
+starters_and_salads_category.default_section.items.create!(title: 'Prawn Tempura', price: 4.000, tags: [spicy_tag, seafood_tag, nuts_and_seeds_tag],
+                                                           description: 'Green papaya salad, cashew nuts, chili and scallions.',
+                                                           choices: [])
 starters_and_salads_category.default_sub_category.items.create!(title: 'Caesar Salad', price: 4.500, tags: [dairy_tag, egg_tag],
                                                                 description: 'Heart of romaine lettuce, creamy caesar dressing, croutons and parmesan shavings with cajun spiced chicken breast or with marinated grilled tiger prawns.',
                                                                 choices: [chicken_or_prawn_choice])
@@ -266,9 +266,9 @@ puts "Created #{starters_and_salads_category.default_sub_category.items.count} i
 
 # Create room service items for mezzehs.
 arabic_mezzeh_selection_category = RoomService::Category.find_by(title: 'Arabic Mezzeh Selection')
-hummus = arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Hummus', price: 2.000, tags: [vegetarian_tag, nuts_and_seeds_tag],
-                                                                             description: 'Chickpeas mousse with tahini, fresh lemon juice and garlic.',
-                                                                             choices: [])
+hummus = arabic_mezzeh_selection_category.default_section.items.create!(title: 'Hummus', price: 2.000, tags: [vegetarian_tag, nuts_and_seeds_tag],
+                                                                        description: 'Chickpeas mousse with tahini, fresh lemon juice and garlic.',
+                                                                        choices: [])
 arabic_mezzeh_selection_category.default_sub_category.items.create!(title: 'Moutabel', price: 2.000, tags: [vegetarian_tag, healthy_tag, nuts_and_seeds_tag],
                                                                     description: 'Roasted eggplant pulp, mixed with sesame paste and seasoning.',
                                                                     choices: [])
@@ -289,9 +289,9 @@ puts "Created #{arabic_mezzeh_selection_category.default_sub_category.items.coun
 
 # Create room service items for homemade soups.
 homemade_soups_category = RoomService::Category.find_by(title: 'Homemade Soups')
-homemade_soups_category.default_sub_category.items.create!(title: 'Soup of the Day', price: 2.000, tags: [],
-                                                           description: 'Please call us if you would like to find out today’s special.',
-                                                           choices: [])
+homemade_soups_category.default_section.items.create!(title: 'Soup of the Day', price: 2.000, tags: [],
+                                                      description: 'Please call us if you would like to find out today’s special.',
+                                                      choices: [])
 homemade_soups_category.default_sub_category.items.create!(title: 'Tom Ka Kai Soup', price: 2.500, tags: [spicy_tag],
                                                            description: 'Chicken, coconut milk, lemon grass and cilantro.',
                                                            choices: [])
@@ -311,8 +311,8 @@ meat_choice.save!
 
 # Create room service items for main fares.
 main_fares_category = RoomService::Category.find_by(title: 'Main Fares')
-main_fares_category.default_sub_category.items.create!(title: 'Spinach, Mushroom and Artichoke Lasagne', price: 3.600, tags: [vegetarian_tag, dairy_tag, egg_tag],
-                                                       description: 'Creamy layered vegetables, tomato sauce, and topped with basil and curled peppers.')
+main_fares_category.default_section.items.create!(title: 'Spinach, Mushroom and Artichoke Lasagne', price: 3.600, tags: [vegetarian_tag, dairy_tag, egg_tag],
+                                                  description: 'Creamy layered vegetables, tomato sauce, and topped with basil and curled peppers.')
 main_fares_category.default_sub_category.items.create!(title: 'Malay Vegetable Curry', price: 2.800, tags: [vegetarian_tag, spicy_tag],
                                                        description: 'Eggplants, carrots, green beans, baby marrows and potatoes in a spicy coconut sauce Malaysian style.')
 main_fares_category.default_sub_category.items.create!(title: 'Thai Chicken Curry', price: 3.800, tags: [spicy_tag],
@@ -327,8 +327,8 @@ puts "Created #{main_fares_category.default_sub_category.items.count} items in t
 
 # Create room service items for grills.
 from_the_grill_category = RoomService::Category.find_by(title: 'From the Grill')
-from_the_grill_category.default_sub_category.items.create!(title: 'Tiger Prawns', price: 10.000, tags: [seafood_tag, dairy_tag],
-                                                           description: 'On olive risotto, green asparagus in saffron broth.')
+from_the_grill_category.default_section.items.create!(title: 'Tiger Prawns', price: 10.000, tags: [seafood_tag, dairy_tag],
+                                                      description: 'On olive risotto, green asparagus in saffron broth.')
 from_the_grill_category.default_sub_category.items.create!(title: 'Catch of the Day', price: 5.200, tags: [seafood_tag, dairy_tag],
                                                            description: 'With mashed potato, sautéed spinach accompanied by a lemon-herb butter sauce.')
 from_the_grill_category.default_sub_category.items.create!(title: 'Angus Beef Rib Eye (200gm)', price: 16.500, tags: [spicy_tag, dairy_tag],
@@ -356,9 +356,9 @@ pasta_choice.save!
 
 # Create room service items for pasta.
 pasta_category = RoomService::Category.find_by(title: 'Pasta')
-pasta_category.default_sub_category.items.create!(title: 'Seafood', price: 5.500, tags: [seafood_tag, egg_tag, dairy_tag],
-                                                  description: 'Tiger prawns, calamari, cockles and vegetable julienne, with white tomato-butter sauce.',
-                                                  choices: [pasta_choice])
+pasta_category.default_section.items.create!(title: 'Seafood', price: 5.500, tags: [seafood_tag, egg_tag, dairy_tag],
+                                             description: 'Tiger prawns, calamari, cockles and vegetable julienne, with white tomato-butter sauce.',
+                                             choices: [pasta_choice])
 pasta_category.default_sub_category.items.create!(title: 'Al Arrabiata', price: 3.500, tags: [spicy_tag, vegetarian_tag, egg_tag],
                                                   description: 'Spicy tomato sauce with fresh basil.',
                                                   choices: [pasta_choice])
@@ -376,9 +376,9 @@ puts "Created #{pasta_category.default_sub_category.items.count} items in the '#
 
 # Create room service items for pizza.
 pizza_corner_category = RoomService::Category.find_by(title: 'Pizza Corner')
-pizza_corner_category.default_sub_category.items.create!(title: 'Margherita', price: 2.200, tags: [dairy_tag, egg_tag, vegetarian_tag],
-                                                         description: 'With tomatoes, oregano and basil.',
-                                                         choices: [pasta_choice])
+pizza_corner_category.default_section.items.create!(title: 'Margherita', price: 2.200, tags: [dairy_tag, egg_tag, vegetarian_tag],
+                                                    description: 'With tomatoes, oregano and basil.',
+                                                    choices: [pasta_choice])
 pizza_corner_category.default_sub_category.items.create!(title: 'Marinara', price: 4.200, tags: [seafood_tag, egg_tag],
                                                          description: 'Mixed seafood with bell peppers, olives and mushrooms.',
                                                          choices: [pasta_choice])
@@ -401,9 +401,9 @@ side_choice.save!
 
 # Create room service items for burgers and wraps.
 burgers_and_wraps_category = RoomService::Category.find_by(title: 'Burgers & Wraps')
-the_k_beef_burger = burgers_and_wraps_category.default_sub_category.items.create!(title: 'The K Beef Burger', price: 6.000, tags: [dairy_tag, egg_tag],
-                                                                                  description: 'Topped with sautéed mushrooms, smothered onions, fresh avocados, cheese and fried egg.',
-                                                                                  choices: [side_choice])
+the_k_beef_burger = burgers_and_wraps_category.default_section.items.create!(title: 'The K Beef Burger', price: 6.000, tags: [dairy_tag, egg_tag],
+                                                                             description: 'Topped with sautéed mushrooms, smothered onions, fresh avocados, cheese and fried egg.',
+                                                                             choices: [side_choice])
 burgers_and_wraps_category.default_sub_category.items.create!(title: 'Vegetarian Burger', price: 4.000, tags: [vegetarian_tag, egg_tag],
                                                               description: 'Made of fresh vegetables served with crisp lettuce, tomatoes, pickle relish and caramelized onions.',
                                                               choices: [side_choice])
@@ -426,8 +426,8 @@ kids_choice_meat_choice.save!
 
 # Create room service items for kids choice.
 kids_choice_category = RoomService::Category.find_by(title: 'Kids Choice')
-kids_choice_category.default_sub_category.items.create!(title: 'Breaded Fish Fingers', price: 2.500, tags: [egg_tag],
-                                                        description: 'Deep-fried fish fingers with fries and tartar sauce.')
+kids_choice_category.default_section.items.create!(title: 'Breaded Fish Fingers', price: 2.500, tags: [egg_tag],
+                                                   description: 'Deep-fried fish fingers with fries and tartar sauce.')
 kids_choice_category.default_sub_category.items.create!(title: 'Macaroni Cream Sauce', price: 1.800, tags: [vegetarian_tag, dairy_tag, egg_tag],
                                                         description: 'Sautéed with peas, carrots and fresh cream with crispy bread stick.')
 kids_choice_category.default_sub_category.items.create!(title: 'Chicken Nuggets', price: 2.000, tags: [egg_tag],
@@ -444,8 +444,8 @@ puts "Created #{kids_choice_category.default_sub_category.items.count} items in 
 
 # Create room service items for pastries.
 pastries_category = RoomService::Category.find_by(title: "Our Pastry Chef's Delights")
-pastries_category.default_sub_category.items.create!(title: 'Classic Crème Brûlée', price: 2.500, tags: [dairy_tag, egg_tag],
-                                                     description: 'Tahitian vanilla beans, served with crème fraîche ice cream.')
+pastries_category.default_section.items.create!(title: 'Classic Crème Brûlée', price: 2.500, tags: [dairy_tag, egg_tag],
+                                                description: 'Tahitian vanilla beans, served with crème fraîche ice cream.')
 pastries_category.default_sub_category.items.create!(title: '“New York” Cheesecake', price: 3.000, tags: [dairy_tag, egg_tag, nuts_and_seeds_tag],
                                                      description: 'Topped with blueberries.')
 pastries_category.default_sub_category.items.create!(title: 'Tiramisu', price: 3.000, tags: [dairy_tag],
@@ -467,8 +467,8 @@ sauce_choice.save!
 
 # Create room service items for round o'clock menu.
 round_o_clock_menu_category = RoomService::Category.find_by(title: "Round O'Clock Menu")
-round_o_clock_menu_category.default_sub_category.items.create!(title: 'Greek Salad', price: 3.000, tags: [dairy_tag, vegetarian_tag, healthy_tag, mustard_and_celery_tag],
-                                                               description: 'Lettuce, bell peppers, cucumbers, tomatoes, feta cheese, red onions, olives, tossed in a light herb vinaigrette.')
+round_o_clock_menu_category.default_section.items.create!(title: 'Greek Salad', price: 3.000, tags: [dairy_tag, vegetarian_tag, healthy_tag, mustard_and_celery_tag],
+                                                          description: 'Lettuce, bell peppers, cucumbers, tomatoes, feta cheese, red onions, olives, tossed in a light herb vinaigrette.')
 round_o_clock_menu_category.default_sub_category.items.create!(title: 'Oriental Mezzah - Hot and Cold', price: 6.500, tags: [vegetarian_tag, healthy_tag, nuts_and_seeds_tag],
                                                                description: 'Hummus, moutabel, tabouleh, stuffed vine leaves meat kibbeh, cheese sambousek and spinach fatayer.')
 round_o_clock_menu_category.default_sub_category.items.create!(title: 'Cream of Mushroom Soup ', price: 2.000, tags: [dairy_tag, vegetarian_tag, healthy_tag],
@@ -537,11 +537,11 @@ beer_and_wine_sub_category.items.create!(title: 'B52', price: 4.000)
 beer_and_wine_sub_category.items.create!(title: 'Brain Hemorrhage', price: 4.000)
 beer_and_wine_sub_category.items.create!(title: 'Lemon Drop', price: 4.000)
 
-puts "Created #{beverages_category.default_sub_category.items.count} items in the '#{beverages_category.default_sub_category.title}' sub-category of the '#{beverages_category.title}' category."
+puts "Created #{beverages_category.default_section.items.count} items in the '#{beverages_category.default_sub_category.title}' sub-category of the '#{beverages_category.title}' category."
 
 # Create room service items for cocktails.
 cocktails_category = RoomService::Category.find_by(title: 'Cocktails')
-cocktails_category.default_sub_category.items.create!(title: 'Typhoon', price: 4.000, description: 'Malibu, Cointreau, fresh orange juice, fresh cream and grenadine syrup.')
+cocktails_category.default_section.items.create!(title: 'Typhoon', price: 4.000, description: 'Malibu, Cointreau, fresh orange juice, fresh cream and grenadine syrup.')
 cocktails_category.default_sub_category.items.create!(title: 'Mai Tai', price: 4.000, description: 'Dark rum, light rum, triple sec, orange juice, pineapple juice, grenadine.')
 cocktails_category.default_sub_category.items.create!(title: 'Mojito', price: 4.000, description: 'Rum, mint, brown sugar, lime soda.')
 
@@ -549,7 +549,7 @@ puts "Created #{cocktails_category.default_sub_category.items.count} items in th
 
 # Create room service items for mocktails.
 mocktails_category = RoomService::Category.find_by(title: 'Mocktails')
-mocktails_category.default_sub_category.items.create!(title: 'Tutti Frutti', price: 2.500, description: 'Strawberry, banana, orange, lemon.')
+mocktails_category.default_section.items.create!(title: 'Tutti Frutti', price: 2.500, description: 'Strawberry, banana, orange, lemon.')
 mocktails_category.default_sub_category.items.create!(title: 'Piña Colada', price: 2.500, description: 'Pineapple, coconut milk, sweetened with honey.')
 mocktails_category.default_sub_category.items.create!(title: 'Sunrise', price: 2.500, description: 'Peaches, melons, oranges and banana blended with milk.')
 
