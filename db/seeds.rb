@@ -556,7 +556,7 @@ mocktails_category.default_sub_category.items.create!(title: 'Sunrise', price: 2
 puts "Created #{mocktails_category.default_sub_category.items.count} items in the '#{mocktails_category.default_sub_category.title}' sub-category of the '#{mocktails_category.title}' category."
 
 puts "Created #{RoomService::Item::Choice.count} room service item choices."
-puts "Created #{RoomService::ItemChoiceOption.count} room service item choice options."
+puts "Created #{RoomService::Item::Choice::Option.count} room service item choice options."
 
 # Create a sample room service order.
 existing_user.room_service_orders.create!(

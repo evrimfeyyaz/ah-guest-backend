@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RoomService::ItemChoiceOption do
+describe RoomService::Item::Choice::Option do
   it { should belong_to(:choice).inverse_of(:options).
     with_foreign_key('room_service_item_choice_id').
     class_name('RoomService::Item::Choice') }

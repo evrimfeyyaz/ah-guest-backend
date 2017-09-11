@@ -1,10 +1,10 @@
 class RoomService::Item::Choice < ApplicationRecord
   has_many :options,
            foreign_key: 'room_service_item_choice_id',
-           class_name: 'RoomService::ItemChoiceOption',
+           class_name: 'RoomService::Item::Choice::Option',
            dependent: :destroy, inverse_of: :choice
   belongs_to :default_option,
-             class_name: 'RoomService::ItemChoiceOption',
+             class_name: 'RoomService::Item::Choice::Option',
              optional: true
   has_many :item_choice_associations, class_name: 'RoomService::Item::ChoiceAssociation',
            inverse_of: :choice, foreign_key: 'room_service_item_choice_id'
