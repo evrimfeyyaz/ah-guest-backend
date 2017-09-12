@@ -7,15 +7,15 @@ class RoomService::Order < ApplicationRecord
   validate :reservation_includes_current_day
   validates_presence_of :cart_items
   validates_presence_of :payment_type
+  validates_presence_of :status
+
+  enum status: [:open, :completed]
+  enum payment_type: [:room_account, :cash, :credit_card]
 
   accepts_nested_attributes_for :cart_items
 
   def total
     cart_items.map(&:total).reduce(:+)
-  end
-
-  def completed?
-    status == 1
   end
 
   private
