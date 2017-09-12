@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe RoomService::Tag do
-  it { should have_many(:item_tag_associations).inverse_of(:tag) }
+  it { should have_many(:item_tag_associations).inverse_of(:tag).dependent(:destroy) }
   it { should have_many(:items).through(:item_tag_associations) }
 
   it { should validate_presence_of :title }
