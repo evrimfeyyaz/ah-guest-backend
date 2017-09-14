@@ -5,7 +5,7 @@ class RoomService::Category::Section < ApplicationRecord
   validates_presence_of :title
   validates_length_of :title, maximum: 50
 
-  delegate :available?, to: 'category', allow_nil: true
+  delegate :available_at?, to: 'category', allow_nil: true
   delegate :available_from, to: 'category', allow_nil: true
   delegate :available_until, to: 'category', allow_nil: true
   delegate :available_from_local, to: 'category', allow_nil: true

@@ -10,10 +10,10 @@ class RoomService::CategorySerializer < ActiveModel::Serializer
   end
 
   def available_from_utc
-    object.available_from.utc.strftime('%H:%M') if object.available_from
+    object.available_from.utc_from_zone(instance_options[:property_time_zone]).strftime('%H:%M') if object.available_from
   end
 
   def available_until_utc
-    object.available_until.utc.strftime('%H:%M') if object.available_until
+    object.available_until.utc_from_zone(instance_options[:property_time_zone]).strftime('%H:%M') if object.available_until
   end
 end

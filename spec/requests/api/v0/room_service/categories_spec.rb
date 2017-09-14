@@ -4,7 +4,7 @@ describe 'GET /api/v0/room_service/categories/' do
   it_behaves_like 'an endpoint that requires client secret authentication', :get, '/api/v0/room_service/categories'
 
   it 'returns all room service categories' do
-    category = create(:room_service_category, available_from: 1.hour.ago, available_until: 1.hour.from_now)
+    category = create(:room_service_category, available_from: '8:00', available_until: '10:00')
 
     get '/api/v0/room_service/categories/', headers: request_headers
 
@@ -18,8 +18,9 @@ describe 'GET /api/v0/room_service/categories/' do
                                      '@2x' => nil,
                                      '@1x' => nil
                                    },
-                                   'available_from_utc' => category.available_from.utc.strftime('%H:%M'),
-                                   'available_until_utc' => category.available_until.utc.strftime('%H:%M'),
+                                   # TODO: Create a demo property settings, and change the following times to suit the time zone of the demo property.
+                                   'available_from_utc' => '05:00',
+                                   'available_until_utc' => '07:00'
                                  }])
   end
 

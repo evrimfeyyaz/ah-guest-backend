@@ -15,7 +15,7 @@ class RoomService::Item < ApplicationRecord
   validates_length_of :short_description, maximum: 100
   validates_numericality_of :price, greater_than_or_equal_to: 0
 
-  delegate :available?, to: :category_section, allow_nil: true
+  delegate :available_at?, to: :category_section, allow_nil: true
   delegate :available_from, to: :category_section, allow_nil: true
   delegate :available_until, to: :category_section, allow_nil: true
   delegate :available_from_local, to: :category_section, allow_nil: true

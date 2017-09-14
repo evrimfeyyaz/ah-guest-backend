@@ -1,8 +1,11 @@
 class ApiController < ActionController::API
   include Pundit
 
+  attr_reader :property_settings
+
   before_action :authenticate_client_by_client_secret
   before_action :authenticate_user_by_auth_token
+  before_action :load_property_settings
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
@@ -50,5 +53,12 @@ class ApiController < ActionController::API
 
   def render_validation_error_json(object)
     render json: object, status: :unprocessable_entity, serializer: ValidationErrorSerializer
+  end
+
+  def load_property_settings
+    @property_settings = PropertySettings.new(name: 'K Hotel',
+                                              email: 'rs@thekhotel.com',
+                                              time_zone: 'Riyadh',
+                                              currency: 'BHD')
   end
 end

@@ -1,6 +1,9 @@
 class RoomService::Category < ApplicationRecord
   DEFAULT_SECTION_TITLE = '__default'
 
+  serialize :available_from, Tod::TimeOfDay
+  serialize :available_until, Tod::TimeOfDay
+
   has_many :sections, foreign_key: 'room_service_category_id',
            dependent: :destroy, inverse_of: :category, class_name: 'RoomService::Category::Section'
   has_attached_file :image, styles: { three_x: '1200x300', two_x: '600x150', one_x: '300x75' }
@@ -13,28 +16,21 @@ class RoomService::Category < ApplicationRecord
   after_create :create_default_section
 
   def default_section
-    sections.where(title: DEFAULT_SECTION_TITLE).first
+    sections.where(title: DEFAULT_SECTION_TITLE).take
   end
 
-  def available?(time)
+  def available_at?(time)
     if available_from.nil? || available_until.nil?
       return true
     end
 
-    is_time_between(time.utc.strftime('%H:%M'), available_from.utc.strftime('%H:%M'), available_until.utc.strftime('%H:%M'))
+    available_range = Tod::Shift.new(available_from, available_until)
+    available_range.include?(Tod::TimeOfDay(time))
   end
 
   private
 
   def create_default_section
     sections.create(title: DEFAULT_SECTION_TITLE)
-  end
-
-  def is_time_between(time, from, til)
-    if from <= til
-      time >= from && time <= til
-    else
-      time >= from || time <= til
-    end
   end
 end

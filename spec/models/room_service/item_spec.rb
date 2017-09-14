@@ -13,7 +13,7 @@ describe RoomService::Item do
   it { should validate_length_of(:short_description).is_at_most(100) }
   it { should validate_numericality_of(:price).is_greater_than_or_equal_to(0) }
 
-  it { should delegate_method(:available?).to(:category_section) }
+  it { should delegate_method(:available_at?).to(:category_section) }
   it { should delegate_method(:available_from).to(:category_section) }
   it { should delegate_method(:available_until).to(:category_section) }
   it { should delegate_method(:available_from_local).to(:category_section) }

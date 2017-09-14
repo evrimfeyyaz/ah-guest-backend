@@ -15,7 +15,7 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:item]).not_to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.in_time_zone('Riyadh').strftime('%H:%M')} to #{subject.item.available_until.in_time_zone('Riyadh').strftime('%H:%M')} in local time)")
+        expect(subject.errors[:item]).not_to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
       end
     end
 
@@ -25,7 +25,7 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:item]).to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.in_time_zone('Riyadh').strftime('%H:%M')} to #{subject.item.available_until.in_time_zone('Riyadh').strftime('%H:%M')} in local time)")
+        expect(subject.errors[:item]).to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
       end
     end
   end

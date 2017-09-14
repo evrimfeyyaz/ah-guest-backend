@@ -121,11 +121,8 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
         }.to_json, headers: request_headers(user: user)
       }.not_to change { RoomService::Order.count }
 
-      available_from_time_only = item.available_from.utc.strftime('%H:%M')
-      available_until_time_only = item.available_until.utc.strftime('%H:%M')
-
-      available_from_local_time_only = item.available_from.in_time_zone('Riyadh').strftime('%H:%M')
-      available_until_local_time_only = item.available_until.in_time_zone('Riyadh').strftime('%H:%M')
+      available_from_local_time_only = item.available_from.strftime('%H:%M')
+      available_until_local_time_only = item.available_until.strftime('%H:%M')
 
       expect(response.status).to eq(422)
       expect(response_json['error_type']).to eq('validation')
@@ -134,11 +131,9 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
           'error' => 'not_available_at_the_moment',
           'title' => item.title,
           'id' => item.id,
-          'available_from_utc' => available_from_time_only,
-          'available_until_utc' => available_until_time_only,
           'available_from_local' => available_from_local_time_only,
           'available_until_local' => available_until_local_time_only,
-          'full_message' => "Cart items item \"#{item.title}\" is not available at the moment (only available from #{available_from_local_time_only} to #{available_until_local_time_only} in local time)"
+          'full_message' => "Cart items item \"#{item.title}\" is not available at the moment (only available from #{available_from_local_time_only} to #{available_until_local_time_only})"
         }
       ])
     end

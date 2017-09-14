@@ -24,6 +24,7 @@ gem 'devise', '~> 4.3'
 gem 'mailgun-ruby', '~>1.1.6'
 gem 'kaminari', '~> 1.0', '>= 1.0.1'
 gem 'pundit', '~> 1.1'
+gem 'tod', '~> 2.1', '>= 2.1.1'
 
 group :production do
   gem 'aws-sdk', '~> 2.9', '>= 2.9.15'
