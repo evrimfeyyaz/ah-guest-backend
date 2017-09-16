@@ -8,14 +8,14 @@ describe RoomService::CartItem do
 
   it { should validate_numericality_of(:quantity).is_greater_than(0) }
 
-  describe 'validates availability of the item' do
+  describe 'item available validation' do
     context 'when item is available' do
       it 'does not have a validation error' do
         subject.item = build(:available_room_service_item)
 
         subject.validate
 
-        expect(subject.errors[:item]).not_to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
+        expect(subject).not_to have_validation_error(:not_available_at_the_moment).on(:item)
       end
     end
 
@@ -25,95 +25,93 @@ describe RoomService::CartItem do
 
         subject.validate
 
-        expect(subject.errors[:item]).to include("\"#{subject.item.title}\" is not available at the moment (only available from #{subject.item.available_from.strftime('%H:%M')} to #{subject.item.available_until.strftime('%H:%M')})")
+        expect(subject).to have_validation_error(:not_available_at_the_moment).on(:item)
       end
     end
   end
 
-  describe 'validates all non-optional choices has at least one selected option' do
-    context 'when there is a non-optional choice' do
+  describe 'mandatory choices have selected options validation' do
+    context 'when there is a mandatory choice' do
       context 'and no selected option' do
         it 'does have a validation error' do
-          subject.item = create(:room_service_item_with_non_optional_choice)
-          choice = subject.item.choices.first
+          subject.item = build(:room_service_item_with_mandatory_choice)
 
           subject.validate
 
-          expect(subject.errors[:selected_options]).to include("should include a selection for \"#{choice.title}\"")
+          expect(subject).to have_validation_error(:does_not_include_selection_for_mandatory_choice).on(:selected_options)
         end
       end
 
       context 'and a selected option' do
         it 'does not have a validation error' do
-          subject.item = create(:room_service_item_with_non_optional_choice)
+          subject.item = build(:room_service_item_with_mandatory_choice)
           choice = subject.item.choices.first
           subject.selected_options << choice.options.first
 
           subject.validate
 
-          expect(subject.errors[:selected_options]).not_to include("should include a selection for \"#{choice.title}\"")
+          expect(subject).not_to have_validation_error(:does_not_include_selection_for_mandatory_choice).on(:selected_options)
         end
       end
     end
 
     context 'when there is an optional choice and no selected choice' do
       it 'does not have a validation error' do
-        subject.item = create(:room_service_item_with_optional_choice)
-        choice = subject.item.choices.first
+        subject.item = build(:room_service_item_with_optional_choice)
 
         subject.validate
 
-        expect(subject.errors[:selected_options]).not_to include("should include a selection for \"#{choice.title}\"")
+        expect(subject).not_to have_validation_error(:does_not_include_selection_for_mandatory_choice).on(:selected_options)
       end
     end
   end
 
-  describe 'validates all single-option choices does not have more than one option selected' do
+  describe 'single option choices have only single selection validation' do
     context 'when there is a single-option choice' do
       context 'and more than one selected option' do
         it 'does have a validation error' do
-          subject.item = create(:room_service_item_with_single_option_choice)
+          subject.item = build(:room_service_item_with_single_option_choice)
           choice = subject.item.choices.first
           subject.selected_option_ids = choice.option_ids
 
           subject.validate
 
-          expect(subject.errors[:selected_options]).to include("can only include one selection for \"#{choice.title}\"")
+          expect(subject).to have_validation_error(:includes_multiple_selections_for_single_option_choice).on(:selected_options)
         end
       end
 
       context 'and one selected option' do
         it 'does not have a validation error' do
-          subject.item = create(:room_service_item_with_single_option_choice)
+          subject.item = build(:room_service_item_with_single_option_choice)
           choice = subject.item.choices.first
           subject.selected_options << choice.options.first
 
           subject.validate
 
-          expect(subject.errors[:selected_options]).not_to include("can only include one selection for \"#{choice.title}\"")
+          expect(subject).not_to have_validation_error(:includes_multiple_selections_for_single_option_choice).on(:selected_options)
         end
       end
     end
 
     context 'when there is a multiple-option choice and multiple selections' do
       it 'does not have a validation error' do
-        subject.item = create(:room_service_item_with_multiple_option_choice)
+        subject.item = build(:room_service_item_with_multiple_option_choice)
         choice = subject.item.choices.first
         subject.selected_option_ids = choice.option_ids
 
         subject.validate
 
-        expect(subject.errors[:selected_options]).not_to include("can only include one selection for \"#{choice.title}\"")
+        expect(subject).not_to have_validation_error(:includes_multiple_selections_for_single_option_choice).on(:selected_options)
       end
     end
   end
 
   describe '#unit_price' do
     it 'returns the unit price of the item with selected options' do
-      choice = create(:room_service_item_choice_with_options)
+      choice = build(:room_service_item_choice_with_options)
       selected_option = choice.options.first
       selected_option.price = 0.500
-      item = create(:room_service_item, choices: [choice], price: 1.000)
+      item = build(:room_service_item, choices: [choice], price: 1.000)
 
       subject.selected_options << selected_option
       subject.item = item
@@ -124,10 +122,10 @@ describe RoomService::CartItem do
 
   describe '#total' do
     it 'returns the total price of the cart item taking quantity into account' do
-      choice = create(:room_service_item_choice_with_options)
+      choice = build(:room_service_item_choice_with_options)
       selected_option = choice.options.first
       selected_option.price = 0.500
-      item = create(:room_service_item, choices: [choice], price: 1.000)
+      item = build(:room_service_item, choices: [choice], price: 1.000)
 
       subject.selected_options << selected_option
       subject.item = item

@@ -79,7 +79,6 @@ describe RoomService::Order do
     end
   end
 
-
   describe '#total' do
     it 'returns the sum total of all cart items in the order' do
       cart_item1 = build(:room_service_cart_item)

@@ -6,7 +6,7 @@ FactoryGirl.define do
       optional true
     end
 
-    trait :non_optional do
+    trait :mandatory do
       optional false
     end
 
@@ -19,7 +19,7 @@ FactoryGirl.define do
     end
 
     factory :optional_room_service_item_choice, traits: [:optional]
-    factory :non_optional_room_service_item_choice, traits: [:non_optional]
+    factory :non_optional_room_service_item_choice, traits: [:mandatory]
     factory :single_option_room_service_item_choice, traits: [:single_option]
     factory :multiple_option_room_service_item_choice, traits: [:multiple_option]
 
@@ -28,7 +28,7 @@ FactoryGirl.define do
         options_count 2
       end
 
-      before(:create) do |choice, evaluator|
+      after(:build) do |choice, evaluator|
         choice.options = build_list(:room_service_item_choice_option, evaluator.options_count)
       end
     end

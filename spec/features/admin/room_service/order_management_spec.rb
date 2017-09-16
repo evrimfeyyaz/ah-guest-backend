@@ -5,7 +5,7 @@ feature 'Room service order management' do
     let!(:admin) { create(:admin) }
     let!(:order1) {
       order = create(:room_service_order)
-      item = create(:room_service_item_with_non_optional_choice)
+      item = create(:room_service_item_with_mandatory_choice)
       order.cart_items.first.item = item
       order.cart_items.first.selected_options << item.choices.first.options.first
       order.save
