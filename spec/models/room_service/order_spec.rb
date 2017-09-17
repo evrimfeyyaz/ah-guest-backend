@@ -20,16 +20,12 @@ describe RoomService::Order do
       subject.reservation = reservation
       user.reservations << reservation
 
-      subject.validate
-
       expect(subject).not_to have_validation_error(:does_not_belong_to_user).on(:reservation)
     end
 
     it 'adds a validation error when the reservation does not belong to the user' do
       subject.user = user
       subject.reservation = reservation
-
-      subject.validate
 
       expect(subject).to have_validation_error(:does_not_belong_to_user).on(:reservation)
     end
@@ -38,16 +34,12 @@ describe RoomService::Order do
       subject.user = nil
       subject.reservation = reservation
 
-      subject.validate
-
       expect(subject).not_to have_validation_error(:does_not_belong_to_user).on(:reservation)
     end
 
     it 'does not add a validation error when the reservation is nil' do
       subject.user = user
       subject.reservation = nil
-
-      subject.validate
 
       expect(subject).not_to have_validation_error(:does_not_belong_to_user).on(:reservation)
     end
@@ -57,23 +49,17 @@ describe RoomService::Order do
     it 'does not add a validation error when the reservation includes the current day' do
       subject.reservation = build(:reservation_including_current_day)
 
-      subject.validate
-
       expect(subject).not_to have_validation_error(:does_not_include_current_day).on(:reservation)
     end
 
     it 'adds a validation error when the reservation does not include the current day' do
       subject.reservation = build(:upcoming_reservation)
 
-      subject.validate
-
       expect(subject).to have_validation_error(:does_not_include_current_day).on(:reservation)
     end
 
     it 'does not add a validation error when the reservation is nil' do
       subject.reservation = nil
-
-      subject.validate
 
       expect(subject).not_to have_validation_error(:does_not_include_current_day).on(:reservation)
     end

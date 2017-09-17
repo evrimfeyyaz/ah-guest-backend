@@ -15,15 +15,11 @@ describe RoomService::Item::Choice do
     it 'adds a validation error when there are less than two options' do
       subject.options = []
 
-      subject.validate
-
       expect(subject).to have_validation_error(:too_short).on(:options)
     end
 
     it 'does not add a validation error when there is at least two options' do
       subject.options = build_list(:room_service_item_choice_option, 2)
-
-      subject.validate
 
       expect(subject).not_to have_validation_error(:too_short).on(:options)
     end

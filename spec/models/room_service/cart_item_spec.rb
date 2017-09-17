@@ -13,8 +13,6 @@ describe RoomService::CartItem do
       it 'does not have a validation error' do
         subject.item = build(:available_room_service_item)
 
-        subject.validate
-
         expect(subject).not_to have_validation_error(:not_available_at_the_moment).on(:item)
       end
     end
@@ -22,8 +20,6 @@ describe RoomService::CartItem do
     context 'when item is not available' do
       it 'has a validation error' do
         subject.item = build(:unavailable_room_service_item)
-
-        subject.validate
 
         expect(subject).to have_validation_error(:not_available_at_the_moment).on(:item)
       end
@@ -36,8 +32,6 @@ describe RoomService::CartItem do
         it 'does have a validation error' do
           subject.item = build(:room_service_item_with_mandatory_choice)
 
-          subject.validate
-
           expect(subject).to have_validation_error(:does_not_include_selection_for_mandatory_choice).on(:selected_options)
         end
       end
@@ -48,8 +42,6 @@ describe RoomService::CartItem do
           choice = subject.item.choices.first
           subject.selected_options << choice.options.first
 
-          subject.validate
-
           expect(subject).not_to have_validation_error(:does_not_include_selection_for_mandatory_choice).on(:selected_options)
         end
       end
@@ -58,8 +50,6 @@ describe RoomService::CartItem do
     context 'when there is an optional choice and no selected choice' do
       it 'does not have a validation error' do
         subject.item = build(:room_service_item_with_optional_choice)
-
-        subject.validate
 
         expect(subject).not_to have_validation_error(:does_not_include_selection_for_mandatory_choice).on(:selected_options)
       end
@@ -74,8 +64,6 @@ describe RoomService::CartItem do
           choice = subject.item.choices.first
           subject.selected_option_ids = choice.option_ids
 
-          subject.validate
-
           expect(subject).to have_validation_error(:includes_multiple_selections_for_single_option_choice).on(:selected_options)
         end
       end
@@ -85,8 +73,6 @@ describe RoomService::CartItem do
           subject.item = build(:room_service_item_with_single_option_choice)
           choice = subject.item.choices.first
           subject.selected_options << choice.options.first
-
-          subject.validate
 
           expect(subject).not_to have_validation_error(:includes_multiple_selections_for_single_option_choice).on(:selected_options)
         end
@@ -98,8 +84,6 @@ describe RoomService::CartItem do
         subject.item = build(:room_service_item_with_multiple_option_choice)
         choice = subject.item.choices.first
         subject.selected_option_ids = choice.option_ids
-
-        subject.validate
 
         expect(subject).not_to have_validation_error(:includes_multiple_selections_for_single_option_choice).on(:selected_options)
       end
