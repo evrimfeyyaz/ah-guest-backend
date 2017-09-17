@@ -1,6 +1,5 @@
 class RoomService::Item::Choice::Option < ApplicationRecord
-  belongs_to :choice, foreign_key: 'room_service_item_choice_id',
-             inverse_of: :options, class_name: 'RoomService::Item::Choice'
+  belongs_to :choice, foreign_key: 'room_service_item_choice_id', inverse_of: :options
 
   validates_presence_of :title
   validates_length_of :title, maximum: 50
