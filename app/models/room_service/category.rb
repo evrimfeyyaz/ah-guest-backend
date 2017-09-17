@@ -5,7 +5,7 @@ class RoomService::Category < ApplicationRecord
   serialize :available_until, Tod::TimeOfDay
 
   has_many :sections, foreign_key: 'room_service_category_id',
-           dependent: :destroy, inverse_of: :category, class_name: 'RoomService::Category::Section'
+           dependent: :destroy, inverse_of: :category
   has_attached_file :image, styles: { three_x: '1200x300', two_x: '600x150', one_x: '300x75' }
 
   validates_presence_of :title

@@ -1,7 +1,7 @@
 class RoomService::CartItem < ApplicationRecord
   belongs_to :order, inverse_of: :cart_items, foreign_key: 'room_service_order_id'
   belongs_to :item, foreign_key: 'room_service_item_id'
-  has_many :selected_option_associations, class_name: 'RoomService::CartItem::SelectedOptionAssociation',
+  has_many :selected_option_associations,
            inverse_of: :cart_item, foreign_key: 'room_service_cart_item_id'
   has_many :selected_options, through: :selected_option_associations
 
