@@ -108,7 +108,7 @@ describe RoomService::CartItem do
 
   describe '#unit_price' do
     it 'returns the unit price of the item with selected options' do
-      choice = build(:room_service_item_choice_with_options)
+      choice = build(:room_service_item_choice)
       selected_option = choice.options.first
       selected_option.price = 0.500
       item = build(:room_service_item, choices: [choice], price: 1.000)
@@ -122,7 +122,7 @@ describe RoomService::CartItem do
 
   describe '#total' do
     it 'returns the total price of the cart item taking quantity into account' do
-      choice = build(:room_service_item_choice_with_options)
+      choice = build(:room_service_item_choice)
       selected_option = choice.options.first
       selected_option.price = 0.500
       item = build(:room_service_item, choices: [choice], price: 1.000)

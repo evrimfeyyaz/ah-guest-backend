@@ -7,13 +7,13 @@ FactoryGirl.define do
 
     factory :room_service_item_with_mandatory_choice do
       after(:build) do |item|
-        item.choices << create(:room_service_item_choice_with_options, :mandatory)
+        item.choices << create(:room_service_item_choice, :mandatory)
       end
     end
 
     factory :room_service_item_with_optional_choice do
       after(:build) do |item|
-        item.choices << create(:room_service_item_choice_with_options, :optional)
+        item.choices << create(:room_service_item_choice, :optional)
       end
 
       factory :room_service_item_with_choice_and_tag do
@@ -25,13 +25,13 @@ FactoryGirl.define do
 
     factory :room_service_item_with_single_option_choice do
       after(:build) do |item|
-        item.choices << create(:room_service_item_choice_with_options, :single_option)
+        item.choices << create(:room_service_item_choice, :single_option)
       end
     end
 
     factory :room_service_item_with_multiple_option_choice do
       after(:build) do |item|
-        item.choices << create(:room_service_item_choice_with_options, :multiple_option)
+        item.choices << create(:room_service_item_choice, :multiple_option)
       end
     end
 
