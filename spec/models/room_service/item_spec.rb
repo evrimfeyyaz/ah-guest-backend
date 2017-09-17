@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe RoomService::Item do
   it { should belong_to(:category_section).counter_cache('room_service_items_count').inverse_of(:items) }
-  it { should have_many(:tag_associations).inverse_of(:item).dependent(:destroy) }
-  it { should have_many(:tags).through(:tag_associations) }
+  it { should have_many(:item_tag_associations).inverse_of(:item).dependent(:destroy) }
+  it { should have_many(:tags).through(:item_tag_associations) }
   it { should have_many(:item_choice_associations).inverse_of(:item).dependent(:destroy) }
   it { should have_many(:choices).through(:item_choice_associations) }
   it { should have_many(:cart_items).inverse_of(:item).dependent(:destroy) }
