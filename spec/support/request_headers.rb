@@ -1,6 +1,6 @@
 module RequestHeaders
   def request_headers(options = {})
-    client_secret = options.key?(:client_secret) ? options[:client_secret] : Rails.application.secrets.client_secret
+    client_secret = options.key?(:client_secret) ? options[:client_secret] : @property.api_clients.take.secret
 
     headers = {
       'ah-client-secret' => client_secret,

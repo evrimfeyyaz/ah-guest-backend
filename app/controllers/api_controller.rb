@@ -3,9 +3,8 @@ class ApiController < ActionController::API
 
   attr_reader :property_settings
 
-  before_action :authenticate_client_by_client_secret
+  before_action :ensure_valid_api_client
   before_action :authenticate_user_by_auth_token
-  before_action :load_property_settings
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
   rescue_from Pundit::NotAuthorizedError, with: :forbidden
@@ -13,13 +12,8 @@ class ApiController < ActionController::API
 
   private
 
-  def authenticate_client_by_client_secret
-    client_authenticator = ClientAuthenticator.new(request.headers['ah-client-secret'])
-
-    unless client_authenticator.authenticate
-      render json: client_authenticator, status: :unauthorized,
-             serializer: ClientAuthenticationErrorSerializer
-    end
+  def ensure_valid_api_client
+    head :unauthorized if current_api_client.blank?
   end
 
   def current_user
@@ -33,6 +27,15 @@ class ApiController < ActionController::API
       render json: user_authenticator, status: :unauthorized,
              serializer: UserAuthenticationErrorSerializer
     end
+  end
+
+  def current_property
+    @current_property ||= Property.find_by(subdomain: request.subdomains.first)
+  end
+
+  def current_api_client
+    @current_api_client ||= current_property.api_clients.
+      find_by(secret: request.headers['ah-client-secret']) unless current_property.blank?
   end
 
   def not_found
@@ -53,12 +56,5 @@ class ApiController < ActionController::API
 
   def render_validation_error_json(object)
     render json: object, status: :unprocessable_entity, serializer: ValidationErrorSerializer
-  end
-
-  def load_property_settings
-    @property_settings = PropertySettings.new(name: 'K Hotel',
-                                              email: 'rs@thekhotel.com',
-                                              time_zone: 'Riyadh',
-                                              currency: 'BHD')
   end
 end

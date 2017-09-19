@@ -1,4 +1,11 @@
 # Create an admin user.
+ApiClient.destroy_all
+ios_client = ApiClient.create!(name: 'iOS Client', secret: ENV['CLIENT_SECRET'])
+
+Property.destroy_all
+Property.create!(subdomain: 'khotel', name: 'K Hotel', email: 'rs@thekhotel.com',
+                 time_zone: 'Riyadh', currency: 'BHD', api_clients: [ios_client])
+
 Admin.destroy_all
 Admin.create!(email: 'admin@example.com', password: '12345678',
               confirmed_at: Date.current)
