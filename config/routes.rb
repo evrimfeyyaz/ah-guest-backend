@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
       namespace :room_service do
         resources :categories, only: [:index] do
-          resources :sub_categories, only: [:index]
+          resources :sections, only: [:index], controller: 'categories/sections'
         end
 
         resources :items, only: [:show]
