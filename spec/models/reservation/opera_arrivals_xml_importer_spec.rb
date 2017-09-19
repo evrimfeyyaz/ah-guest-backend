@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe OperaArrivalsXMLImporter do
+describe Reservation::OperaArrivalsXMLImporter do
   describe 'xml_string_to_reservations' do
     it 'converts the sample XML file properly' do
       sample_xml_file_contents = Rails.root.join('spec/support/sample_opera_arrivals_export.xml').open.read
 
-      reservations = OperaArrivalsXMLImporter.xml_string_to_reservations(sample_xml_file_contents)
+      reservations = Reservation::OperaArrivalsXMLImporter.xml_string_to_reservations(sample_xml_file_contents)
 
       expect(reservations[0].check_in_date).to eq(Date.parse('2017-06-25'))
       expect(reservations[0].check_out_date).to eq(Date.parse('2017-08-01'))

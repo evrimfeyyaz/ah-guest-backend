@@ -1,4 +1,4 @@
-class OperaArrivalsXMLImporter
+class Reservation::OperaArrivalsXMLImporter
   RESERVATION_NODE_TITLE = 'G_C6'
   ROOM_NUMBER_NODE_TITLE = 'C9'
   CHECK_IN_DATE_NODE_TITLE = 'C21'

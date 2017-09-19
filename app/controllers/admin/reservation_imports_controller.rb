@@ -14,7 +14,7 @@ class Admin::ReservationImportsController < AdminController
     end
 
     if xml_contents
-      reservations = OperaArrivalsXMLImporter.xml_string_to_reservations(xml_contents)
+      reservations = Reservation::OperaArrivalsXMLImporter.xml_string_to_reservations(xml_contents)
 
       Reservation.transaction do
         begin
