@@ -6,9 +6,9 @@ class RoomService::CartItem < ApplicationRecord
   has_many :selected_options, through: :selected_option_associations
 
   validates_numericality_of :quantity, greater_than: 0
-  validate :item_available?
-  validate :mandatory_choices_have_selected_options?
-  validate :single_option_choices_have_single_selection?
+  validate :item_available
+  validate :mandatory_choices_have_selected_options
+  validate :single_option_choices_have_single_selection
 
   def unit_price
     item.price + selected_options.reduce(0) { |sum, option| sum + option.price }
@@ -28,7 +28,7 @@ class RoomService::CartItem < ApplicationRecord
     (choice.option_ids & selected_option_ids).length <= 1
   end
 
-  def item_available?
+  def item_available
     errors.add(:item, :not_available_at_the_moment,
                message: '"%{title}" is not available at the moment (only available from %{available_from_local} to %{available_until_local})',
                title: item.title,
@@ -37,7 +37,7 @@ class RoomService::CartItem < ApplicationRecord
                id: item.id) unless item.nil? || item.available_at?(Time.current)
   end
 
-  def mandatory_choices_have_selected_options?
+  def mandatory_choices_have_selected_options
     item&.choices&.each do |choice|
       errors.add(:selected_options, :does_not_include_selection_for_mandatory_choice,
                  message: 'should include a selection for "%{choice_title}"',
@@ -46,7 +46,7 @@ class RoomService::CartItem < ApplicationRecord
     end
   end
 
-  def single_option_choices_have_single_selection?
+  def single_option_choices_have_single_selection
     item&.choices&.each do |choice|
       errors.add(:selected_options, :includes_multiple_selections_for_single_option_choice,
                  message: 'can only include one selection for "%{choice_title}"',
