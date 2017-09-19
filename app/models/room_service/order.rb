@@ -27,6 +27,6 @@ class RoomService::Order < ApplicationRecord
 
   def reservation_includes_current_day
     errors.add(:reservation, :does_not_include_current_day, message: "doesn't include the current day") unless
-      reservation.nil? || reservation.includes_current_day?
+      reservation.nil? || reservation.includes_today?
   end
 end

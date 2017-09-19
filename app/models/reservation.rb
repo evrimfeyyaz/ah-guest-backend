@@ -6,11 +6,11 @@ class Reservation < ApplicationRecord
   validates_presence_of :confirmation_code, :check_in_date, :check_out_date
   validates_uniqueness_of :confirmation_code, case_sensitive: false
   validates_length_of :confirmation_code, maximum: 30
-  validate :check_out_date_is_not_before_check_in_date
   validates_length_of :room_number, maximum: 5
+  validate :check_out_date_is_not_before_check_in_date
 
-  def includes_current_day?
-    check_in_date <= Date.current && check_out_date >= Date.current
+  def includes_today?
+    check_in_date <= Date.today && check_out_date >= Date.today
   end
 
   private
