@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918121141) do
+ActiveRecord::Schema.define(version: 20170919192303) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,11 +58,11 @@ ActiveRecord::Schema.define(version: 20170918121141) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "reservation_associations", force: :cascade do |t|
+  create_table "reservation_user_associations", force: :cascade do |t|
     t.bigint "reservation_id"
     t.bigint "user_id"
-    t.index ["reservation_id"], name: "index_reservation_associations_on_reservation_id"
-    t.index ["user_id"], name: "index_reservation_associations_on_user_id"
+    t.index ["reservation_id"], name: "index_reservation_user_associations_on_reservation_id"
+    t.index ["user_id"], name: "index_reservation_user_associations_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -194,8 +194,8 @@ ActiveRecord::Schema.define(version: 20170918121141) do
   end
 
   add_foreign_key "api_clients", "properties"
-  add_foreign_key "reservation_associations", "reservations"
-  add_foreign_key "reservation_associations", "users"
+  add_foreign_key "reservation_user_associations", "reservations"
+  add_foreign_key "reservation_user_associations", "users"
   add_foreign_key "reservations", "users"
   add_foreign_key "room_service_cart_items", "room_service_items"
   add_foreign_key "room_service_cart_items", "room_service_orders"

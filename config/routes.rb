@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v0 do
       resources :users, only: [:create, :show] do
-        resources :reservation_associations, only: [:create]
+        namespace :reservation do
+          resources :user_associations, only: [:create]
+        end
 
         namespace :room_service do
           resources :orders, only: [:index, :create]

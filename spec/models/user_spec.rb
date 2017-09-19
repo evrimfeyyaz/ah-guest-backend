@@ -3,7 +3,7 @@ require 'rails_helper'
 describe User do
   it { should have_secure_password }
   it { should have_db_column(:auth_token) }
-  it { should have_many(:reservation_associations).dependent(:destroy) }
+  it { should have_many(:reservation_user_associations).dependent(:destroy) }
   it { should have_many(:room_service_orders).dependent(:destroy).inverse_of(:user).class_name('RoomService::Order') }
   it { should have_many(:reservations).inverse_of(:users) }
 

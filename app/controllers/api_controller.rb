@@ -1,8 +1,6 @@
 class ApiController < ActionController::API
   include Pundit
 
-  attr_reader :property_settings
-
   before_action :ensure_valid_api_client
   before_action :authenticate_user_by_auth_token
 
