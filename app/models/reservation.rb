@@ -1,6 +1,6 @@
 class Reservation < ApplicationRecord
-  has_many :reservation_user_associations, class_name: 'Reservation::UserAssociation', dependent: :destroy
-  has_many :users, through: :reservation_user_associations, inverse_of: :reservations
+  has_many :user_reservation_associations, class_name: 'User::ReservationAssociation', dependent: :destroy
+  has_many :users, through: :user_reservation_associations, inverse_of: :reservations
   has_many :room_service_orders, class_name: 'RoomService::Order', inverse_of: :reservation, dependent: :destroy
 
   validates_presence_of :confirmation_code, :check_in_date, :check_out_date

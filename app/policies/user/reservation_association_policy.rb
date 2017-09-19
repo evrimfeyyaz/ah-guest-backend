@@ -1,4 +1,4 @@
-class Reservation::UserAssociationPolicy < ApplicationPolicy
+class User::ReservationAssociationPolicy < ApplicationPolicy
   def create?
     record.user == user
   end

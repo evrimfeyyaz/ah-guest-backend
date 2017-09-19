@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
-  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/users/0/reservation/user_associations'
-  it_behaves_like 'an endpoint that requires user authentication', :post, '/api/v0/users/%{object_id}/reservation/user_associations' do
+describe 'POST /api/v0/users/:user_id/reservation_associations' do
+  it_behaves_like 'an endpoint that requires client secret authentication', :post, '/api/v0/users/0/reservation_associations'
+  it_behaves_like 'an endpoint that requires user authentication', :post, '/api/v0/users/%{object_id}/reservation_associations' do
     let(:object) { user }
   end
 
@@ -14,15 +14,15 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
       wrong_user_id = user.id + 1
 
       expect {
-        post "/api/v0/users/#{wrong_user_id}/reservation/user_associations", params: {
-          'reservation_user_association' => {
+        post "/api/v0/users/#{wrong_user_id}/reservation_associations", params: {
+          'user_reservation_association' => {
             'reservation_attributes' => {
               'check_in_date' => reservation.check_in_date.iso8601,
               'room_number' => reservation.room_number
             }
           }
         }.to_json, headers: request_headers(user: user)
-      }.not_to change { Reservation::UserAssociation.count }
+      }.not_to change { User::ReservationAssociation.count }
 
       expect(response.status).to eq(403)
     end
@@ -31,8 +31,8 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
   context 'with check-in date and room number' do
     context 'when the reservation is not associated with a user' do
       it 'associates the found reservation with the current user' do
-        post "/api/v0/users/#{user.id}/reservation/user_associations", params: {
-          'reservation_user_association' => {
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'user_reservation_association' => {
             'reservation_attributes' => {
               'check_in_date' => reservation.check_in_date.iso8601,
               'room_number' => reservation.room_number
@@ -42,7 +42,7 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
 
         expect(reservation.users).to include(user)
         expect(response.status).to eq(200)
-        expect(response_json).to eq('id' => reservation.reservation_user_associations.first.id,
+        expect(response_json).to eq('id' => reservation.user_reservation_associations.first.id,
                                     'user_id' => user.id,
                                     'reservation' => {
                                       'id' => reservation.id,
@@ -57,8 +57,8 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
         it 'does not associate a reservation with the current user' do
           reservation.update(room_number: nil)
 
-          post "/api/v0/users/#{user.id}/reservation/user_associations", params: {
-            'reservation_user_association' => {
+          post "/api/v0/users/#{user.id}/reservation_associations", params: {
+            'user_reservation_association' => {
               'reservation_attributes' => {
                 'check_in_date' => reservation.check_in_date.iso8601,
                 'room_number' => nil
@@ -78,8 +78,8 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
         other_user = create(:user)
         reservation.users << other_user
 
-        post "/api/v0/users/#{user.id}/reservation/user_associations", params: {
-          'reservation_user_association' => {
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'user_reservation_association' => {
             'reservation_attributes' => {
               'check_in_date' => reservation.check_in_date.iso8601,
               'room_number' => reservation.room_number
@@ -96,22 +96,22 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
       wrong_date = reservation.check_in_date + 1.day
 
       expect {
-        post "/api/v0/users/#{user.id}/reservation/user_associations", params: {
-          'reservation_user_association' => {
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'user_reservation_association' => {
             'reservation_attributes' => {
               'check_in_date' => wrong_date.iso8601,
               'room_number' => reservation.room_number
             }
           }
         }.to_json, headers: request_headers(user: user)
-      }.not_to change { Reservation::UserAssociation.count }
+      }.not_to change { User::ReservationAssociation.count }
     end
   end
 
   context 'with confirmation code' do
     it 'associates the found reservation with the current user' do
-      post "/api/v0/users/#{user.id}/reservation/user_associations", params: {
-        'reservation_user_association' => {
+      post "/api/v0/users/#{user.id}/reservation_associations", params: {
+        'user_reservation_association' => {
           'reservation_attributes' => {
             'confirmation_code' => reservation.confirmation_code
           }
@@ -125,14 +125,14 @@ describe 'POST /api/v0/users/:user_id/reservation/user_associations' do
       wrong_confirmation_code = 'WRONG'
 
       expect {
-        post "/api/v0/users/#{user.id}/reservation/user_associations", params: {
-          'reservation_user_association' => {
+        post "/api/v0/users/#{user.id}/reservation_associations", params: {
+          'user_reservation_association' => {
             'reservation_attributes' => {
               'confirmation_code' => wrong_confirmation_code
             }
           }
         }.to_json, headers: request_headers(user: user)
-      }.not_to change { Reservation::UserAssociation.count }
+      }.not_to change { User::ReservationAssociation.count }
     end
   end
 end

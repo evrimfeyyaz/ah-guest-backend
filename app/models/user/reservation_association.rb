@@ -1,4 +1,4 @@
-class Reservation::UserAssociation < ApplicationRecord
+class User::ReservationAssociation < ApplicationRecord
   belongs_to :user
   belongs_to :reservation
 

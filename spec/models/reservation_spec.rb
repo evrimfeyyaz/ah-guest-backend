@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Reservation do
-  it { should have_many(:reservation_user_associations).dependent(:destroy) }
+  it { should have_many(:user_reservation_associations).dependent(:destroy) }
   it { should have_many(:users).inverse_of(:reservations) }
   it { should have_many(:room_service_orders).inverse_of(:reservation).dependent(:destroy) }
 
