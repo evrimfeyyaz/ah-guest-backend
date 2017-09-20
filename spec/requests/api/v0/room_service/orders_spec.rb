@@ -6,30 +6,30 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
     let(:object) { user }
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user_with_reservation_including_current_day) }
+  let(:reservation) { user.reservations.last }
+  let(:item) { create(:room_service_item_with_choice_and_tag) }
+  let(:tag) { item.tags.first }
+  let(:choice) { item.choices.first }
+  let(:selected_option) { choice.options.first }
+  let(:unselected_option) { choice.options.last }
+  let(:cart_item_attributes) { attributes_for(:room_service_cart_item, special_request: 'irrelevant',
+                                              room_service_item_id: item.id, selected_option_ids: [selected_option.id]) }
+  let(:order_attributes) { attributes_for(:room_service_order, payment_type: :room_account,
+                                          reservation_id: reservation.id)}
 
   context 'with valid parameters' do
-    it 'creates an order' do
-      reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
-
-      tag = create(:room_service_tag)
-      item = create(:room_service_item_with_optional_choice, tags: [tag])
-      choice = item.choices.first
-      selected_option = choice.options.first
-      unselected_option = choice.options.last
-
-      cart_item_attributes = attributes_for(:room_service_cart_item)
-
+    it 'creates an order (201)' do
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
         'room_service_order' => {
-          'reservation_id' => reservation.id,
-          'payment_type' => 0,
+          'reservation_id' => order_attributes[:reservation_id],
+          'payment_type' => order_attributes[:payment_type],
           'cart_items_attributes' => {
             '0' => {
               'quantity' => cart_item_attributes[:quantity],
               'special_request' => cart_item_attributes[:special_request],
-              'room_service_item_id' => item.id,
-              'selected_option_ids' => [selected_option.id]
+              'room_service_item_id' => cart_item_attributes[:room_service_item_id],
+              'selected_option_ids' => cart_item_attributes[:selected_option_ids]
             }
           }
         }
@@ -39,9 +39,6 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
 
       order = user.room_service_orders.last
       cart_item = order.cart_items.first
-
-      expect(cart_item.selected_options).to include(selected_option)
-      expect(cart_item.selected_options).not_to include(unselected_option)
 
       expect(response_json).to eq({ 'id' => order.id,
                                     'reservation_id' => reservation.id,
@@ -60,8 +57,8 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                                           'description' => item.description,
                                           'tags' => [
                                             {
-                                              'id' => tag.id,
-                                              'title' => tag.title
+                                              'id' => item.tags.first.id,
+                                              'title' => item.tags.first.title
                                             }
                                           ],
                                           'choices' => [
@@ -94,35 +91,30 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   end
 
   context 'when the order includes an item that is not available at the time of creation' do
-    it 'does not create an order and responds with "422 Unprocessable Entity"' do
-      reservation = user.reservations.create(attributes_for(:reservation_including_current_day))
-
-      category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
-      item = create(:room_service_item_with_optional_choice, category_section: category.default_section)
-      choice = item.choices.first
-      selected_option = choice.options.first
-
-      cart_item_attributes = attributes_for(:room_service_cart_item)
+    it 'does not create an order (422)' do
+      unavailable_category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
+      item.category_section.category =  unavailable_category
+      item.category_section.save!
 
       expect {
         post "/api/v0/users/#{user.id}/room_service/orders", params: {
           'room_service_order' => {
             'reservation_id' => reservation.id,
-            'payment_type' => 0,
+            'payment_type' => order_attributes[:payment_type],
             'cart_items_attributes' => {
               '0' => {
                 'quantity' => cart_item_attributes[:quantity],
                 'special_request' => cart_item_attributes[:special_request],
-                'room_service_item_id' => item.id,
-                'selected_option_ids' => [selected_option.id]
+                'room_service_item_id' => cart_item_attributes[:room_service_item_id],
+                'selected_option_ids' => cart_item_attributes[:selected_option_ids]
               }
             }
           }
         }.to_json, headers: request_headers(user: user)
       }.not_to change { RoomService::Order.count }
 
-      available_from_local_time_only = item.available_from.strftime('%H:%M')
-      available_until_local_time_only = item.available_until.strftime('%H:%M')
+      available_from = item.available_from.strftime('%H:%M')
+      available_until = item.available_until.strftime('%H:%M')
 
       expect(response.status).to eq(422)
       expect(response_json['error_type']).to eq('validation')
@@ -131,16 +123,17 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
           'error' => 'not_available_at_the_moment',
           'title' => item.title,
           'id' => item.id,
-          'available_from_local' => available_from_local_time_only,
-          'available_until_local' => available_until_local_time_only,
-          'full_message' => "Cart items item \"#{item.title}\" is not available at the moment (only available from #{available_from_local_time_only} to #{available_until_local_time_only})"
+          'available_from' => available_from,
+          'available_until' => available_until,
+          'full_message' => "Cart items item \"#{item.title}\" is not available at the moment (only available from #{available_from} to #{available_until})"
         }
       ])
     end
   end
 
   context 'when the user does not have an active reservation' do
-    it 'does not create an order and responds with "422 Unprocessable Entity"' do
+    # TODO: Convert this to a shared example.
+    it 'does not create an order (422)' do
       past_reservation = create(:reservation, check_in_date: 2.days.ago, check_out_date: 1.day.ago)
       user.reservations << past_reservation
 
@@ -162,7 +155,7 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
   let(:user) { create(:user) }
 
   context 'when user has orders' do
-    it 'returns orders and responds with "200 OK"' do
+    it 'returns the orders (200)' do
       order = create(:room_service_order, user: user, cart_items_count: 1)
       reservation = order.reservation
       cart_item = order.cart_items.first
@@ -172,7 +165,7 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
       selected_option = choice.options.first
       unselected_option = choice.options.last
       cart_item.selected_options << selected_option
-      cart_item.save
+      cart_item.save!
       tag = item.tags.first
 
       get "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
@@ -231,7 +224,7 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
   end
 
   context 'when user does not have orders' do
-    it 'responds with "204 No Content"' do
+    it 'responds with no content (204)' do
       get "/api/v0/users/#{user.id}/room_service/orders", headers: request_headers(user: user)
 
       expect(response.status).to eq(204)
@@ -239,7 +232,8 @@ describe 'GET /api/v0/users/:user_id/room_service/orders' do
   end
 
   context 'when the user ID in the URL does not match the current user' do
-    it 'responds with "403 Forbidden"' do
+    # TODO: Convert this to a shared example.
+    it 'responds with forbidden (403)' do
       another_user = create(:user)
 
       get "/api/v0/users/#{another_user.id}/room_service/orders", headers: request_headers(user: user)

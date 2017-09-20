@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :room_service_order, class: 'RoomService::Order' do
     user
-    payment_type 0
 
     transient do
       cart_items_count 2

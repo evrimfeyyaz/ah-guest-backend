@@ -6,8 +6,12 @@ FactoryGirl.define do
     password '12345678'
     password_confirmation '12345678'
 
-    factory :user_with_current_reservation do
-      association :reservation, factory: :current_reservation
+    trait :with_reservation_including_current_day do
+      after(:build) do |user|
+        user.reservations << build(:reservation_including_current_day)
+      end
     end
+
+    factory :user_with_reservation_including_current_day, traits: [:with_reservation_including_current_day]
   end
 end
