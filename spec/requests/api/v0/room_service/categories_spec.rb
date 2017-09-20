@@ -28,7 +28,7 @@ describe 'GET /api/v0/room_service/categories/' do
   end
 
   context 'when a category has no image' do
-    it 'returns nil for image urls (200)' do
+    it 'returns nil for image urls' do
       create(:room_service_category)
 
       get '/api/v0/room_service/categories/', headers: request_headers
@@ -41,7 +41,7 @@ describe 'GET /api/v0/room_service/categories/' do
   end
 
   context 'when a category has images' do
-    it 'returns image urls (200)' do
+    it 'returns image urls' do
       category_with_image = create(:room_service_category_with_image)
 
       get '/api/v0/room_service/categories/', headers: request_headers

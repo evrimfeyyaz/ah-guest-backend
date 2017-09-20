@@ -6,7 +6,7 @@ describe 'GET /api/v0/room_service/items/:item_id' do
   let(:item) { create(:room_service_item) }
 
   context 'when item exists' do
-    it 'returns a room service item' do
+    it 'returns a room service item (200)' do
       get "/api/v0/room_service/items/#{item.id}", headers: request_headers
 
       expect(response.status).to eq(200)
@@ -23,7 +23,7 @@ describe 'GET /api/v0/room_service/items/:item_id' do
   end
 
   context 'when item does not exist' do
-    it 'responds with 404' do
+    it 'responds with not found (404)' do
       non_existent_item_id = 123456
 
       get "/api/v0/room_service/items/#{non_existent_item_id}", headers: request_headers
@@ -38,11 +38,10 @@ describe 'GET /api/v0/room_service/items/:item_id' do
 
       get "/api/v0/room_service/items/#{item.id}", headers: request_headers
 
-      # noinspection RubyResolve
-      expect(response_json).to include('tags' => [{
-                                                    'id' => attribute.id,
-                                                    'title' => attribute.title
-                                                  }])
+      expect(response_json['tags']).to eq([{
+                                             'id' => attribute.id,
+                                             'title' => attribute.title
+                                           }])
     end
   end
 
@@ -56,24 +55,23 @@ describe 'GET /api/v0/room_service/items/:item_id' do
 
       get "/api/v0/room_service/items/#{item.id}", headers: request_headers
 
-      # noinspection RubyResolve
-      expect(response_json).to include('choices' => [{
-                                                       'id' => choice.id,
-                                                       'title' => choice.title,
-                                                       'optional' => choice.optional?,
-                                                       'allows_multiple_options' => choice.allows_multiple_options,
-                                                       'default_option_id' => choice.default_option_id,
-                                                       'options' => [{
-                                                                       'id' => option1.id,
-                                                                       'title' => option1.title,
-                                                                       'price' => option1.price.to_s
-                                                                     },
-                                                                     {
-                                                                       'id' => option2.id,
-                                                                       'title' => option2.title,
-                                                                       'price' => option2.price.to_s
-                                                                     }]
-                                                     }])
+      expect(response_json['choices']).to eq([{
+                                                'id' => choice.id,
+                                                'title' => choice.title,
+                                                'optional' => choice.optional?,
+                                                'allows_multiple_options' => choice.allows_multiple_options,
+                                                'default_option_id' => choice.default_option_id,
+                                                'options' => [{
+                                                                'id' => option1.id,
+                                                                'title' => option1.title,
+                                                                'price' => option1.price.to_s
+                                                              },
+                                                              {
+                                                                'id' => option2.id,
+                                                                'title' => option2.title,
+                                                                'price' => option2.price.to_s
+                                                              }]
+                                              }])
     end
   end
 end
