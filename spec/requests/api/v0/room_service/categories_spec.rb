@@ -3,8 +3,11 @@ require 'rails_helper'
 describe 'GET /api/v0/room_service/categories/' do
   it_behaves_like 'an endpoint that requires client secret authentication', :get, '/api/v0/room_service/categories'
 
-  it 'returns all room service categories' do
-    category = create(:room_service_category, available_from: '8:00', available_until: '10:00')
+  it 'returns all room service categories (200)' do
+    available_from = '08:00'
+    available_until = '10:00'
+
+    category = create(:room_service_category, available_from: available_from, available_until: available_until)
 
     get '/api/v0/room_service/categories/', headers: request_headers
 
@@ -19,13 +22,13 @@ describe 'GET /api/v0/room_service/categories/' do
                                      '@1x' => nil
                                    },
                                    # TODO: Create a demo property settings, and change the following times to suit the time zone of the demo property.
-                                   'available_from_utc' => '05:00',
-                                   'available_until_utc' => '07:00'
+                                   'available_from' => available_from,
+                                   'available_until' => available_until
                                  }])
   end
 
   context 'when a category has no image' do
-    it 'returns nil for image urls' do
+    it 'returns nil for image urls (200)' do
       create(:room_service_category)
 
       get '/api/v0/room_service/categories/', headers: request_headers
@@ -38,7 +41,7 @@ describe 'GET /api/v0/room_service/categories/' do
   end
 
   context 'when a category has images' do
-    it 'returns image urls' do
+    it 'returns image urls (200)' do
       category_with_image = create(:room_service_category_with_image)
 
       get '/api/v0/room_service/categories/', headers: request_headers

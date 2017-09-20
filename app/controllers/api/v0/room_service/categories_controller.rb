@@ -13,7 +13,7 @@ class Api::V0::RoomService::CategoriesController < ApiController
   end
 
   def render_categories_json
-    render json: @categories, property_time_zone: current_property.time_zone
+    render json: @categories
   end
 
   def category_scope
