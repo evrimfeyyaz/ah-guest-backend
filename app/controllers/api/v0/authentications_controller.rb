@@ -1,4 +1,4 @@
-class Api::V0::AuthenticationsController < ApiController
+class Api::V0::AuthenticationsController < Api::V0::ApiController
   skip_before_action :authenticate_user_by_auth_token, only: [:create]
 
   def create

@@ -1,4 +1,4 @@
-class Api::V0::RoomService::Categories::SectionsController < ApiController
+class Api::V0::RoomService::Categories::SectionsController < Api::V0::ApiController
   skip_before_action :authenticate_user_by_auth_token, only: [:index]
 
   def index

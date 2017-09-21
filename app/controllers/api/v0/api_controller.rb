@@ -1,4 +1,4 @@
-class ApiController < ActionController::API
+class Api::V0::ApiController < ActionController::API
   include Pundit
 
   before_action :ensure_valid_api_client

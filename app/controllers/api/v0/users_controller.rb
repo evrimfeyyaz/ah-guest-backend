@@ -1,4 +1,4 @@
-class Api::V0::UsersController < ApiController
+class Api::V0::UsersController < Api::V0::ApiController
   skip_before_action :authenticate_user_by_auth_token, only: [:create]
 
   # We rescue with "not found" instead of "forbidden"

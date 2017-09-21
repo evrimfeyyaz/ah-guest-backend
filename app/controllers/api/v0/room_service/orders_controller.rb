@@ -1,4 +1,4 @@
-class Api::V0::RoomService::OrdersController < ApiController
+class Api::V0::RoomService::OrdersController < Api::V0::ApiController
   def index
     authorize order_scope.build
     load_orders

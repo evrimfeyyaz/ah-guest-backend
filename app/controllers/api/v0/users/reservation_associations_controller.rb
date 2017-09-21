@@ -1,4 +1,4 @@
-class Api::V0::Users::ReservationAssociationsController < ApiController
+class Api::V0::Users::ReservationAssociationsController < Api::V0::ApiController
   def create
     load_reservation
     build_user_reservation_association
