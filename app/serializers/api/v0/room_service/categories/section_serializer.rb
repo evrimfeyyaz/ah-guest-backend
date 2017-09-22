@@ -1,4 +1,4 @@
-class RoomService::Category::SectionSerializer < ActiveModel::Serializer
+class Api::V0::RoomService::Categories::SectionSerializer < ActiveModel::Serializer
   attributes :id, :title
 
   has_many :items

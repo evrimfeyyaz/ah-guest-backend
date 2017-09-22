@@ -1,4 +1,4 @@
-class ErrorSerializer < ActiveModel::Serializer
+class Api::V0::ErrorSerializer < ActiveModel::Serializer
   attributes :error_type, :errors
 
   def error_type

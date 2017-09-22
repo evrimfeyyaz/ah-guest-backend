@@ -1,4 +1,4 @@
-class UserSerializer < ActiveModel::Serializer
+class Api::V0::UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :first_name, :last_name, :auth_token, :current_or_upcoming_reservation
 
   # For some reason, I was not able to get the :current_or_upcoming_reservation
