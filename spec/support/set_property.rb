@@ -6,4 +6,8 @@ RSpec.configure do |config|
     domain = "#{@property.subdomain}.automatedhotel.com"
     host! domain
   end
+
+  config.before :each, type: :mailer do
+    @property = create(:property_with_api_client)
+  end
 end

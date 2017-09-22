@@ -16,10 +16,14 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
   let(:cart_item_attributes) { attributes_for(:room_service_cart_item, special_request: 'irrelevant',
                                               room_service_item_id: item.id, selected_option_ids: [selected_option.id]) }
   let(:order_attributes) { attributes_for(:room_service_order, payment_type: :room_account,
-                                          reservation_id: reservation.id)}
+                                          reservation_id: reservation.id) }
 
   context 'with valid parameters' do
-    it 'creates an order (201)' do
+    it 'creates an order, and sends an admin email notification (201)' do
+      expect(RoomService::OrderMailer).to receive(:admin_notification)
+                                            .with(property: @property, order: instance_of(RoomService::Order))
+                                            .and_call_original
+
       post "/api/v0/users/#{user.id}/room_service/orders", params: {
         'room_service_order' => {
           'reservation_id' => order_attributes[:reservation_id],
@@ -88,12 +92,14 @@ describe 'POST /api/v0/users/:user_id/room_service/orders' do
                                     ]
                                   })
     end
+
+    it 'sends an email '
   end
 
   context 'when the order includes an item that is not available at the time of creation' do
     it 'does not create an order (422)' do
       unavailable_category = create(:room_service_category, available_from: 8.hours.ago, available_until: 1.hour.ago)
-      item.category_section.category =  unavailable_category
+      item.category_section.category = unavailable_category
       item.category_section.save!
 
       expect {

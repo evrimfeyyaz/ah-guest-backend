@@ -37,6 +37,7 @@ group :development, :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'capybara', '~> 2.13'
   gem 'capybara-webkit', '~> 1.14'
+  gem 'email_spec', '~> 2.1', '>= 2.1.1'
 end
 
 group :development do
