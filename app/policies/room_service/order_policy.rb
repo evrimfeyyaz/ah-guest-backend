@@ -8,10 +8,18 @@ class RoomService::OrderPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:reservation_id, :payment_type,
-     cart_items_attributes: [:quantity,
-                             :special_request,
-                             :room_service_item_id,
-                             selected_option_ids: []]]
+    if admin?
+      [:reservation_id, { reservation_attributes: [:room_number] },
+      :payment_type, cart_items_attributes: [:quantity,
+                               :special_request,
+                               :room_service_item_id,
+                               selected_option_ids: []]]
+    else
+      [:reservation_id, :payment_type,
+       cart_items_attributes: [:quantity,
+                               :special_request,
+                               :room_service_item_id,
+                               selected_option_ids: []]]
+    end
   end
 end

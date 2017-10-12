@@ -1,10 +1,10 @@
-class Api::V0::RoomService::OrderSerializer < ActiveModel::Serializer
+class Api::V0::Users::RoomService::OrderSerializer < ActiveModel::Serializer
   attributes :id, :reservation_id, :user_id, :payment_type
 
   has_many :cart_items
   class CartItemSerializer < ActiveModel::Serializer
     attributes :id, :quantity, :special_request, :selected_option_ids
 
-    belongs_to :item
+    belongs_to :item, serializer: Api::V0::RoomService::ItemSerializer
   end
 end

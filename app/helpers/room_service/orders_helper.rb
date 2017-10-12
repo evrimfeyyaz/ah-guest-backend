@@ -6,10 +6,10 @@ module RoomService::OrdersHelper
   end
 
   def order_status_label(order)
-    if order.status == 0
+    if order.open?
       content_tag(:span, 'Open', class: 'label label-danger')
     else
-      content_tag(:span, 'Completed', class: 'label label-success')
+      content_tag(:span, 'Complete', class: 'label label-success')
     end
   end
 end

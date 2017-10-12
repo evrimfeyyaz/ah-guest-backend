@@ -5,12 +5,14 @@
         Please enter the room number of the guest.
       </div>
       <div class="panel-body">
-        <%= form_tag(complete_admin_order_path, method: :put) do %>
+        <%= form_for [:admin, @order], url: complete_admin_room_service_order_url(@order) do |f| %>
             <div class="form-group">
-              <%= label_tag :room_number, 'Room Number' %>
-              <%= text_field_tag :room_number, nil, class: 'form-control' %>
+              <%= f.fields_for :reservation do |ff| %>
+                  <%= ff.label :room_number, 'Room Number' %>
+                  <%= ff.text_field :room_number, class: 'form-control' %>
+              <% end %>
             </div>
-            <%= submit_tag('Save Room Number', class: 'btn btn-primary') %>
+            <%= f.submit 'Save Room Number', class: 'btn btn-primary' %>
             <%= link_to 'Cancel', admin_orders_path, class: 'btn btn-link' %>
         <% end %>
       </div>

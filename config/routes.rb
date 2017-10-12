@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :admins, path: 'admin', skip: :registrations
   devise_scope :admin do
     authenticated do
-      root to: 'admin/orders#index', as: :authenticated_admin_root
+      root to: 'admin/room_service/orders#index', as: :authenticated_admin_root
     end
 
     unauthenticated do
@@ -17,17 +17,19 @@ Rails.application.routes.draw do
     resources :reservations, except: [:show, :destroy]
     resource :reservation_import, only: [:new, :create]
 
-    resources :orders, only: [:index, :show] do
-      member do
-        put :complete
+    namespace :room_service do
+      resources :orders, only: [:index, :show] do
+        member do
+          patch :complete
+        end
       end
     end
   end
 
   namespace :api, defaults: { format: :json } do
     namespace :v0 do
-      resources :users, only: [:create, :show] do
-        resources :reservation_associations, only: [:create], controller: 'users/reservation_associations'
+      resources :users, only: [:create, :show], module: 'users' do
+        resources :reservation_associations, only: [:create]
 
         namespace :room_service do
           resources :orders, only: [:index, :create]
@@ -36,8 +38,8 @@ Rails.application.routes.draw do
       resource :authentication, only: [:create, :destroy]
 
       namespace :room_service do
-        resources :categories, only: [:index] do
-          resources :sections, only: [:index], controller: 'categories/sections'
+        resources :categories, only: [:index], module: 'categories' do
+          resources :sections, only: [:index]
         end
 
         resources :items, only: [:show]

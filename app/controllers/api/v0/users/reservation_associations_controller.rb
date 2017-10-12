@@ -1,9 +1,9 @@
 class Api::V0::Users::ReservationAssociationsController < Api::V0::ApiController
   def create
     load_reservation
-    build_user_reservation_association
-    authorize @user_reservation_association
-    save_user_reservation_association or render_validation_error_json(@user_reservation_association)
+    build_reservation_association
+    authorize @reservation_association
+    save_reservation_association or render_validation_error_json(@reservation_association)
   end
 
   private
@@ -28,20 +28,20 @@ class Api::V0::Users::ReservationAssociationsController < Api::V0::ApiController
     end
   end
 
-  def build_user_reservation_association
-    @user_reservation_association ||= user_reservation_association_scope.build
-    @user_reservation_association.reservation = @reservation
+  def build_reservation_association
+    @reservation_association ||= reservation_association_scope.build
+    @reservation_association.reservation = @reservation
   end
 
-  def save_user_reservation_association
-    render_user_reservation_association_json if @user_reservation_association.save
+  def save_reservation_association
+    render_reservation_association_json if @reservation_association.save
   end
 
-  def render_user_reservation_association_json
-    render json: @user_reservation_association
+  def render_reservation_association_json
+    render json: @reservation_association
   end
 
-  def user_reservation_association_scope
+  def reservation_association_scope
     User::ReservationAssociation.where(user_id: params[:user_id])
   end
 end

@@ -1,4 +1,4 @@
-class Api::V0::RoomService::OrdersController < Api::V0::ApiController
+class Api::V0::Users::RoomService::OrdersController < Api::V0::ApiController
   def index
     authorize order_scope.build
     load_orders
@@ -44,6 +44,6 @@ class Api::V0::RoomService::OrdersController < Api::V0::ApiController
   end
 
   def order_scope
-    policy_scope(RoomService::Order).where(user_id: params[:user_id])
+    RoomService::Order.where(user_id: params[:user_id])
   end
 end

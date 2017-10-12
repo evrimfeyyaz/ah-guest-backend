@@ -57,11 +57,38 @@ describe RoomService::Order do
 
       expect(subject).to have_validation_error(:does_not_include_current_day).on(:reservation)
     end
+  end
 
-    it 'does not add a validation error when the reservation is nil' do
-      subject.reservation = nil
+  describe 'reservation has a room number when setting the order status to complete validation' do
+    before(:each) do
+      subject.reservation = build(:reservation_including_current_day)
+    end
 
-      expect(subject).not_to have_validation_error(:does_not_include_current_day).on(:reservation)
+    context 'when order status is complete' do
+      before(:each) do
+        subject.status = 'complete'
+      end
+
+      it 'does not add a validation error when the reservation has a room number' do
+        subject.reservation.room_number = 123
+
+        expect(subject).not_to have_validation_error(:does_not_have_room_number).on(:reservation)
+      end
+
+      it 'adds a validation error when the reservation does not have a room number' do
+        subject.reservation.room_number = nil
+
+        expect(subject).to have_validation_error(:does_not_have_room_number).on(:reservation)
+      end
+    end
+
+    context 'when order status is open' do
+      it 'does not add a validation error when the reservation does not have a room number' do
+        subject.reservation.room_number = 123
+        subject.status = 'open'
+
+        expect(subject).not_to have_validation_error(:does_not_have_room_number).on(:reservation)
+      end
     end
   end
 

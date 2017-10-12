@@ -8,8 +8,8 @@
     <th>Status</th>
     <th>Ordered At</th>
     <th>Summary</th>
-    <th>Guest Room Number</th>
     <th>Reservation Confirmation</th>
+    <th>Room Number</th>
     <th colspan="2">Actions</th>
   </tr>
   </thead>
@@ -19,13 +19,13 @@
         <td><%= order_status_label(order) %></td>
         <td><%= order.created_at.to_s(:long_ordinal) %></td>
         <td><%= order_summary(order) %></td>
-        <td><%= order.reservation.room_number %></td>
-        <td><%= order.reservation.confirmation_code %></td>
-        <td><%= link_to 'Details', admin_order_path(order), class: 'btn btn-info' %></td>
+        <td><%= order&.reservation.confirmation_code %></td>
+        <td><%= order&.reservation.room_number %></td>
         <td>
-          <%= link_to 'Mark as Complete', complete_admin_order_path(order),
-                        method: :put, class: 'btn btn-success',
-                        data: { confirm: 'Are you sure you would like to mark this order as complete?' } unless order.completed? %>
+          <%= link_to 'Details', admin_room_service_order_path(order), class: 'btn btn-info' %>
+          <%= link_to 'Mark as Complete', complete_admin_room_service_order_path(order),
+                      class: 'btn btn-success', method: :patch,
+                      data: { confirm: 'Are you sure you would like to mark this order as complete?' } unless order.complete? %>
         </td>
       </tr>
   <% end %>
