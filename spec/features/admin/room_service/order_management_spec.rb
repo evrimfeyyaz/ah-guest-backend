@@ -79,7 +79,7 @@ feature 'Room service order management' do
       expect(page).to have_current_path(admin_room_service_orders_path)
     end
 
-    scenario 'admin marks an order that does not have an associated room number as complete', skip: true do
+    scenario 'admin marks an order that does not have an associated room number as complete', js: true do
       visit '/admin/room_service/orders'
 
       within("tr[data-room-service-order-id='#{order1.id}']") do
@@ -88,7 +88,7 @@ feature 'Room service order management' do
 
       room_number = '123'
       fill_in('Room Number', with: room_number)
-      click_button 'Save Room Number'
+      click_button 'Mark as Complete'
 
       expect(page).to have_current_path(admin_room_service_orders_path)
 
